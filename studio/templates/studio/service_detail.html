@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block meta_tags %}
+<meta name="description" content="{{ service.description|truncatewords:30 }}">
+<title>{{ service.title }} - CoreLink Studio</title>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="text-sm mb-8">
+            <a href="{% url 'studio_home' %}" class="text-brand-200 hover:text-white transition">Studio</a>
+            <span class="mx-2 text-brand-300">/</span>
+            <a href="{% url 'studio_services' %}" class="text-brand-200 hover:text-white transition">Services</a>
+            <span class="mx-2 text-brand-300">/</span>
+            <span class="text-white">{{ service.title }}</span>
+        </nav>
+        
+        <div class="max-w-3xl">
+            <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-6">
+                <i data-lucide="{{ service.icon|default:'code' }}" class="w-8 h-8"></i>
+            </div>
+            <h1 class="text-4xl sm:text-5xl font-bold mb-4">{{ service.title }}</h1>
+            <p class="text-xl text-brand-100">{{ service.description }}</p>
+        </div>
+    </div>
+</section>
+
+<!-- Service Details -->
+<section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <!-- Main Content -->
+            <div class="lg:col-span-2">
+                <div class="prose prose-lg max-w-none">
+                    {% if service.features %}
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6">What We Offer</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+                        {% for feature in service.features %}
+                        <div class="flex items-start p-4 bg-slate-50 rounded-xl">
+                            <i data-lucide="check-circle" class="w-6 h-6 text-green-500 mr-3 flex-shrink-0 mt-0.5"></i>
+                            <span class="text-slate-700">{{ feature }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <h2 class="text-2xl font-bold text-slate-900 mb-6">About This Service</h2>
+                    <p class="text-slate-600 leading-relaxed mb-6">
+                        {{ service.description }}
+                    </p>
+                    <p class="text-slate-600 leading-relaxed">
+                        Our team of experts specializes in delivering high-quality {{ service.title|lower }} solutions tailored to your specific business needs. We combine cutting-edge technology with industry best practices to ensure your project succeeds.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="bg-slate-50 rounded-2xl p-8 sticky top-24">
+                    <h3 class="text-xl font-bold text-slate-900 mb-6">Get Started</h3>
+                    <p class="text-slate-600 mb-6">Ready to transform your business with {{ service.title|lower }}? Let's discuss your project.</p>
+                    <a href="{% url 'studio_contact' %}" class="block w-full text-center px-6 py-4 bg-brand-900 text-white font-bold rounded-xl hover:bg-brand-800 transition mb-4">
+                        Contact Us
+                    </a>
+                    <a href="mailto:support@corelink.et" class="block w-full text-center px-6 py-4 bg-white border-2 border-slate-200 text-slate-700 font-bold rounded-xl hover:bg-slate-50 transition">
+                        <i data-lucide="mail" class="w-4 h-4 inline mr-2"></i>
+                        Email Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Services -->
+{% if related_services %}
+<section class="py-20 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-bold text-slate-900 mb-12">Related Services</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for related in related_services %}
+            <div class="group p-6 bg-white border border-slate-200 rounded-2xl hover:shadow-lg hover:border-brand-300 transition-all duration-300">
+                <div class="w-12 h-12 bg-brand-100 rounded-xl flex items-center justify-center mb-4">
+                    <i data-lucide="{{ related.icon|default:'code' }}" class="w-6 h-6 text-brand-600"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 mb-2">{{ related.title }}</h3>
+                <p class="text-slate-600 mb-4">{{ related.description|truncatewords:15 }}</p>
+                <a href="{% url 'studio_service_detail' related.slug %}" class="inline-flex items-center text-brand-600 font-semibold hover:text-brand-800 transition">
+                    Learn More
+                    <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="py-20 bg-gradient-to-r from-brand-900 to-brand-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6">Ready to Get Started?</h2>
+        <p class="text-xl text-brand-100 mb-10 max-w-2xl mx-auto">Contact us today to discuss how {{ service.title }} can help your business grow.</p>
+        <a href="{% url 'studio_contact' %}" class="inline-flex items-center justify-center px-8 py-4 bg-white text-brand-900 font-bold rounded-full hover:bg-brand-50 transition shadow-xl transform hover:-translate-y-1">
+            Get In Touch
+            <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+        </a>
+    </div>
+</section>
+{% endblock %}
