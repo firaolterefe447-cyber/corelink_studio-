@@ -1,9 +1,35 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block meta_tags %}
-<meta name="description" content="{{ project.short_description }}">
-<title>{{ project.title }} - CoreLink Studio</title>
+{% block title %}{{ project.title }} - CoreLink Studio{% endblock %}
+
+{% block description %}{{ project.short_description }}{% endblock %}
+
+{% block keywords %}{{ project.title|lower }}, {% if project.client_name %}{{ project.client_name|lower }}, {% endif %}{% for tech in project.technologies|slice:':3' %}{{ tech|lower }}, {% endfor %}portfolio, case study, CoreLink Studio{% endblock %}
+
+{% block og_image %}{% if project.thumbnail %}{{ project.thumbnail.url }}{% elif project.cover_image %}{{ project.cover_image.url }}{% else %}{% static 'img/og-image.png' %}{% endif %}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": "{{ project.title }}",
+    "description": "{{ project.short_description }}",
+    "url": "https://studio.corelink.et/projects/{{ project.slug }}/",
+    "creator": {
+        "@type": "Organization",
+        "name": "CoreLink Studio",
+        "url": "https://studio.corelink.et"
+    }{% if project.client_name %},
+    "client": {
+        "@type": "Organization",
+        "name": "{{ project.client_name }}"
+    }{% endif %}{% if project.technologies %},
+    "keywords": "{{ project.technologies|join:', ' }}"
+{% endif %}
+}
+</script>
 {% endblock %}
 
 {% block content %}

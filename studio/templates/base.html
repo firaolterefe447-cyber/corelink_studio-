@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#07080D">
+    
+    <!-- SEO Meta Tags -->
+    <title>{% block title %}CoreLink Studio{% endblock %}</title>
+    <meta name="description" content="{% block description %}CoreLink Studio builds web and mobile apps, custom software, ERP and complete digital solutions for businesses, organizations and individuals.{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}web development, mobile apps, custom software, ERP, digital solutions, Ethiopia, software company{% endblock %}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="{% block og_title %}{% block title %}CoreLink Studio{% endblock %}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{% block description %}CoreLink Studio builds web and mobile apps, custom software, ERP and complete digital solutions.{% endblock %}{% endblock %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:site_name" content="CoreLink Studio">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{% block og_image %}{% static 'img/og-image.png' %}{% endblock %}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}{% block title %}CoreLink Studio{% endblock %}{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}{% block description %}CoreLink Studio builds web and mobile apps, custom software, ERP and complete digital solutions.{% endblock %}{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{% static 'img/og-image.png' %}{% endblock %}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}?v=2">
+    
+    <!-- Structured Data -->
+    {% block structured_data %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "CoreLink Studio",
+        "url": "https://studio.corelink.et",
+        "logo": "https://studio.corelink.et/static/img/logo.png",
+        "description": "Software studio building web platforms, mobile apps, ERP and custom software.",
+        "email": "support@corelink.et",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "ET"
+        },
+        "sameAs": [
+            "https://linkedin.com/company/corelink",
+            "https://twitter.com/corelink"
+        ]
+    }
+    </script>
+    {% endblock %}
+    
+    <!-- Additional meta blocks for child templates -->
+    {% block meta_tags %}{% endblock %}
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@0.441.0/dist/umd/lucide.min.js" defer></script>
+    <script>document.documentElement.classList.add('js')</script>
+    
+    <!-- CSS -->
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% block content %}{% endblock %}
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

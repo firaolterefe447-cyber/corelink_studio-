@@ -1,9 +1,30 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block meta_tags %}
-<meta name="description" content="{{ page.hero_subtitle }}">
-<title>About CoreLink Studio</title>
+{% block title %}About CoreLink Studio{% endblock %}
+
+{% block description %}{{ page.hero_subtitle }}{% endblock %}
+
+{% block keywords %}about us, our team, CoreLink Studio mission, CoreLink Studio vision, software company Ethiopia, digital transformation{% endblock %}
+
+{% block og_image %}{% static 'img/og-image.png' %}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About CoreLink Studio",
+    "description": "{{ page.hero_subtitle }}",
+    "url": "https://studio.corelink.et/about/",
+    "mainEntity": {
+        "@type": "Organization",
+        "name": "CoreLink Studio",
+        "url": "https://studio.corelink.et",
+        "description": "Software studio building web platforms, mobile apps, ERP and custom software."
+    }
+}
+</script>
 {% endblock %}
 
 {% block content %}

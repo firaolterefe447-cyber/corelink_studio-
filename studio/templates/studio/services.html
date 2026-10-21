@@ -1,9 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block meta_tags %}
-<meta name="description" content="Explore our comprehensive digital services including web development, mobile apps, AI solutions, and more.">
-<title>Our Services - CoreLink Studio</title>
+{% block title %}Our Services - CoreLink Studio{% endblock %}
+
+{% block description %}Explore our comprehensive digital services including web development, mobile apps, AI solutions, and more.{% endblock %}
+
+{% block keywords %}web development, mobile apps, AI solutions, custom software, ERP, UI/UX design, cloud solutions, IT consulting{% endblock %}
+
+{% block og_image %}{% static 'img/og-image.png' %}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Our Services",
+    "description": "Comprehensive digital solutions tailored to your business needs",
+    "url": "https://studio.corelink.et/services/"
+}
+</script>
 {% endblock %}
 
 {% block content %}

@@ -4,12 +4,36 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
+from django.http import HttpResponse
+from django.contrib.sitemaps.views import sitemap
+from studio.sitemaps import StaticViewSitemap, ServiceSitemap, ProjectSitemap, TeamMemberSitemap
+
+
+def robots_txt(request):
+    lines = [
+        "User-agent: *",
+        "Disallow: /admin/",
+        "Disallow: /media/",
+        "Allow: /",
+        "Sitemap: https://studio.corelink.et/sitemap.xml"
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
+
+
+sitemaps = {
+    'static': StaticViewSitemap,
+    'services': ServiceSitemap,
+    'projects': ProjectSitemap,
+    'team': TeamMemberSitemap,
+}
 
 urlpatterns = [
     path(
         "favicon.ico",
         RedirectView.as_view(url=staticfiles_storage.url("img/favicon.png")),
     ),
+    path("robots.txt", robots_txt),
+    path("sitemap.xml", sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path("admin/", admin.site.urls),
     path("", include("studio.urls")),  # Studio app at root
 ]

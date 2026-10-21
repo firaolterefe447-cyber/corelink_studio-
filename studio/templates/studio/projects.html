@@ -1,9 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block meta_tags %}
-<meta name="description" content="Explore our portfolio of completed projects showcasing our expertise in web development, mobile apps, and digital solutions.">
-<title>Our Projects - CoreLink Studio</title>
+{% block title %}Our Projects - CoreLink Studio{% endblock %}
+
+{% block description %}Explore our portfolio of completed projects showcasing our expertise in web development, mobile apps, and digital solutions.{% endblock %}
+
+{% block keywords %}portfolio, projects, web development portfolio, mobile apps portfolio, case studies, software development projects{% endblock %}
+
+{% block og_image %}{% static 'img/og-image.png' %}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Our Projects",
+    "description": "Showcasing our best work and successful partnerships",
+    "url": "https://studio.corelink.et/projects/"
+}
+</script>
 {% endblock %}
 
 {% block content %}

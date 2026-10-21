@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "django.contrib.sitemaps",
     "whitenoise",
     "core",
     "studio",
@@ -82,6 +84,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
+
+# ==============================================
+# SITE ID FOR SITEMAPS
+# ==============================================
+SITE_ID = 1
 
 # ==============================================
 # DATABASE CONFIGURATION

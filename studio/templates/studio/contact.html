@@ -1,9 +1,33 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block meta_tags %}
-<meta name="description" content="{{ page.hero_subtitle }}">
-<title>Contact CoreLink Studio</title>
+{% block title %}Contact CoreLink Studio{% endblock %}
+
+{% block description %}{{ page.hero_subtitle }}{% endblock %}
+
+{% block keywords %}contact us, get in touch, software development inquiry, CoreLink Studio contact, Ethiopia software company{% endblock %}
+
+{% block og_image %}{% static 'img/og-image.png' %}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact CoreLink Studio",
+    "description": "Get in touch with CoreLink Studio for your software development needs",
+    "url": "https://studio.corelink.et/contact/",
+    "mainEntity": {
+        "@type": "Organization",
+        "name": "CoreLink Studio",
+        "email": "support@corelink.et",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "ET"
+        }
+    }
+}
+</script>
 {% endblock %}
 
 {% block content %}

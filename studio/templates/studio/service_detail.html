@@ -1,9 +1,29 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block meta_tags %}
-<meta name="description" content="{{ service.description|truncatewords:30 }}">
-<title>{{ service.title }} - CoreLink Studio</title>
+{% block title %}{{ service.title }} - CoreLink Studio{% endblock %}
+
+{% block description %}{{ service.description|truncatewords:30 }}{% endblock %}
+
+{% block keywords %}{{ service.title|lower }}, {{ service.get_service_type_display|lower }}, {% for feature in service.features|slice:':3' %}{{ feature|lower }}, {% endfor %}CoreLink Studio{% endblock %}
+
+{% block og_image %}{% if service.thumbnail %}{{ service.thumbnail.url }}{% else %}{% static 'img/og-image.png' %}{% endif %}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "{{ service.title }}",
+    "description": "{{ service.description }}",
+    "provider": {
+        "@type": "Organization",
+        "name": "CoreLink Studio",
+        "url": "https://studio.corelink.et"
+    },
+    "url": "https://studio.corelink.et/services/{{ service.slug }}/"
+}
+</script>
 {% endblock %}
 
 {% block content %}
