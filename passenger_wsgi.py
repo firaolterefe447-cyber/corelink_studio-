@@ -1,7 +1,7 @@
 import os
 import sys
 
-PROJECT_DIR = '/home/corelink/studio_project'
+PROJECT_DIR = '/home/corelink/corelink_studio-'
 
 if PROJECT_DIR not in sys.path:
     sys.path.insert(0, PROJECT_DIR)
