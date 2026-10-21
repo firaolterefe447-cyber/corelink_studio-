@@ -118,7 +118,12 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+# Share media folder with main project to access uploaded images
+# On production, this should point to /home/corelink/corelink_project/media
+if os.environ.get("SHARE_MAIN_MEDIA") == "True":
+    MEDIA_ROOT = "/home/corelink/corelink_project/media"
+else:
+    MEDIA_ROOT = BASE_DIR / "media"
 
 STORAGES = {
     "default": {
