@@ -21,7 +21,7 @@ class ServiceSitemap(Sitemap):
     priority = 0.7
 
     def items(self):
-        return Service.objects.filter(is_active=True)
+        return Service.objects.all()
 
     def lastmod(self, obj):
         return obj.updated_at
@@ -45,7 +45,7 @@ class TeamMemberSitemap(Sitemap):
     priority = 0.6
 
     def items(self):
-        return TeamMember.objects.filter(is_active=True)
+        return TeamMember.objects.all()
 
     def lastmod(self, obj):
         return obj.updated_at
