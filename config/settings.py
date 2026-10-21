@@ -153,11 +153,10 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
-# Share media folder with main project to access uploaded images
-# On production, this points to /home/corelink/corelink_project/media
-# On local development, uses local media folder
+# On production, points to studio_project's media folder
+# On local development, uses studio_project's own media folder
 if not DEBUG:
-    MEDIA_ROOT = "/home/corelink/corelink_project/media"
+    MEDIA_ROOT = "/home/corelink/corelink_studio-/media"
 else:
     MEDIA_ROOT = BASE_DIR / "media"
 
