@@ -6,47 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#07080D">
 <title>{% if page.meta_title %}{{ page.meta_title }}{% else %}Corelink Studio{% endif %}</title>
-<link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}?v=2">
+<link rel="icon" type="image/png" href="{% static 'img/logo.png' %}?v=2">
 <meta name="description" content="{% if page.meta_description %}{{ page.meta_description }}{% else %}Corelink Studio builds web and mobile apps, custom software, ERP and complete digital solutions for businesses, organizations and individuals.{% endif %}">
-<meta name="keywords" content="web development, mobile apps, custom software, ERP, digital solutions, Ethiopia, software company, CoreLink Studio">
-<link rel="canonical" href="https://studio.corelink.et/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}Corelink Studio{% endif %}">
 <meta property="og:description" content="Web platforms, mobile apps, ERP and custom software, designed, built and run by one team.">
-<meta property="og:url" content="https://studio.corelink.et/">
-<meta property="og:site_name" content="CoreLink Studio">
-<meta property="og:image" content="{% static 'img/og-image.png' %}">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}Corelink Studio{% endif %}">
-<meta name="twitter:description" content="Web platforms, mobile apps, ERP and custom software, designed, built and run by one team.">
-<meta name="twitter:image" content="{% static 'img/og-image.png' %}">
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "CoreLink Studio",
-    "url": "https://studio.corelink.et",
-    "logo": "https://studio.corelink.et/static/img/logo.png",
-    "description": "Software studio building web platforms, mobile apps, ERP and custom software.",
-    "email": "support@corelink.et",
-    "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "ET"
-    },
-    "sameAs": [
-        "https://linkedin.com/company/corelink",
-        "https://twitter.com/corelink"
-    ],
-    "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+251-911-234-567",
-        "contactType": "customer service",
-        "email": "support@corelink.et"
-    }
-}
-</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Corelink Studio","email":"support@corelink.et","description":"Software studio building web platforms, mobile apps, ERP and custom software."}</script>
 <script>document.documentElement.classList.add('js')</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -492,7 +458,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 </div>
 </footer>
 
-<!-- DEBUG: studio_data = {{ studio_data }} -->
 {{ studio_data|json_script:"studio-data" }}
 <script>
 (function(){
@@ -506,7 +471,7 @@ var list=function(v){
 var url=function(u){u=String(u||"").trim();return /^(https?:\/\/|\/|#|mailto:)/i.test(u)?u:""};
 var arr=function(v){return Array.isArray(v)?v:[]};
 var pick=function(db,def,keys){
-  var ok=arr(db).filter(function(o){return o&&keys.some(function(k){return o[k]&&String(o[k]).trim()})});
+  var ok=arr(db).filter(function(o){return o&&keys.every(function(k){return o[k]&&String(o[k]).trim()})});
   return ok.length?ok:def;
 };
 var safe=function(fn){try{fn()}catch(e){console.error("Section failed:",e)}};
@@ -547,7 +512,7 @@ var tagHtml=function(a){return list(a).map(function(t){return '<span>'+esc(t)+'<
 
 /* HERO */
 safe(function(){
-  var h=D.hero;if(!h)return;
+  var h=D.hero;if(!h||!h.custom)return;
   var title=String(h.title||"").trim();
   if(title){
     var w=title.split(/\s+/),n=w.length,lines;
@@ -571,13 +536,10 @@ safe(function(){
 
 /* SERVICES */
 safe(function(){
-  var S=arr(D.services);
-  var svcEl=$("svc");
-  if(svcEl){
-    svcEl.innerHTML=S.map(function(s){
-      return '<li class="rv"><div class="row"><h3>'+esc(s.t)+'</h3><div><p>'+esc(s.d)+'</p><div class="tg">'+tagHtml(s.f)+'</div></div><span class="ar"><i data-lucide="arrow-right"></i></span></div></li>';
-    }).join("");
-  }
+  var S=pick(D.services,defServices,["t","d"]);
+  $("svc").innerHTML=S.map(function(s){
+    return '<li class="rv"><div class="row"><h3>'+esc(s.t)+'</h3><div><p>'+esc(s.d)+'</p><div class="tg">'+tagHtml(s.f)+'</div></div><span class="ar"><i data-lucide="arrow-right"></i></span></div></li>';
+  }).join("");
 });
 
 /* PROCESS */
@@ -592,7 +554,7 @@ safe(function(){
 
 /* PROJECTS */
 safe(function(){
-  var W=arr(D.projects).map(function(w,k){
+  var W=pick(D.projects,defProjects,["t"]).map(function(w,k){
     return {t:w.t, bg:grads[k%3], img:url(w.img),
       desc:w.desc||"A complete custom build covering design, engineering and launch support.",
       href:w.slug?"/studio/projects/"+encodeURIComponent(w.slug)+"/":"#contact", cs:!!w.slug};
@@ -604,11 +566,6 @@ safe(function(){
              '<div class="proj-content"><h3>'+esc(w.t)+'</h3><p>'+esc(w.desc)+'</p>'+
              '<span class="proj-link">'+(w.cs?'Read case study':'Discuss a similar project')+' <i data-lucide="arrow-right"></i></span></div></a>';
   }).join("");
-  // Re-observe new elements for reveal animation
-  var newEls=[].slice.call(document.querySelectorAll("#proj .rv"));
-  if("IntersectionObserver" in window){
-    newEls.forEach(function(el){io.observe(el)});
-  }else newEls.forEach(function(el){el.classList.add("in")});
 });
 
 /* INDUSTRIES */
@@ -618,16 +575,11 @@ safe(function(){
 
 /* TEAM */
 safe(function(){
-  var T=arr(D.team);
+  var T=pick(D.team,defTeam,["n","r"]);
   $("tm-grid").innerHTML=T.map(function(t){
     var av=t.img?'<img src="'+esc(t.img)+'" alt="'+esc(t.n)+'" class="tm-img" loading="lazy">':'<div class="tm-img av-ph"><i data-lucide="user"></i></div>';
     return '<div class="tm-card rv">'+av+'<div class="tm-info"><h3>'+esc(t.n)+'</h3><p>'+esc(t.r)+'</p></div></div>';
   }).join("");
-  // Re-observe new elements for reveal animation
-  var newEls=[].slice.call(document.querySelectorAll("#tm-grid .rv"));
-  if("IntersectionObserver" in window){
-    newEls.forEach(function(el){io.observe(el)});
-  }else newEls.forEach(function(el){el.classList.add("in")});
 });
 
 
@@ -736,9 +688,8 @@ icons();addEventListener("load",icons);
 
 /* REVEAL ON SCROLL */
 var els=document.querySelectorAll(".rv");
-var io;
 if("IntersectionObserver" in window){
-  io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.05});
+  var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.05});
   els.forEach(function(el,i){el.style.transitionDelay=(i%4)*70+"ms";io.observe(el)});
 }else{els.forEach(function(el){el.classList.add("in")})}
 setTimeout(function(){els.forEach(function(el){el.classList.add("in")})},2500);
