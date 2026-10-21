@@ -8,7 +8,7 @@ from django.views.generic.base import RedirectView
 urlpatterns = [
     path(
         "favicon.ico",
-        RedirectView.as_view(url=staticfiles_storage.url("img/favicon.ico")),
+        RedirectView.as_view(url=staticfiles_storage.url("img/favicon.png")),
     ),
     path("admin/", admin.site.urls),
     path("", include("studio.urls")),  # Studio app at root
