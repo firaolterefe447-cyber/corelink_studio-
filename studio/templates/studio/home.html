@@ -547,7 +547,7 @@ var tagHtml=function(a){return list(a).map(function(t){return '<span>'+esc(t)+'<
 
 /* HERO */
 safe(function(){
-  var h=D.hero;if(!h||!h.custom)return;
+  var h=D.hero;if(!h)return;
   var title=String(h.title||"").trim();
   if(title){
     var w=title.split(/\s+/),n=w.length,lines;

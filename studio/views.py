@@ -23,7 +23,12 @@ def studio_home(request):
     team_members = list(TeamMember.objects.all()[:8])
 
     # Hero is "custom" only once an admin edits it away from the seeded default.
-    hero_custom = page_content.hero_title.strip() != HOME_DEFAULT_TITLE
+    hero_custom = (
+        page_content.hero_title.strip() != HOME_DEFAULT_TITLE
+        or page_content.hero_subtitle.strip() != 'We craft innovative software solutions that transform businesses and drive growth.'
+        or page_content.hero_cta_text != 'Start Your Project'
+        or page_content.hero_cta_link != '/contact'
+    )
 
     studio_data = {
         'hero': {
