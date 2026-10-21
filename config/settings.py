@@ -16,7 +16,10 @@ SECRET_KEY = os.environ.get(
     "SECRET_KEY", "your-secret-key-here"
 )
 
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = os.environ.get("DEBUG", "True") == "True"
+
+# Production environment flag (cPanel/Hahu hosting)
+IS_HAHU = os.environ.get("IS_HAHU", "False") == "True"
 
 ALLOWED_HOSTS = [
     "studio.corelink.et",
@@ -85,16 +88,41 @@ WSGI_APPLICATION = "config.wsgi.application"
 # ==============================================
 # Using the same database as main project
 # Admin can hardcode values here directly, or use environment variables
-DATABASES = {
-    "default": {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME', 'corelink_corelink_db'),
-        'USER': os.environ.get('DB_USER', 'corelink_firaol'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'your-database-password-here'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+# ==============================================
+# 4. DATABASE CONFIGURATION (POSTGRESQL)
+# ==============================================
+if IS_HAHU:
+    # PRODUCTION: Using the PostgreSQL database created in cPanel
+    DATABASES = {
+        "default": {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'corelink_corelink_db',
+            'USER': 'corelink_firaol',
+            'PASSWORD': 'corelink',  # <--- I WILL ADD MY REAL PRODUCITON PASSWROD HERE (Syntax error fixed here)
+            'HOST': 'localhost',
+            'PORT': '5432'
+        }
     }
-}
+elif os.getenv("USE_SQLITE") == "True" or DEBUG:
+    # LOCAL: Using SQLite if requested
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+else:
+    # LOCAL: Default to PostgreSQL
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv("DB_NAME", "corelink_corelink_db"),
+            "USER": os.getenv("DB_USER", "corelink_firaol"),
+            "PASSWORD": '',  # <--- ADD YOUR DATABASE PASSWORD HERE (if testing postgres locally)
+            "HOST": os.getenv("DB_HOST", "localhost"),
+            "PORT": os.getenv("DB_PORT", "5432"),
+        }
+    }
 
 # ==============================================
 # AUTHENTICATION
