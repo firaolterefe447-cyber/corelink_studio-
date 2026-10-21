@@ -571,7 +571,7 @@ safe(function(){
 
 /* SERVICES */
 safe(function(){
-  var S=pick(D.services,defServices,["t","d"]);
+  var S=arr(D.services);
   var svcEl=$("svc");
   if(svcEl){
     svcEl.innerHTML=S.map(function(s){
@@ -592,7 +592,7 @@ safe(function(){
 
 /* PROJECTS */
 safe(function(){
-  var W=pick(D.projects,defProjects,["t"]).map(function(w,k){
+  var W=arr(D.projects).map(function(w,k){
     return {t:w.t, bg:grads[k%3], img:url(w.img),
       desc:w.desc||"A complete custom build covering design, engineering and launch support.",
       href:w.slug?"/studio/projects/"+encodeURIComponent(w.slug)+"/":"#contact", cs:!!w.slug};
@@ -618,7 +618,7 @@ safe(function(){
 
 /* TEAM */
 safe(function(){
-  var T=pick(D.team,defTeam,["n","r"]);
+  var T=arr(D.team);
   $("tm-grid").innerHTML=T.map(function(t){
     var av=t.img?'<img src="'+esc(t.img)+'" alt="'+esc(t.n)+'" class="tm-img" loading="lazy">':'<div class="tm-img av-ph"><i data-lucide="user"></i></div>';
     return '<div class="tm-card rv">'+av+'<div class="tm-info"><h3>'+esc(t.n)+'</h3><p>'+esc(t.r)+'</p></div></div>';
