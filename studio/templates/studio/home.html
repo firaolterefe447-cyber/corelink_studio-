@@ -492,6 +492,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 </div>
 </footer>
 
+<!-- DEBUG: studio_data = {{ studio_data }} -->
 {{ studio_data|json_script:"studio-data" }}
 <script>
 (function(){
@@ -505,12 +506,16 @@ var list=function(v){
 var url=function(u){u=String(u||"").trim();return /^(https?:\/\/|\/|#|mailto:)/i.test(u)?u:""};
 var arr=function(v){return Array.isArray(v)?v:[]};
 var pick=function(db,def,keys){
-  var ok=arr(db).filter(function(o){return o&&keys.every(function(k){return o[k]&&String(o[k]).trim()})});
+  var ok=arr(db).filter(function(o){return o&&keys.some(function(k){return o[k]&&String(o[k]).trim()})});
   return ok.length?ok:def;
 };
 var safe=function(fn){try{fn()}catch(e){console.error("Section failed:",e)}};
 var D={};
 try{D=JSON.parse($("studio-data").textContent)||{}}catch(e){console.error("studio-data",e)}
+console.log("DEBUG: studio_data parsed:", D);
+console.log("DEBUG: services count:", D.services ? D.services.length : 0);
+console.log("DEBUG: projects count:", D.projects ? D.projects.length : 0);
+console.log("DEBUG: team count:", D.team ? D.team.length : 0);
 if(!D||typeof D!=="object"){console.warn("[studio] No data from Django. Showing placeholders.");D={};}
 
 var stIcons='<div style="display:flex;gap:5px;align-items:center">'+
@@ -570,10 +575,21 @@ safe(function(){
 
 /* SERVICES */
 safe(function(){
+  console.log("DEBUG: D.services before pick:", D.services);
+  console.log("DEBUG: First service object:", D.services ? D.services[0] : null);
   var S=pick(D.services,defServices,["t","d"]);
-  $("svc").innerHTML=S.map(function(s){
-    return '<li class="rv"><div class="row"><h3>'+esc(s.t)+'</h3><div><p>'+esc(s.d)+'</p><div class="tg">'+tagHtml(s.f)+'</div></div><span class="ar"><i data-lucide="arrow-right"></i></span></div></li>';
-  }).join("");
+  console.log("DEBUG: S after pick:", S);
+  console.log("DEBUG: Using", S===defServices?"defaults":"database data");
+  var svcEl=$("svc");
+  console.log("DEBUG: svc element:", svcEl);
+  if(svcEl){
+    svcEl.innerHTML=S.map(function(s){
+      return '<li class="rv"><div class="row"><h3>'+esc(s.t)+'</h3><div><p>'+esc(s.d)+'</p><div class="tg">'+tagHtml(s.f)+'</div></div><span class="ar"><i data-lucide="arrow-right"></i></span></div></li>';
+    }).join("");
+    console.log("DEBUG: svc innerHTML after:", svcEl.innerHTML);
+  }else{
+    console.error("DEBUG: svc element not found!");
+  }
 });
 
 /* PROCESS */
@@ -588,18 +604,23 @@ safe(function(){
 
 /* PROJECTS */
 safe(function(){
+  console.log("DEBUG: D.projects before pick:", D.projects);
+  console.log("DEBUG: First project object:", D.projects ? D.projects[0] : null);
   var W=pick(D.projects,defProjects,["t"]).map(function(w,k){
     return {t:w.t, bg:grads[k%3], img:url(w.img),
       desc:w.desc||"A complete custom build covering design, engineering and launch support.",
       href:w.slug?"/studio/projects/"+encodeURIComponent(w.slug)+"/":"#contact", cs:!!w.slug};
   });
+  console.log("DEBUG: W after pick:", W);
+  console.log("DEBUG: proj element:", $("proj"));
   $("proj").innerHTML=W.map(function(w){
     var imgHtml=w.img?'<img class="proj-img" src="'+esc(w.img)+'" alt="'+esc(w.t)+'" loading="lazy">':'';
-    return '<a href="'+esc(w.href)+'" class="proj-card rv">'+
+    return '<a href="'+esc(w.href)+'" class="proj-card rv in">'+
              '<div class="proj-bg-wrap" style="background:'+esc(w.bg)+'">'+imgHtml+'</div>'+
              '<div class="proj-content"><h3>'+esc(w.t)+'</h3><p>'+esc(w.desc)+'</p>'+
              '<span class="proj-link">'+(w.cs?'Read case study':'Discuss a similar project')+' <i data-lucide="arrow-right"></i></span></div></a>';
   }).join("");
+  console.log("DEBUG: proj innerHTML after:", $("proj").innerHTML);
 });
 
 /* INDUSTRIES */
@@ -609,11 +630,15 @@ safe(function(){
 
 /* TEAM */
 safe(function(){
+  console.log("DEBUG: D.team before pick:", D.team);
   var T=pick(D.team,defTeam,["n","r"]);
+  console.log("DEBUG: T after pick:", T);
+  console.log("DEBUG: tm-grid element:", $("tm-grid"));
   $("tm-grid").innerHTML=T.map(function(t){
     var av=t.img?'<img src="'+esc(t.img)+'" alt="'+esc(t.n)+'" class="tm-img" loading="lazy">':'<div class="tm-img av-ph"><i data-lucide="user"></i></div>';
-    return '<div class="tm-card rv">'+av+'<div class="tm-info"><h3>'+esc(t.n)+'</h3><p>'+esc(t.r)+'</p></div></div>';
+    return '<div class="tm-card rv in">'+av+'<div class="tm-info"><h3>'+esc(t.n)+'</h3><p>'+esc(t.r)+'</p></div></div>';
   }).join("");
+  console.log("DEBUG: tm-grid innerHTML after:", $("tm-grid").innerHTML);
 });
 
 
