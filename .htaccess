@@ -15,8 +15,10 @@ Alias /media/ /home/corelink/corelink_studio-/media/
 
 <Directory /home/corelink/corelink_studio-/staticfiles>
     Require all granted
+    PassengerEnabled off
 </Directory>
 
 <Directory /home/corelink/corelink_studio-/media>
     Require all granted
+    PassengerEnabled off
 </Directory>
