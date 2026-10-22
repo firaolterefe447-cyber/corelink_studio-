@@ -39,8 +39,8 @@ urlpatterns = [
     path("studio/", include("studio.urls")),  # Studio app under /studio/
 ]
 
-# Serve static and media files only in DEBUG mode
-# In production, Apache (via .htaccess) serves these files directly
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Serve static and media files
+# In production, web server should serve these directly
+# Fallback to Django serving if web server doesn't handle it
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
