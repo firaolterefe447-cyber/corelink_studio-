@@ -1,15 +1,20 @@
-{% extends "base.html" %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07080D">
+<title>{{ project.title }} - Corelink Studio</title>
+<link rel="icon" type="image/png" href="{% static 'img/logo.png' %}?v=2">
+<meta name="description" content="{{ project.short_description }}">
+<meta name="keywords" content="{{ project.title|lower }}, {% if project.client_name %}{{ project.client_name|lower }}, {% endif %}{% for tech in project.technologies|slice:':3' %}{{ tech|lower }}, {% endfor %}portfolio, case study, Corelink Studio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="{{ project.title }} - Corelink Studio">
+<meta property="og:description" content="{{ project.short_description }}">
+<meta property="og:image" content="{% if project.thumbnail %}{{ project.get_thumbnail_url }}{% elif project.cover_image %}{{ project.get_cover_url }}{% else %}{% static 'img/og-image.png' %}{% endif %}">
+<meta name="twitter:card" content="summary_large_image">
 
-{% block title %}{{ project.title }} - CoreLink Studio{% endblock %}
-
-{% block description %}{{ project.short_description }}{% endblock %}
-
-{% block keywords %}{{ project.title|lower }}, {% if project.client_name %}{{ project.client_name|lower }}, {% endif %}{% for tech in project.technologies|slice:':3' %}{{ tech|lower }}, {% endfor %}portfolio, case study, CoreLink Studio{% endblock %}
-
-{% block og_image %}{% if project.thumbnail %}{{ project.get_thumbnail_url }}{% elif project.cover_image %}{{ project.get_cover_url }}{% else %}{% static 'img/og-image.png' %}{% endif %}{% endblock %}
-
-{% block structured_data %}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -30,199 +35,470 @@
 {% endif %}
 }
 </script>
-{% endblock %}
 
-{% block content %}
-<!-- Hero Section with Cover Image -->
-{% if project.cover_image %}
-<section class="relative h-96 bg-slate-900">
-    <img src="{{ project.get_cover_url }}" alt="{{ project.title }}" class="w-full h-full object-cover opacity-50">
-    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
-    <div class="absolute bottom-0 left-0 right-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        <nav class="text-sm mb-4 text-white/80">
-            <a href="{% url 'studio_home' %}" class="hover:text-white transition">Studio</a>
-            <span class="mx-2">/</span>
-            <a href="{% url 'studio_projects' %}" class="hover:text-white transition">Projects</a>
-            <span class="mx-2">/</span>
-            <span>{{ project.title }}</span>
-        </nav>
-        <h1 class="text-4xl sm:text-5xl font-bold text-white mb-4">{{ project.title }}</h1>
-        <div class="flex flex-wrap items-center gap-4 text-white/90">
-            {% if project.client_name %}
-            <span class="flex items-center">
-                <i data-lucide="building" class="w-5 h-5 mr-2"></i>
-                {{ project.client_name }}
-            </span>
-            {% endif %}
-            {% if project.completion_date %}
-            <span class="flex items-center">
-                <i data-lucide="calendar" class="w-5 h-5 mr-2"></i>
-                {{ project.completion_date|date:"F Y" }}
-            </span>
-            {% endif %}
-            <span class="px-3 py-1 bg-green-500 text-white text-sm font-semibold rounded-full">{{ project.get_status_display }}</span>
-        </div>
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.441.0/dist/umd/lucide.min.js" defer></script>
+
+<style>
+/* ===== CORELINK BRAND SYSTEM ===== */
+:root {
+  --core: #1F4DFF; --electric: #1F4DFF; --cyan: #8FA8FF; --abyss: #0B1F8F;
+  --night: #07080D; --bg: #F3F3EF; --line: #E4E4DE; --ink: #0B0D14;
+  --muted: #5F6470; --accent: #8FA8FF; --ease: cubic-bezier(.22,1,.36,1);
+  --d: 'Bricolage Grotesque', system-ui, sans-serif;
+  --t: 'Hanken Grotesk', system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+body { font: 400 16px/1.65 var(--t); color: var(--ink); background: #FBFBF9; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+h1, h2, h3, h4, .logo-t, .big { font-family: var(--d); letter-spacing: -0.04em; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--core); color: #fff; }
+h1, h2 { text-wrap: balance; }
+.sub, p { text-wrap: pretty; }
+ul { list-style: none; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: calc(72px + env(safe-area-inset-top)); padding-top: env(safe-area-inset-top); background: rgba(251,251,249,.9); backdrop-filter: blur(24px) saturate(1.5); -webkit-backdrop-filter: blur(24px) saturate(1.5); border-bottom: 1px solid rgba(0,0,0,.06); transition: box-shadow .4s var(--ease); }
+nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+nav.sc { box-shadow: 0 12px 32px rgba(7,8,13,.06); }
+.logo { display: flex; align-items: center; gap: 8px; }
+.logo-t { font-weight: 800; font-size: 22px; text-transform: lowercase; letter-spacing: -0.05em; color: var(--ink); }
+.logo-t b { color: var(--core); }
+footer .logo-t b { color: var(--accent); }
+.links { display: flex; gap: 8px; font-size: 14.5px; font-weight: 600; color: var(--muted); }
+.links a { padding: 8px 16px; border-radius: 99px; transition: all .2s ease; }
+.links a:hover, .links a.on { color: var(--ink); background: rgba(15,23,42,.05); }
+
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 700 16px var(--t); padding: 14px 28px; border-radius: 12px; transition: all .3s var(--ease); cursor: pointer; border: 0; overflow: hidden; position: relative; }
+.btn-p { background: var(--core); color: #fff; box-shadow: 0 8px 20px -4px rgba(31,77,255,.45), inset 0 1px 0 rgba(255,255,255,.18); }
+.btn-p:hover { transform: translateY(-2px); background: #1539E0; box-shadow: 0 14px 28px -6px rgba(31,77,255,.55), inset 0 1px 0 rgba(255,255,255,.18); }
+.btn-p svg { width: 18px; height: 18px; transition: transform .3s var(--ease); }
+.btn-p:hover svg { transform: translateX(4px); }
+.btn-s { padding: 10px 22px; font-size: 14px; box-shadow: 0 6px 14px -3px rgba(31,77,255,.3); }
+.btn-w { background: #fff; color: var(--ink); box-shadow: 0 4px 12px rgba(0,0,0,.05), inset 0 0 0 1px var(--line); }
+.btn-w:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.08), inset 0 0 0 1px #D3D8EC; color: var(--core); }
+.btn-full { width: 100%; padding: 18px 24px; font-size: 17px; }
+
+/* MOBILE MENU */
+.burger { display: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(0,0,0,.08); background: transparent; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; transition: background .3s; }
+.burger:hover { background: rgba(0,0,0,.03); }
+.burger span { width: 18px; height: 2px; background: var(--ink); border-radius: 2px; transition: .35s var(--ease); }
+.burger.on span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger.on span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.burger.on span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mm { position: fixed; inset: 0; z-index: 40; background: rgba(255,255,255,.98); backdrop-filter: blur(24px); display: flex; flex-direction: column; justify-content: center; padding: 100px 32px 40px; opacity: 0; visibility: hidden; transition: .4s var(--ease); }
+.mm.on { opacity: 1; visibility: visible; }
+.mm a { font: 800 clamp(2rem,9vw,2.8rem) var(--d); color: var(--ink); letter-spacing: -0.04em; padding: 16px 0; border-bottom: 1px solid rgba(0,0,0,.08); transform: translateY(24px); opacity: 0; transition: .5s var(--ease); }
+.mm.on a { transform: none; opacity: 1; transition-delay: calc(var(--i) * 50ms); }
+
+/* BREADCRUMB & UTILS */
+.breadcrumb { font-size: 14px; font-weight: 600; margin-bottom: 24px; animation: fade 1s var(--ease) forwards; z-index: 5; position: relative; }
+.breadcrumb.light { color: rgba(255,255,255,.6); }
+.breadcrumb.dark { color: var(--muted); }
+.breadcrumb a { transition: color .2s; }
+.breadcrumb.light a { color: #fff; }
+.breadcrumb.dark a { color: var(--ink); }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb span { margin: 0 8px; opacity: .5; }
+
+/* PROJECT HERO */
+.proj-hero { position: relative; background: var(--night); color: #fff; padding: 220px 0 100px; min-height: 55vh; display: flex; align-items: flex-end; overflow: hidden; z-index: 5; }
+.proj-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.45; z-index: 1; transform: scale(1.02); }
+.proj-hero-grad { position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,8,13,1) 0%, rgba(7,8,13,0.5) 60%, rgba(7,8,13,0.1) 100%); z-index: 2; pointer-events: none; }
+.proj-hero .wrap { position: relative; z-index: 4; width: 100%; }
+.proj-hero h1 { font-size: clamp(2.8rem,6vw,5.2rem); font-weight: 800; line-height: 1; margin-bottom: 24px; max-width: 900px; animation: fade 1s .1s var(--ease) forwards; opacity: 0; }
+.hero-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; animation: fade 1s .2s var(--ease) forwards; opacity: 0; }
+.hero-meta span { display: inline-flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 600; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15); padding: 8px 18px; border-radius: 99px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: #fff; }
+.hero-meta span.status-chip { background: var(--core); border-color: var(--core); }
+.hero-meta svg { width: 16px; height: 16px; color: var(--accent); }
+
+/* No-Image Hero Alternative */
+.proj-hero.no-img { background: radial-gradient(circle at 12% 30%, rgba(24,52,200,.2), transparent 50%), var(--night); }
+.proj-hero.no-img .lead { font-size: 20px; color: #B8BCC8; max-width: 700px; animation: fade 1s .2s var(--ease) forwards; opacity: 0; }
+
+@keyframes fade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+
+/* PROJECT DETAILS (SPLIT GRID) */
+.pd-sec { padding: 100px 0; background: #FBFBF9; position: relative; z-index: 5; }
+.pd-grid { display: grid; grid-template-columns: 1fr 360px; gap: clamp(40px, 6vw, 80px); align-items: start; }
+.pd-main { min-width: 0; }
+.pd-thumb { width: 100%; border-radius: 24px; margin-bottom: 48px; box-shadow: 0 20px 40px rgba(7,8,13,.06); border: 1px solid rgba(0,0,0,.04); }
+.pd-main h2 { font-size: clamp(2rem, 4vw, 2.6rem); font-weight: 800; margin-bottom: 24px; color: var(--ink); }
+.pd-desc { font-size: 18.5px; line-height: 1.75; color: var(--muted); margin-bottom: 48px; white-space: pre-wrap; font-weight: 500; }
+.tech-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 48px; }
+.tech-chips span { font: 700 13px var(--t); padding: 10px 18px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; color: var(--ink); transition: .3s; cursor: default; }
+.tech-chips span:hover { background: #fff; border-color: #D3D8EC; color: var(--core); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(7,8,13,.04); }
+.pd-actions { display: flex; flex-wrap: wrap; gap: 16px; }
+
+/* SIDEBAR */
+.pd-side { position: sticky; top: 120px; background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 40px; box-shadow: 0 12px 32px rgba(7,8,13,.03); }
+.pd-side h3 { font-size: 22px; font-weight: 800; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+.pd-side-item { margin-bottom: 24px; }
+.pd-side-item label { display: block; font: 800 12px var(--t); text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 6px; }
+.pd-side-item div { font: 600 16.5px var(--t); color: var(--ink); }
+.pd-side .status { display: inline-block; padding: 6px 14px; background: rgba(31,77,255,.1); color: var(--core); border-radius: 8px; font: 700 14px var(--t); margin-top: 4px; }
+
+/* TESTIMONIALS */
+.test-sec { padding: 100px 0; background: var(--bg); position: relative; z-index: 5; }
+.test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
+.t-card { background: #fff; padding: 40px; border-radius: 24px; border: 1px solid var(--line); box-shadow: 0 12px 32px rgba(7,8,13,.03); transition: transform .4s var(--ease), box-shadow .4s; display: flex; flex-direction: column; }
+.t-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(7,8,13,.07); border-color: #D3D8EC; }
+.stars { display: flex; gap: 4px; margin-bottom: 20px; color: #F59E0B; }
+.stars svg { width: 18px; height: 18px; fill: currentColor; }
+.t-text { font: 600 18px/1.65 var(--t); color: var(--ink); margin-bottom: 32px; flex-grow: 1; text-wrap: pretty; }
+.t-author { display: flex; align-items: center; gap: 16px; border-top: 1px solid var(--line); padding-top: 24px; }
+.t-av { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+.t-av-ph { width: 48px; height: 48px; border-radius: 50%; background: var(--bg); display: grid; place-items: center; color: var(--muted); }
+.t-info h4 { font: 800 16px var(--d); margin: 0; color: var(--ink); }
+.t-info p { font: 500 14px var(--t); color: var(--muted); margin: 0; }
+
+/* RELATED PROJECTS */
+.rel-sec { padding: 120px 0; background: #FBFBF9; position: relative; z-index: 5; }
+.rel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
+.proj-card { position: relative; height: 440px; border-radius: 24px; overflow: hidden; background: var(--night); display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 12px 32px rgba(7,8,13,.07); transition: transform .4s var(--ease), box-shadow .4s var(--ease); text-decoration: none; }
+.proj-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(7,8,13,.16); z-index: 2; }
+.proj-bg-wrap { position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; background: linear-gradient(135deg, #0B1F8F, #1F4DFF); }
+.proj-img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+@media (hover:hover) { .proj-card:hover .proj-img { transform: scale(1.05); } }
+.proj-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,8,13,.95) 0%, rgba(7,8,13,.4) 50%, rgba(7,8,13,.05) 100%); z-index: 2; pointer-events: none; transition: background .4s; }
+.proj-card:hover::after { background: linear-gradient(to top, rgba(7,8,13,.9) 0%, rgba(7,8,13,.3) 55%, transparent 100%); }
+.proj-content { position: relative; z-index: 3; padding: 32px; color: #fff; text-align: left; }
+.proj-content h3 { font: 800 28px var(--d); margin-bottom: 8px; line-height: 1.1; letter-spacing: -0.02em; color: #fff; }
+.proj-content p { font: 500 16px var(--t); color: #B8BCC8; line-height: 1.6; margin-bottom: 20px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.proj-link { display: inline-flex; align-items: center; gap: 8px; font: 700 15px var(--t); color: #fff; transition: color .3s; }
+.proj-card:hover .proj-link { color: var(--accent); }
+
+/* SECTIONS HEADERS */
+.head { margin-bottom: 64px; }
+h2.sec-title { font-size: clamp(2.4rem,4vw,3.6rem); font-weight: 800; line-height: 1.02; letter-spacing: -0.04em; margin: 0; }
+
+#pg { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 100; background: linear-gradient(90deg, var(--core), var(--accent)); box-shadow: 0 0 12px rgba(143,168,255,.55); transition: width .12s linear; }
+
+/* FOOTER */
+footer { background: var(--night); color: #8E93A3; padding: 100px 0 0; position: relative; overflow: hidden; z-index: 5; }
+footer:before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--accent), var(--core), transparent); opacity: .85; }
+.fg { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.4fr; gap: 50px; }
+footer h4 { color: #fff; font: 800 13px var(--t); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 24px; }
+footer li { list-style: none; margin-bottom: 14px; font-size: 15px; }
+footer li a { transition: color .2s; }
+footer li a:hover { color: var(--accent); }
+footer p { font-size: 15.5px; line-height: 1.7; margin: 24px 0; max-width: 320px; }
+.contact-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; color: #8E93A3; font-size: 14.5px; line-height: 1.6; }
+.contact-item svg { width: 20px; height: 20px; color: var(--accent); flex: none; margin-top: 2px; }
+.contact-item a { color: #fff; transition: color .2s; }
+.contact-item a:hover { color: var(--accent); }
+.social-links { display: flex; gap: 12px; margin-top: 20px; }
+.social-links a { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); transition: all .3s; color: #fff; }
+.social-links a:hover { background: var(--core); border-color: var(--core); transform: translateY(-3px); }
+.social-links a svg { width: 22px; height: 22px; }
+.big { font: 800 clamp(3rem,11vw,13rem)/.78 var(--d); letter-spacing: -0.06em; text-transform: lowercase; text-align: center; color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.08); margin-top: 80px; user-select: none; transition: -webkit-text-stroke-color .6s; white-space: nowrap; }
+footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
+.bot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 30px 0 calc(30px + env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,.08); font-size: 13.5px; }
+
+/* REVEAL */
+.js .rv { opacity: 0; transform: translateY(30px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.js .rv.in { opacity: 1; transform: none; }
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .pd-grid { grid-template-columns: 1fr; gap: 64px; }
+  .pd-side { position: relative; top: 0; }
+  .fg { grid-template-columns: 1fr 1fr; }
+  .links { display: none; }
+  .burger { display: flex; }
+}
+@media(max-width:768px){
+  .logo-t { font-size: 20px; }
+  .nav-cta { display: none; }
+  .big { font-size: clamp(2rem,8vw,6rem); }
+}
+@media(max-width:600px){
+  .fg { grid-template-columns: 1fr; }
+  .proj-hero { padding-top: 140px; padding-bottom: 80px; min-height: 45vh; }
+  .pd-sec, .test-sec, .rel-sec { padding: 80px 0; }
+  .pd-side { padding: 32px 24px; }
+  .pd-actions { flex-direction: column; }
+  .pd-actions .btn { width: 100%; }
+}
+@media(prefers-reduced-motion:reduce){
+  * { animation: none !important; transition: none !important; }
+  .js .rv, .breadcrumb, .proj-hero h1, .hero-meta { opacity: 1 !important; transform: none !important; }
+}
+</style>
+</head>
+<body>
+<div id="pg"></div>
+
+<!-- SVG Assets -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="mark" viewBox="0 0 1254 1254">
+<linearGradient id="gBotL" x1="0.05" y1="0.4" x2="0.85" y2="0.8"><stop offset="0%" stop-color="#1F4DFF"/><stop offset="100%" stop-color="#6F8DFF"/></linearGradient>
+<linearGradient id="gTop" x1="0.72" y1="0.05" x2="0.12" y2="0.95"><stop offset="0%" stop-color="#8FA8FF"/><stop offset="100%" stop-color="#1F4DFF"/></linearGradient>
+<path d="M 955.0,959.0 C 950.7,952.9 937.9,934.4 929.1,922.1 C 920.4,909.9 911.4,897.7 902.5,885.5 C 893.7,873.4 884.9,861.1 876.0,849.0 C 867.1,836.8 858.4,824.5 849.4,812.4 C 840.4,800.2 831.1,788.2 822.1,776.1 C 813.1,764.0 804.5,751.7 795.5,739.5 C 786.5,727.4 777.3,715.3 768.2,703.2 C 759.1,691.1 750.5,678.8 740.9,666.9 C 731.4,655.0 721.9,642.1 710.8,631.8 C 699.7,621.5 687.3,612.0 674.3,605.0 C 661.4,598.0 647.2,591.7 633.0,590.0 C 618.8,588.3 602.7,590.3 589.1,594.9 C 575.4,599.6 563.6,610.1 551.0,618.0 C 538.4,625.9 525.9,633.9 513.6,642.4 C 501.2,650.9 488.7,660.1 477.0,669.0 C 465.3,677.9 454.6,686.2 443.3,695.7 C 431.9,705.2 419.1,715.0 408.9,726.1 C 398.7,737.3 387.3,749.1 382.0,762.6 C 376.7,776.1 375.4,792.9 377.0,807.3 C 378.6,821.6 384.8,835.9 391.7,848.7 C 398.7,861.6 408.2,873.7 418.6,884.6 C 429.0,895.5 441.7,905.5 454.0,914.0 C 466.3,922.6 479.3,929.7 492.5,936.0 C 505.8,942.3 519.5,947.5 533.6,951.6 C 547.8,955.8 562.3,959.1 577.3,961.0 C 592.4,962.9 608.4,962.7 624.1,963.0 C 639.8,963.3 655.8,963.0 671.7,963.0 C 687.6,963.0 703.4,963.0 719.3,963.0 C 735.2,963.0 751.0,963.0 766.9,963.0 C 782.7,963.0 798.6,963.0 814.5,963.0 C 830.3,963.0 846.2,963.0 862.1,963.0 C 877.9,963.0 894.2,963.7 909.7,963.0 C 925.1,962.3 947.4,959.7 955.0,959.0 Z" fill="url(#gBotL)"/>
+<path d="M 953.0,193.0 C 936.3,192.8 886.4,192.2 853.0,192.0 C 819.6,191.8 786.0,192.0 752.5,192.0 C 719.1,192.0 685.0,190.5 652.1,192.0 C 619.2,193.5 585.9,193.8 555.4,201.0 C 524.9,208.2 495.9,219.4 469.0,235.0 C 442.2,250.6 415.8,271.6 394.4,294.6 C 373.1,317.5 354.7,345.0 341.1,372.9 C 327.5,400.7 318.5,430.6 313.0,461.7 C 307.5,492.7 305.5,527.6 308.0,559.2 C 310.5,590.8 317.6,622.3 328.3,651.3 C 338.9,680.2 364.7,719.4 372.0,733.0 C 377.8,727.8 395.2,712.0 407.0,701.6 C 418.8,691.1 430.4,680.3 442.6,670.4 C 454.8,660.4 467.6,651.2 480.2,641.8 C 492.8,632.4 505.4,622.9 518.1,613.9 C 530.8,604.8 543.5,595.6 556.6,587.4 C 569.7,579.2 583.1,571.7 596.5,564.5 C 610.0,557.2 624.2,551.5 637.5,544.0 C 650.9,536.5 664.3,528.9 676.7,519.3 C 689.1,509.6 701.0,497.7 711.9,486.1 C 722.8,474.6 732.1,461.9 742.2,449.8 C 752.3,437.7 762.3,425.7 772.5,413.5 C 782.6,401.3 792.8,388.9 803.0,376.7 C 813.2,364.5 823.8,352.3 833.9,340.1 C 844.1,327.8 853.8,315.3 863.9,303.1 C 874.1,290.8 884.4,278.6 894.7,266.3 C 904.9,254.1 915.7,241.8 925.4,229.6 C 935.1,217.4 948.4,199.1 953.0,193.0 Z" fill="url(#gTop)"/>
+</symbol>
+</svg>
+
+<!-- Navigation -->
+<nav>
+<div class="wrap">
+<a href="{% url 'studio_home' %}" class="logo"><svg width="34" height="34"><use href="#mark"/></svg><span class="logo-t">core<b>link</b> studio</span></a>
+<div class="links">
+  <a href="{% url 'studio_home' %}#services">Services</a>
+  <a href="{% url 'studio_home' %}#process">Process</a>
+  <a href="{% url 'studio_home' %}#work" class="on">Work</a>
+  <a href="{% url 'studio_home' %}#industries">Industries</a>
+  <a href="/studio/about">About</a>
+</div>
+<a href="{% url 'studio_contact' %}" class="btn btn-p btn-s nav-cta">Start a project <i data-lucide="arrow-right"></i></a>
+<button class="burger" id="bg" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+</div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mm" id="mm">
+  <a href="{% url 'studio_home' %}#services" style="--i:1">Services</a>
+  <a href="{% url 'studio_home' %}#process" style="--i:2">Process</a>
+  <a href="{% url 'studio_home' %}#work" style="--i:3">Work</a>
+  <a href="{% url 'studio_home' %}#industries" style="--i:4">Industries</a>
+  <a href="/studio/about" style="--i:5">About</a>
+  <a href="{% url 'studio_contact' %}" style="--i:6">Start a project →</a>
+</div>
+
+<!-- Hero Section -->
+<header class="proj-hero {% if not project.cover_image %}no-img{% endif %}" id="top">
+  {% if project.cover_image %}
+    <img src="{{ project.get_cover_url }}" alt="{{ project.title }}" class="proj-hero-img">
+    <div class="proj-hero-grad"></div>
+  {% endif %}
+  <div class="wrap">
+    <div class="breadcrumb light">
+      <a href="{% url 'studio_home' %}">Studio</a> <span>/</span> <a href="{% url 'studio_home' %}#work">Projects</a> <span>/</span> {{ project.title }}
     </div>
-</section>
-{% else %}
-<section class="bg-gradient-to-br from-brand-900 via-brand-800 to-brand-700 text-white py-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="text-sm mb-8 text-brand-200">
-            <a href="{% url 'studio_home' %}" class="hover:text-white transition">Studio</a>
-            <span class="mx-2">/</span>
-            <a href="{% url 'studio_projects' %}" class="hover:text-white transition">Projects</a>
-            <span class="mx-2">/</span>
-            <span class="text-white">{{ project.title }}</span>
-        </nav>
-        <h1 class="text-4xl sm:text-5xl font-bold mb-4">{{ project.title }}</h1>
-        <p class="text-xl text-brand-100">{{ project.short_description }}</p>
+    <h1>{{ project.title }}</h1>
+    {% if not project.cover_image %}
+      <p class="lead">{{ project.short_description }}</p>
+    {% endif %}
+
+    <div class="hero-meta">
+      {% if project.client_name %}
+        <span><i data-lucide="building"></i> {{ project.client_name }}</span>
+      {% endif %}
+      {% if project.completion_date %}
+        <span><i data-lucide="calendar"></i> {{ project.completion_date|date:"F Y" }}</span>
+      {% endif %}
+      <span class="status-chip">{{ project.get_status_display }}</span>
     </div>
-</section>
-{% endif %}
+  </div>
+</header>
 
 <!-- Project Details -->
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <!-- Main Content -->
-            <div class="lg:col-span-2">
-                {% if project.thumbnail %}
-                <div class="mb-10 rounded-2xl overflow-hidden shadow-lg">
-                    <img src="{{ project.get_thumbnail_url }}" alt="{{ project.title }}" class="w-full">
-                </div>
-                {% endif %}
-                
-                <h2 class="text-2xl font-bold text-slate-900 mb-6">Project Overview</h2>
-                <p class="text-slate-600 leading-relaxed mb-8">{{ project.full_description }}</p>
-                
-                {% if project.technologies %}
-                <h2 class="text-2xl font-bold text-slate-900 mb-6">Technologies Used</h2>
-                <div class="flex flex-wrap gap-3 mb-8">
-                    {% for tech in project.technologies %}
-                    <span class="px-4 py-2 bg-brand-50 text-brand-700 font-medium rounded-lg border border-brand-200">{{ tech }}</span>
-                    {% endfor %}
-                </div>
-                {% endif %}
-                
-                <div class="flex flex-wrap gap-4">
-                    {% if project.project_url %}
-                    <a href="{{ project.project_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 bg-brand-900 text-white font-semibold rounded-xl hover:bg-brand-800 transition">
-                        <i data-lucide="external-link" class="w-5 h-5 mr-2"></i>
-                        View Live Site
-                    </a>
-                    {% endif #-}
-                    {% if project.github_url %}
-                    <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 transition">
-                        <i data-lucide="github" class="w-5 h-5 mr-2"></i>
-                        View on GitHub
-                    </a>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <!-- Sidebar -->
-            <div class="lg:col-span-1">
-                <div class="bg-slate-50 rounded-2xl p-8 sticky top-24">
-                    <h3 class="text-xl font-bold text-slate-900 mb-6">Project Info</h3>
-                    
-                    <div class="space-y-4 mb-8">
-                        {% if project.client_name %}
-                        <div>
-                            <p class="text-sm text-slate-500 mb-1">Client</p>
-                            <p class="font-semibold text-slate-900">{{ project.client_name }}</p>
-                        </div>
-                        {% endif %}
-                        
-                        <div>
-                            <p class="text-sm text-slate-500 mb-1">Status</p>
-                            <span class="px-3 py-1 bg-green-100 text-green-700 text-sm font-semibold rounded-full">{{ project.get_status_display }}</span>
-                        </div>
-                        
-                        {% if project.completion_date %}
-                        <div>
-                            <p class="text-sm text-slate-500 mb-1">Completed</p>
-                            <p class="font-semibold text-slate-900">{{ project.completion_date|date:"F Y" }}</p>
-                        </div>
-                        {% endif %}
-                    </div>
-                    
-                    <a href="{% url 'studio_contact' %}" class="block w-full text-center px-6 py-4 bg-brand-900 text-white font-bold rounded-xl hover:bg-brand-800 transition">
-                        Start Your Project
-                    </a>
-                </div>
-            </div>
+<section class="pd-sec">
+  <div class="wrap pd-grid">
+
+    <!-- Main Content -->
+    <div class="pd-main">
+      {% if project.thumbnail %}
+        <img src="{{ project.get_thumbnail_url }}" alt="{{ project.title }} Overview" class="pd-thumb rv">
+      {% endif %}
+
+      <div class="rv">
+        <h2>Project Overview</h2>
+        <div class="pd-desc">{{ project.full_description }}</div>
+      </div>
+
+      {% if project.technologies %}
+      <div class="rv">
+        <h2>Technologies Used</h2>
+        <div class="tech-chips">
+          {% for tech in project.technologies %}
+            <span>{{ tech }}</span>
+          {% endfor %}
         </div>
+      </div>
+      {% endif %}
+
+      <div class="pd-actions rv">
+        {% if project.project_url %}
+        <a href="{{ project.project_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-p">
+          <span>View Live Site</span> <i data-lucide="external-link"></i>
+        </a>
+        {% endif %}
+        {% if project.github_url %}
+        <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-w">
+          <i data-lucide="github"></i> <span>View on GitHub</span>
+        </a>
+        {% endif %}
+      </div>
     </div>
+
+    <!-- Sidebar -->
+    <aside class="pd-side rv" style="transition-delay: 150ms;">
+      <h3>Project Info</h3>
+
+      {% if project.client_name %}
+      <div class="pd-side-item">
+        <label>Client</label>
+        <div>{{ project.client_name }}</div>
+      </div>
+      {% endif %}
+
+      <div class="pd-side-item">
+        <label>Status</label>
+        <span class="status">{{ project.get_status_display }}</span>
+      </div>
+
+      {% if project.completion_date %}
+      <div class="pd-side-item">
+        <label>Completed</label>
+        <div>{{ project.completion_date|date:"F Y" }}</div>
+      </div>
+      {% endif %}
+
+      <div style="margin-top: 40px;">
+        <a href="{% url 'studio_contact' %}" class="btn btn-p btn-full">
+          <span>Start a similar project</span> <i data-lucide="arrow-right"></i>
+        </a>
+      </div>
+    </aside>
+
+  </div>
 </section>
 
 <!-- Testimonials -->
 {% if testimonials %}
-<section class="py-20 bg-slate-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-slate-900 mb-12">Client Feedback</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {% for testimonial in testimonials %}
-            <div class="p-8 bg-white border border-slate-200 rounded-2xl">
-                <div class="flex items-center mb-4">
-                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-                    <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-current"></i>
-                </div>
-                <p class="text-slate-700 mb-6 italic">"{{ testimonial.testimonial_text }}"</p>
-                <div class="flex items-center">
-                    {% if testimonial.client_avatar %}
-                    <img src="{{ testimonial.get_avatar_url }}" alt="{{ testimonial.client_name }}" class="w-12 h-12 rounded-full object-cover mr-4">
-                    {% else %}
-                    <div class="w-12 h-12 rounded-full bg-brand-100 flex items-center justify-center mr-4">
-                        <i data-lucide="user" class="w-6 h-6 text-brand-600"></i>
-                    </div>
-                    {% endif %}
-                    <div>
-                        <p class="font-semibold text-slate-900">{{ testimonial.client_name }}</p>
-                        {% if testimonial.client_company_position %}
-                        <p class="text-sm text-slate-500">{{ testimonial.client_position }}{% if testimonial.client_company %}, {{ testimonial.client_company }}{% endif %}</p>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
+<section class="test-sec">
+  <div class="wrap">
+    <div class="head rv">
+      <h2 class="sec-title">Client Feedback</h2>
     </div>
+    <div class="test-grid">
+      {% for testimonial in testimonials %}
+      <div class="t-card rv" style="transition-delay: {{ forloop.counter0|add:0 }}00ms;">
+        <div class="stars">
+          <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+        </div>
+        <p class="t-text">&ldquo;{{ testimonial.testimonial_text }}&rdquo;</p>
+        <div class="t-author">
+          {% if testimonial.client_avatar %}
+            <img src="{{ testimonial.get_avatar_url }}" alt="{{ testimonial.client_name }}" class="t-av">
+          {% else %}
+            <div class="t-av-ph"><i data-lucide="user"></i></div>
+          {% endif %}
+          <div class="t-info">
+            <h4>{{ testimonial.client_name }}</h4>
+            {% if testimonial.client_company_position %}
+              <p>{{ testimonial.client_position }}{% if testimonial.client_company %}, {{ testimonial.client_company }}{% endif %}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 </section>
 {% endif %}
 
 <!-- Related Projects -->
 {% if related_projects %}
-<section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-slate-900 mb-12">More Projects</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for related in related_projects %}
-            <div class="group bg-white rounded-2xl overflow-hidden border border-slate-200 hover:shadow-xl transition-all duration-300">
-                {% if related.thumbnail %}
-                <div class="aspect-video bg-gradient-to-br from-brand-100 to-brand-50 overflow-hidden">
-                    <img src="{{ related.get_thumbnail_url }}" alt="{{ related.title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                </div>
-                {% else %}
-                <div class="aspect-video bg-gradient-to-br from-brand-100 to-brand-50 flex items-center justify-center">
-                    <i data-lucide="briefcase" class="w-12 h-12 text-brand-300"></i>
-                </div>
-                {% endif %}
-                <div class="p-6">
-                    <h3 class="text-lg font-bold text-slate-900 mb-2">{{ related.title }}</h3>
-                    <p class="text-slate-600 mb-4">{{ related.short_description|truncatewords:12 }}</p>
-                    <a href="{% url 'studio_project_detail' related.slug %}" class="inline-flex items-center text-brand-600 font-semibold hover:text-brand-800 transition">
-                        View Project
-                        <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
+<section class="rel-sec">
+  <div class="wrap">
+    <div class="head rv">
+      <h2 class="sec-title">More Case Studies</h2>
     </div>
+    <div class="rel-grid">
+      {% for related in related_projects %}
+      <a href="{% url 'studio_project_detail' related.slug %}" class="proj-card rv" style="transition-delay: {{ forloop.counter0|add:0 }}00ms;">
+        <div class="proj-bg-wrap">
+          {% if related.thumbnail %}
+            <img src="{{ related.get_thumbnail_url }}" alt="{{ related.title }}" class="proj-img" loading="lazy">
+          {% else %}
+             <!-- Fallback styling identical to home page logic -->
+             <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #0B1F8F, #1F4DFF);"></div>
+          {% endif %}
+        </div>
+        <div class="proj-content">
+          <h3>{{ related.title }}</h3>
+          <p>{{ related.short_description }}</p>
+          <span class="proj-link">Read case study <i data-lucide="arrow-right"></i></span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
 </section>
 {% endif %}
-{% endif %}
-{% endblock %}
+
+<!-- Footer -->
+<footer class="dark">
+  <div class="wrap">
+  <div class="fg">
+  <div>
+  <a href="#top" class="logo"><svg width="38" height="38"><use href="#mark"/></svg><span class="logo-t" style="color:#fff">core<b>link</b> studio</span></a>
+  <p>Software engineering for ambitious teams. We design, build and run the products you depend on.</p>
+  </div>
+  <div><h4>Services</h4><ul><li><a href="{% url 'studio_home' %}#services">Web Platforms</a></li><li><a href="{% url 'studio_home' %}#services">Mobile Apps</a></li><li><a href="{% url 'studio_home' %}#services">Custom Software</a></li><li><a href="{% url 'studio_home' %}#services">ERP Systems</a></li><li><a href="{% url 'studio_home' %}#services">UI/UX Design</a></li></ul></div>
+  <div><h4>Studio</h4><ul><li><a href="{% url 'studio_home' %}#process">Our process</a></li><li><a href="{% url 'studio_home' %}#work">Case studies</a></li><li><a href="{% url 'studio_home' %}#industries">Industries</a></li><li><a href="{% url 'studio_contact' %}">Contact</a></li></ul></div>
+  <div><h4>Contact</h4>
+  <div class="contact-item"><i data-lucide="phone"></i><span><a href="tel:+251952687749">+251 952 687 749</a><br><a href="tel:+251963062789">+251 963 062 789</a></span></div>
+  <div class="contact-item"><i data-lucide="map-pin"></i><span>Arat Kilo<br>Addis Ababa, Ethiopia</span></div>
+  <div class="contact-item"><i data-lucide="send"></i><span><a href="https://t.me/corelinksupport_team">@corelinksupport_team</a></span></div>
+  <div class="social-links">
+  <a href="https://t.me/corelinkofficial" aria-label="Telegram"><i data-lucide="send"></i></a>
+  <a href="https://www.linkedin.com/company/corelink-ethiopia/" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+  </div>
+  </div>
+  </div>
+  <div class="big" aria-hidden="true">corelink studio</div>
+  <div class="bot"><span>© 2026 Corelink Studio. All rights reserved.</span><span>Built in Ethiopia, shipped worldwide</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var $=function(id){return document.getElementById(id)};
+var safe=function(fn){try{fn()}catch(e){console.error("Section failed:",e)}};
+
+/* ICONS */
+var icons=function(){try{if(window.lucide)window.lucide.createIcons()}catch(e){console.error(e)}};
+icons();addEventListener("load",icons);
+
+/* REVEAL ON SCROLL */
+var els=document.querySelectorAll(".rv");
+if("IntersectionObserver" in window){
+  var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.05});
+  els.forEach(function(el){io.observe(el)});
+}else{els.forEach(function(el){el.classList.add("in")})}
+setTimeout(function(){els.forEach(function(el){el.classList.add("in")})},2500);
+
+/* NAV & PROGRESS */
+safe(function(){
+  var nv=document.querySelector("nav");
+  var upd=function(){nv.classList.toggle("sc",scrollY>15)};
+  addEventListener("scroll",upd,{passive:true});upd();
+  addEventListener("scroll",function(){
+    $("pg").style.width=(scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight)*100)+"%";
+  },{passive:true});
+  addEventListener("keydown",function(e){if(e.key==="Escape"&&$("mm").classList.contains("on"))$("bg").click()});
+});
+
+/* MOBILE MENU */
+safe(function(){
+  var bg=$("bg"),mm=$("mm");
+  var tg=function(){bg.classList.toggle("on");mm.classList.toggle("on");bg.setAttribute("aria-expanded",bg.classList.contains("on"));document.body.style.overflow=mm.classList.contains("on")?"hidden":""};
+  bg.onclick=tg;
+  mm.querySelectorAll("a").forEach(function(a){a.onclick=tg});
+});
+
+})();
+</script>
+</body>
+</html>
