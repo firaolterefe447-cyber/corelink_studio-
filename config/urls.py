@@ -39,9 +39,8 @@ urlpatterns = [
     path("", include("studio.urls")),  # Studio app at root
 ]
 
-# Serve media files in both DEBUG and production for cPanel
+# Serve static and media files only in DEBUG mode
+# In production, Apache (via .htaccess) serves these files directly
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-# Always serve media files (production web server should handle this ideally, but this ensures it works on cPanel)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,23 @@
+# Passenger configuration
+PassengerAppRoot /home/corelink/corelink_studio-
+PassengerBaseURI /
+PassengerPython /home/corelink/corelink_studio-/venv/bin/python3
+PassengerAppEnv production
+
+# Serve static files directly (bypass Django for performance)
+Alias /static/ /home/corelink/corelink_studio-/staticfiles/
+Alias /media/ /home/corelink/corelink_studio-/media/
+
+<Directory /home/corelink/corelink_studio-/staticfiles>
+    Require all granted
+</Directory>
+
+<Directory /home/corelink/corelink_studio-/media>
+    Require all granted
+</Directory>
+
+# Pass all other requests to Django
+<Directory /home/corelink/corelink_studio->
+    AllowOverride All
+    Require all granted
+</Directory>
