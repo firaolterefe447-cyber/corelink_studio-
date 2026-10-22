@@ -233,12 +233,13 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <a href="{% url 'studio_home' %}" class="logo"><svg width="34" height="34"><use href="#mark"/></svg><span class="logo-t">core<b>link</b> studio</span></a>
 <div class="links">
   <a href="{% url 'studio_home' %}#services">Services</a>
+  <a href="{% url 'studio_home' %}#team">Team</a>
   <a href="{% url 'studio_home' %}#process">Process</a>
-  <a href="{% url 'studio_home' %}#work">Work</a>
-  <a href="{% url 'studio_home' %}#industries">Industries</a>
+  <a href="/studio/projects">Work</a>
   <a href="/studio/about" class="on">About</a>
+  <a href="{% url 'studio_home' %}#contact">Contact</a>
 </div>
-<a href="{% url 'studio_contact' %}" class="btn btn-p btn-s nav-cta">Start a project <i data-lucide="arrow-right"></i></a>
+<a href="{% url 'studio_home' %}#contact" class="btn btn-p btn-s nav-cta">Start a project <i data-lucide="arrow-right"></i></a>
 <button class="burger" id="bg" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </div>
 </nav>
@@ -246,11 +247,12 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <!-- Mobile Menu -->
 <div class="mm" id="mm">
   <a href="{% url 'studio_home' %}#services" style="--i:1">Services</a>
-  <a href="{% url 'studio_home' %}#process" style="--i:2">Process</a>
-  <a href="{% url 'studio_home' %}#work" style="--i:3">Work</a>
-  <a href="{% url 'studio_home' %}#industries" style="--i:4">Industries</a>
+  <a href="{% url 'studio_home' %}#team" style="--i:2">Team</a>
+  <a href="{% url 'studio_home' %}#process" style="--i:3">Process</a>
+  <a href="/studio/projects" style="--i:4">Work</a>
   <a href="/studio/about" style="--i:5">About</a>
-  <a href="{% url 'studio_contact' %}" style="--i:6">Start a project →</a>
+  <a href="{% url 'studio_home' %}#contact" style="--i:6">Contact</a>
+  <a href="{% url 'studio_home' %}#contact" style="--i:7">Start a project →</a>
 </div>
 
 <!-- Hero Section -->
