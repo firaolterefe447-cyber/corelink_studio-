@@ -204,7 +204,7 @@ h2 { font-size: clamp(2.4rem,5vw,4.4rem); font-weight: 800; line-height: 1.02; m
 /* FOOTER */
 footer { background: var(--night); color: #8E93A3; padding: 100px 0 0; position: relative; overflow: hidden; z-index: 5; }
 footer:before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--accent), var(--core), transparent); opacity: .85; }
-.fg { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: 50px; }
+.fg { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.4fr; gap: 50px; }
 footer h4 { color: #fff; font: 800 13px var(--t); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 24px; }
 footer li { list-style: none; margin-bottom: 14px; font-size: 15px; }
 footer li a { transition: color .2s; }
@@ -214,6 +214,14 @@ footer p { font-size: 15.5px; line-height: 1.7; margin: 24px 0; max-width: 320px
 .eco:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.15); transform: translateY(-2px); }
 .eco small { display: block; color: #8E93A3; font-weight: 500; font-size: 12.5px; margin-top: 2px; }
 .eco svg { width: 22px; height: 22px; color: var(--accent); flex: none; }
+.contact-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; color: #8E93A3; font-size: 14.5px; line-height: 1.6; }
+.contact-item svg { width: 20px; height: 20px; color: var(--accent); flex: none; margin-top: 2px; }
+.contact-item a { color: #fff; transition: color .2s; }
+.contact-item a:hover { color: var(--accent); }
+.social-links { display: flex; gap: 12px; margin-top: 20px; }
+.social-links a { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); transition: all .3s; color: #fff; }
+.social-links a:hover { background: var(--core); border-color: var(--core); transform: translateY(-3px); }
+.social-links a svg { width: 22px; height: 22px; }
 .big { font: 800 clamp(3rem,11vw,13rem)/.78 var(--d); letter-spacing: -0.06em; text-transform: lowercase; text-align: center; color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.08); margin-top: 80px; user-select: none; transition: -webkit-text-stroke-color .6s; white-space: nowrap; }
 footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 .bot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 30px 0 calc(30px + env(safe-area-inset-bottom)); border-top: 1px solid rgba(255,255,255,.08); font-size: 13.5px; }
@@ -393,10 +401,15 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <p>Software engineering for ambitious teams. We design, build and run the products you depend on.</p>
 </div>
 <div><h4>Services</h4><ul><li><a href="#services">Web Platforms</a></li><li><a href="#services">Mobile Apps</a></li><li><a href="#services">Custom Software</a></li><li><a href="#services">ERP Systems</a></li><li><a href="#services">UI/UX Design</a></li></ul></div>
-<div><h4>Studio</h4><ul><li><a href="#process">Our process</a></li><li><a href="#work">Case studies</a></li><li><a href="#industries">Industries</a></li><li><a href="#contact">Contact</a></li><li>Addis Ababa, Ethiopia</li></ul></div>
-<div><h4>Corelink ecosystem</h4>
-<a class="eco" href="https://corelink.et"><i data-lucide="users"></i><span>Corelink Talent Hub<small>Discover verified talent</small></span></a>
-<a class="eco" href="mailto:support@corelink.et"><i data-lucide="mail"></i><span>support@corelink.et<small>Global support</small></span></a>
+<div><h4>Studio</h4><ul><li><a href="#process">Our process</a></li><li><a href="#work">Case studies</a></li><li><a href="#industries">Industries</a></li><li><a href="#contact">Contact</a></li></ul></div>
+<div><h4>Contact</h4>
+<div class="contact-item"><i data-lucide="phone"></i><span><a href="tel:+251952687749">+251 952 687 749</a><br><a href="tel:+251963062789">+251 963 062 789</a></span></div>
+<div class="contact-item"><i data-lucide="map-pin"></i><span>Arat Kilo<br>Addis Ababa, Ethiopia</span></div>
+<div class="contact-item"><i data-lucide="send"></i><span><a href="https://t.me/corelinksupport_team">@corelinksupport_team</a></span></div>
+<div class="social-links">
+<a href="https://t.me/corelinkofficial" aria-label="Telegram"><i data-lucide="send"></i></a>
+<a href="https://www.linkedin.com/company/corelink-ethiopia/" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+</div>
 </div>
 </div>
 <div class="big" aria-hidden="true">corelink studio</div>
