@@ -149,25 +149,6 @@ h2 { font-size: clamp(2.4rem,5vw,4.4rem); font-weight: 800; line-height: 1.02; m
 .step h3 { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
 .step p { font-size: 16px; color: var(--muted); line-height: 1.7; max-width: 480px; }
 
-/* PROJECTS */
-.proj-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 32px; }
-.proj-card { position: relative; height: 560px; border-radius: 24px; overflow: hidden; background: var(--night); display: flex; flex-direction: column; box-shadow: 0 12px 32px rgba(7,8,13,.07); transition: transform .4s var(--ease), box-shadow .4s var(--ease); text-decoration: none; }
-.proj-card:first-child { grid-column: span 2; height: 640px; }
-.proj-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(7,8,13,.16); z-index: 2; }
-.proj-bg-wrap { position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.proj-card:nth-child(3n+1) .proj-bg-wrap { background: linear-gradient(135deg, #0B1F8F, #1F4DFF) !important; }
-.proj-card:nth-child(3n+2) .proj-bg-wrap { background: linear-gradient(135deg, #1F4DFF, #8FA8FF) !important; }
-.proj-card:nth-child(3n) .proj-bg-wrap { background: linear-gradient(135deg, #07080D, #0B1F8F) !important; }
-.proj-img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
-@media (hover:hover) { .proj-card:hover .proj-img { transform: scale(1.05); } }
-.proj-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,8,13,.98) 0%, rgba(7,8,13,.6) 40%, rgba(7,8,13,.1) 100%); z-index: 2; pointer-events: none; transition: background .4s; }
-.proj-card:hover::after { background: linear-gradient(to top, rgba(7,8,13,.95) 0%, rgba(7,8,13,.5) 45%, rgba(7,8,13,.05) 100%); }
-.proj-content { position: relative; z-index: 3; padding: 48px; max-width: 800px; color: #fff; text-align: left; margin-top: auto; }
-.proj-content h3 { font: 800 clamp(2.2rem,4vw,3.2rem) var(--d); margin-bottom: 12px; line-height: 1.1; letter-spacing: -0.02em; }
-.proj-content p { font: 500 18px var(--t); color: #B8BCC8; line-height: 1.6; margin-bottom: 24px; max-width: 540px; }
-.proj-link { display: inline-flex; align-items: center; gap: 8px; font: 700 16px var(--t); color: #fff; transition: color .3s; }
-.proj-card:hover .proj-link { color: var(--accent); }
-
 /* TECH MARQUEE */
 .strip { overflow: hidden; padding: 40px 0; background: var(--bg); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); position: relative; z-index: 5; }
 .mq { display: flex; width: max-content; gap: 64px; animation: mq 45s linear infinite; }
@@ -175,18 +156,16 @@ h2 { font-size: clamp(2.4rem,5vw,4.4rem); font-weight: 800; line-height: 1.02; m
 .mq span { display: flex; align-items: center; gap: 12px; font: 700 20px var(--d); color: var(--muted); letter-spacing: -0.02em; white-space: nowrap; }
 .mq svg { width: 24px; height: 24px; color: var(--core); }
 
-/* INDUSTRIES */
-.who { background: var(--night); color: #fff; position: relative; }
-.who::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(31,77,255,.22), transparent 42%), radial-gradient(circle at 10% 90%, rgba(143,168,255,.08), transparent 40%); pointer-events: none; }
-.who h2 { color: #fff; }
-.who .eyebrow { color: var(--cyan); }
-.who .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 48px; position: relative; z-index: 2; }
-.who .chips span { font: 600 18px var(--t); padding: 14px 28px; border-radius: 99px; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.2); transition: all .3s var(--ease); cursor: default; }
-.who .chips span:hover { background: #fff; color: var(--core); box-shadow: inset 0 0 0 1.5px #fff; transform: translateY(-4px); }
+/* TEAM (Dark theme & glow) */
+#team { background: var(--night); color: #fff; position: relative; overflow: hidden; }
+#team::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, rgba(31,77,255,.22), transparent 42%), radial-gradient(circle at 10% 90%, rgba(143,168,255,.08), transparent 40%); pointer-events: none; z-index: 0; }
+#team .wrap { position: relative; z-index: 2; }
+#team h2 { color: #fff; }
+#team .eyebrow { color: var(--cyan); }
+#team .sub { color: #B8BCC8; }
 
-/* TEAM */
-.tm-card { position: relative; height: 380px; border-radius: 24px; overflow: hidden; background: radial-gradient(120% 90% at 50% 0%, #1A3BD0 0%, #0B1F8F 40%, #07080D 100%); display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 12px 32px rgba(7,8,13,.07); transition: transform .4s var(--ease), box-shadow .4s var(--ease); }
-.tm-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(7,8,13,.16); }
+.tm-card { position: relative; height: 380px; border-radius: 24px; overflow: hidden; background: radial-gradient(120% 90% at 50% 0%, #1A3BD0 0%, #0B1F8F 40%, #07080D 100%); display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 12px 32px rgba(0,0,0,.3); border: 1px solid rgba(255,255,255,.05); transition: transform .4s var(--ease), box-shadow .4s var(--ease); }
+.tm-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(0,0,0,.5); }
 .tm-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: transform .7s var(--ease); }
 @media (hover:hover) { .tm-card:hover .tm-img { transform: scale(1.05); } }
 .tm-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,8,13,.95) 0%, rgba(7,8,13,.35) 50%, transparent 100%); z-index: 2; pointer-events: none; }
@@ -204,7 +183,7 @@ h2 { font-size: clamp(2.4rem,5vw,4.4rem); font-weight: 800; line-height: 1.02; m
 .ctab .bigmark svg { width: 100%; height: 100%; }
 .ctab > * { position: relative; z-index: 1; }
 .ctab h2 { margin: 0 auto 20px; color: #fff; font-size: clamp(2.4rem,5vw,4.4rem); }
-.ctab p { color: #B8BCC8; font-size: 18.5px; max-width: 580px; margin: 0 auto 40px; line-height: 1.7; }
+.ctab p { color: #B8BCC8; font-size: 18.5px; max-width: 620px; margin: 0 auto 40px; line-height: 1.7; }
 .ctab .cta { justify-content: center; }
 
 /* FOOTER */
@@ -275,10 +254,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
   .row { grid-template-columns: 1fr 48px; }
   .row p, .row .tg { grid-column: 1; }
   .row > div:nth-child(2) { grid-column: 1; grid-row: 2; }
-  .proj-grid { grid-template-columns: 1fr; }
-  .proj-card:first-child { grid-column: 1; height: 500px; }
-  .proj-card { height: 500px; }
-  .proj-content { padding: 32px; }
 }
 @media(max-width:768px){
   .logo-t { font-size: 20px; }
@@ -294,10 +269,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
   .step { padding: 30px; }
   .h-svcs { padding: 12px; }
   .h-svcs span { font-size: 13px; padding: 8px 14px; }
-  .proj-card, .proj-card:first-child { height: 460px; }
-  .proj-content { padding: 24px; }
-  .proj-content h3 { font-size: 28px; }
-  .proj-content p { font-size: 16px; }
 }
 @media(prefers-reduced-motion:reduce){
   * { animation: none !important; transition: none !important; }
@@ -324,11 +295,26 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <nav>
 <div class="wrap">
 <a href="#top" class="logo"><svg width="34" height="34"><use href="#mark"/></svg><span class="logo-t">core<b>link</b> studio</span></a>
-<div class="links"><a href="#services">Services</a><a href="#process">Process</a><a href="#work">Work</a><a href="#industries">Industries</a><a href="#team">Team</a><a href="/studio/about">About</a></div>
+<div class="links">
+  <a href="#services">Services</a>
+  <a href="#team">Team</a>
+  <a href="#process">Process</a>
+  <a href="/studio/projects">Work</a>
+  <a href="/studio/about">About</a>
+  <a href="#contact">Contact</a>
+</div>
 <a href="#contact" class="btn btn-p btn-s nav-cta">Start a project <i data-lucide="arrow-right"></i></a><button class="burger" id="bg" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </div>
 </nav>
-<div class="mm" id="mm"><a href="#services" style="--i:1">Services</a><a href="#process" style="--i:2">Process</a><a href="#work" style="--i:3">Work</a><a href="#industries" style="--i:4">Industries</a><a href="#team" style="--i:5">Team</a><a href="/studio/about" style="--i:6">About</a><a href="#contact" style="--i:7">Start a project →</a></div>
+<div class="mm" id="mm">
+  <a href="#services" style="--i:1">Services</a>
+  <a href="#team" style="--i:2">Team</a>
+  <a href="#process" style="--i:3">Process</a>
+  <a href="/studio/projects" style="--i:4">Work</a>
+  <a href="/studio/about" style="--i:5">About</a>
+  <a href="#contact" style="--i:6">Contact</a>
+  <a href="#contact" style="--i:7">Start a project →</a>
+</div>
 
 <header class="hero dark" id="top">
 <div class="stage" id="st" aria-hidden="true"><canvas id="core"></canvas></div>
@@ -347,16 +333,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <ul class="svc" id="svc"></ul>
 </div></section>
 
-<section class="alt" id="process"><div class="wrap">
-<div class="head rv"><div class="eyebrow">How we work</div><h2>From Vision to Reality</h2><p class="sub">Transparent, fast and collaborative. You always know what is shipping next.</p></div>
-<div class="steps" id="steps"></div>
-</div></section>
-
-<section id="work"><div class="wrap">
-<div class="head rv"><div class="eyebrow">Selected work</div><h2>Transforming Industries Through Innovation</h2><p class="sub">A sample of solutions we have designed, built and launched.</p></div>
-<div class="proj-grid" id="proj"></div>
-</div></section>
-
 <section class="proof" id="proof" aria-label="Results"><div class="wrap">
 <div class="stats" id="stats"></div>
 <figure class="quote" id="quote"></figure>
@@ -365,14 +341,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <div class="strip"><div class="mq" id="mq">
 <span><i data-lucide="atom"></i>React</span><span><i data-lucide="smartphone"></i>Flutter</span><span><i data-lucide="server"></i>Django</span><span><i data-lucide="database"></i>PostgreSQL</span><span><i data-lucide="cloud"></i>AWS &amp; Azure</span><span><i data-lucide="container"></i>Docker</span><span><i data-lucide="figma"></i>Figma</span><span><i data-lucide="code-2"></i>TypeScript</span>
 </div></div>
-
-<section class="who" id="industries"><div class="wrap rv">
-<div class="head" style="margin-bottom:0">
-  <div class="eyebrow">Clients</div>
-  <h2>Trusted by Industry Leaders Worldwide</h2>
-</div>
-<div class="chips" id="ind"></div>
-</div></section>
 
 <section id="team"><div class="wrap">
 <div class="head rv">
@@ -383,11 +351,16 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <div class="grid g4" id="tm-grid"></div>
 </div></section>
 
+<section class="alt" id="process"><div class="wrap">
+<div class="head rv"><div class="eyebrow">How we work</div><h2>From Vision to Reality</h2><p class="sub">Transparent, fast and collaborative. You always know what is shipping next.</p></div>
+<div class="steps" id="steps"></div>
+</div></section>
+
 <section class="alt" id="contact" style="padding-top:0"><div class="wrap">
 <div class="ctab rv dark">
 <div class="bigmark" aria-hidden="true"><svg><use href="#mark"/></svg></div>
 <h2>Ready to Transform Your Vision Into Reality?</h2>
-<p>Tell us what you need. Within 24 hours you'll hear from a senior engineer with a clear plan, timeline and estimate.</p>
+<p>Tell us what you need. Within 24 hours you'll hear from a senior engineer with a clear plan, timeline and estimate. Or call us at <a href="tel:+251952687749" style="color: #fff; text-decoration: underline; text-underline-offset: 4px; font-weight: 600;">+251 952 687 749</a>.</p>
 <form class="cf" id="cf" novalidate>
 <label>Your name<input name="n" required autocomplete="name"></label>
 <label>Email<input name="e" type="email" required autocomplete="email"></label>
@@ -407,7 +380,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <p>Software engineering for ambitious teams. We design, build and run the products you depend on.</p>
 </div>
 <div><h4>Services</h4><ul><li><a href="#services">Web Platforms</a></li><li><a href="#services">Mobile Apps</a></li><li><a href="#services">Custom Software</a></li><li><a href="#services">ERP Systems</a></li><li><a href="#services">UI/UX Design</a></li></ul></div>
-<div><h4>Studio</h4><ul><li><a href="#process">Our process</a></li><li><a href="#work">Case studies</a></li><li><a href="#industries">Industries</a></li><li><a href="#contact">Contact</a></li></ul></div>
+<div><h4>Studio</h4><ul><li><a href="#process">Our process</a></li><li><a href="/studio/projects">Work</a></li><li><a href="#team">Team</a></li><li><a href="#contact">Contact</a></li></ul></div>
 <div><h4>Contact</h4>
 <div class="contact-item"><i data-lucide="phone"></i><span><a href="tel:+251952687749">+251 952 687 749</a><br><a href="tel:+251963062789">+251 963 062 789</a></span></div>
 <div class="contact-item"><i data-lucide="map-pin"></i><span>Arat Kilo<br>Addis Ababa, Ethiopia</span></div>
@@ -453,14 +426,7 @@ var defServices=[
 {i:"pen-tool",t:"UI/UX design",d:"Interfaces and design systems people enjoy using.",f:["Figma","Branding"]},
 {i:"plug",t:"Integrations and APIs",d:"Payments, SMS, banking and government services that just work.",f:["REST","Payments"]}];
 
-var defProjects=[
-{t:"Selam ERP",desc:"A complete custom build covering design, engineering and launch support.",img:""},
-{t:"Hakim Care",desc:"A complete custom build covering design, engineering and launch support.",img:""},
-{t:"Zemen Fleet",desc:"A complete custom build covering design, engineering and launch support.",img:""}];
-
 var P=[["Discover","Workshops to understand your goals, users and constraints. We define scope and success metrics."],["Design","Wireframes, prototypes and a visual system you can click through before we build."],["Build","Agile sprints with weekly demos, clean code and automated testing throughout."],["Launch & Scale","Secure deployment, training and ongoing support as your product grows."]];
-
-var I=["Finance","Healthcare","Education","Logistics","Retail","Government","Agriculture","NGOs","Startups","Individuals"];
 
 var defTeam=[
 {n:"Elias T.", r:"Lead Engineer"},
@@ -468,7 +434,6 @@ var defTeam=[
 {n:"Yared G.", r:"Backend Expert"},
 {n:"Samrawit K.", r:"Mobile Developer"}];
 
-var grads=["linear-gradient(135deg,#0B1F8F,#1F4DFF)","linear-gradient(135deg,#1F4DFF,#8FA8FF)","linear-gradient(135deg,#07080D,#0B1F8F)"];
 var tagHtml=function(a){return list(a).map(function(t){return '<span>'+esc(t)+'</span>'}).join("")};
 
 /* HERO */
@@ -511,27 +476,6 @@ safe(function(){
     var so=new IntersectionObserver(function(e){e.forEach(function(x){x.target.classList.toggle("on",x.isIntersecting)})},{rootMargin:"-30% 0px -40% 0px"});
     st.forEach(function(s){so.observe(s)});
   }else st.forEach(function(s){s.classList.add("on")});
-});
-
-/* PROJECTS */
-safe(function(){
-  var W=pick(D.projects,defProjects,["t"]).map(function(w,k){
-    return {t:w.t, bg:grads[k%3], img:url(w.img),
-      desc:w.desc||"A complete custom build covering design, engineering and launch support.",
-      href:w.slug?"/studio/projects/"+encodeURIComponent(w.slug)+"/":"#contact", cs:!!w.slug};
-  });
-  $("proj").innerHTML=W.map(function(w){
-    var imgHtml=w.img?'<img class="proj-img" src="'+esc(w.img)+'" alt="'+esc(w.t)+'" loading="lazy">':'';
-    return '<a href="'+esc(w.href)+'" class="proj-card rv">'+
-             '<div class="proj-bg-wrap" style="background:'+esc(w.bg)+'">'+imgHtml+'</div>'+
-             '<div class="proj-content"><h3>'+esc(w.t)+'</h3><p>'+esc(w.desc)+'</p>'+
-             '<span class="proj-link">'+(w.cs?'Read case study':'Discuss a similar project')+' <i data-lucide="arrow-right"></i></span></div></a>';
-  }).join("");
-});
-
-/* INDUSTRIES */
-safe(function(){
-  $("ind").innerHTML=I.map(function(i){return '<span class="rv">'+esc(i)+'</span>'}).join("");
 });
 
 /* TEAM */

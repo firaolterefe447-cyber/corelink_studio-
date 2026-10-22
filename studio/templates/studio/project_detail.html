@@ -253,7 +253,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <div class="links">
   <a href="{% url 'studio_home' %}#services">Services</a>
   <a href="{% url 'studio_home' %}#process">Process</a>
-  <a href="{% url 'studio_home' %}#work" class="on">Work</a>
+  <a href="{% url 'studio_projects' %}" class="on">Work</a>
   <a href="{% url 'studio_home' %}#industries">Industries</a>
   <a href="/studio/about">About</a>
 </div>
@@ -266,7 +266,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <div class="mm" id="mm">
   <a href="{% url 'studio_home' %}#services" style="--i:1">Services</a>
   <a href="{% url 'studio_home' %}#process" style="--i:2">Process</a>
-  <a href="{% url 'studio_home' %}#work" style="--i:3">Work</a>
+  <a href="{% url 'studio_projects' %}" style="--i:3">Work</a>
   <a href="{% url 'studio_home' %}#industries" style="--i:4">Industries</a>
   <a href="/studio/about" style="--i:5">About</a>
   <a href="{% url 'studio_contact' %}" style="--i:6">Start a project →</a>
@@ -280,7 +280,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
   {% endif %}
   <div class="wrap">
     <div class="breadcrumb light">
-      <a href="{% url 'studio_home' %}">Studio</a> <span>/</span> <a href="{% url 'studio_home' %}#work">Projects</a> <span>/</span> {{ project.title }}
+      <a href="{% url 'studio_home' %}">Studio</a> <span>/</span> <a href="{% url 'studio_projects' %}">Projects</a> <span>/</span> {{ project.title }}
     </div>
     <h1>{{ project.title }}</h1>
     {% if not project.cover_image %}
@@ -445,7 +445,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
   <p>Software engineering for ambitious teams. We design, build and run the products you depend on.</p>
   </div>
   <div><h4>Services</h4><ul><li><a href="{% url 'studio_home' %}#services">Web Platforms</a></li><li><a href="{% url 'studio_home' %}#services">Mobile Apps</a></li><li><a href="{% url 'studio_home' %}#services">Custom Software</a></li><li><a href="{% url 'studio_home' %}#services">ERP Systems</a></li><li><a href="{% url 'studio_home' %}#services">UI/UX Design</a></li></ul></div>
-  <div><h4>Studio</h4><ul><li><a href="{% url 'studio_home' %}#process">Our process</a></li><li><a href="{% url 'studio_home' %}#work">Case studies</a></li><li><a href="{% url 'studio_home' %}#industries">Industries</a></li><li><a href="{% url 'studio_contact' %}">Contact</a></li></ul></div>
+  <div><h4>Studio</h4><ul><li><a href="{% url 'studio_home' %}#process">Our process</a></li><li><a href="{% url 'studio_projects' %}">Case studies</a></li><li><a href="{% url 'studio_home' %}#industries">Industries</a></li><li><a href="{% url 'studio_contact' %}">Contact</a></li></ul></div>
   <div><h4>Contact</h4>
   <div class="contact-item"><i data-lucide="phone"></i><span><a href="tel:+251952687749">+251 952 687 749</a><br><a href="tel:+251963062789">+251 963 062 789</a></span></div>
   <div class="contact-item"><i data-lucide="map-pin"></i><span>Arat Kilo<br>Addis Ababa, Ethiopia</span></div>
