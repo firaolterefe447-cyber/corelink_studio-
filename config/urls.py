@@ -41,7 +41,7 @@ urlpatterns = [
 ]
 
 # Serve static and media files
-# In production, web server should serve these directly
-# Fallback to Django serving if web server doesn't handle it
+# Static files served by Whitenoise in production
+# Media files served by Django (secure and works with any web server)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
