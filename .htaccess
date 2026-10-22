@@ -8,17 +8,3 @@ PassengerStartupFile passenger_wsgi.py
 
 # Disable directory indexing
 Options -Indexes
-
-# Rewrite rules for static and media files (LiteSpeed compatible)
-RewriteEngine On
-
-# Serve static files directly
-RewriteRule ^static/(.*)$ /home/corelink/corelink_studio-/staticfiles/$1 [L]
-
-# Serve media files directly
-RewriteRule ^media/(.*)$ /home/corelink/corelink_studio-/media/$1 [L]
-
-# Disable Passenger for static and media files
-<IfModule mod_passenger.c>
-    PassengerEnabled off
-</IfModule>

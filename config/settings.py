@@ -141,6 +141,7 @@ if DEBUG:
 else:
     MEDIA_ROOT = "/home/corelink/corelink_studio-/media"
 
+
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
