@@ -14,10 +14,12 @@ load_dotenv(BASE_DIR / ".env")
 # Production settings hardcoded
 SECRET_KEY = "django-insecure-#your-production-secret-key-here-replace-with-secure-random-key"
 
-DEBUG = False
+# Set to True for local development, False for production
+DEBUG = True
 
 # Production environment flag (cPanel/Hahu hosting)
-IS_HAHU = True
+# Set to True for production, False for local development
+IS_HAHU = False
 
 ALLOWED_HOSTS = [
     "studio.corelink.et",
@@ -139,8 +141,11 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
-# Production media path hardcoded
-MEDIA_ROOT = "/home/corelink/corelink_studio-/media"
+# Media path - local for development, production for deployment
+if DEBUG:
+    MEDIA_ROOT = BASE_DIR / "media"
+else:
+    MEDIA_ROOT = "/home/corelink/corelink_studio-/media"
 
 STORAGES = {
     "default": {
