@@ -93,29 +93,18 @@ SITE_ID = 1
 # ==============================================
 # DATABASE CONFIGURATION
 # ==============================================
-# Database configuration based on environment
-DB_ENGINE = os.getenv("DB_ENGINE", "django.db.backends.sqlite3")
-
-if DB_ENGINE == "django.db.backends.postgresql":
-    # PRODUCTION: Using PostgreSQL
-    DATABASES = {
-        "default": {
-            'ENGINE': DB_ENGINE,
-            'NAME': os.getenv("DB_NAME", "corelink_studio_db"),
-            'USER': os.getenv("DB_USER", "corelink_studioadmin"),
-            'PASSWORD': os.getenv("DB_PASSWORD", ""),
-            'HOST': os.getenv("DB_HOST", "localhost"),
-            'PORT': os.getenv("DB_PORT", "5432")
-        }
+# Hardcoded PostgreSQL database configuration
+# This ensures the correct database is always used in production
+DATABASES = {
+    "default": {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'corelink_studio_db',
+        'USER': 'corelink_studioadmin',
+        'PASSWORD': 'studioadmin7744$$@@*',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
-else:
-    # LOCAL: Using SQLite
-    DATABASES = {
-        "default": {
-            "ENGINE": DB_ENGINE,
-            "NAME": BASE_DIR / os.getenv("DB_NAME", "db.sqlite3"),
-        }
-    }
+}
 
 # ==============================================
 # AUTHENTICATION
