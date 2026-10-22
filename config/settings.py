@@ -19,7 +19,7 @@ DEBUG = True
 
 # Production environment flag (cPanel/Hahu hosting)
 # Set to True for production, False for local development
-IS_HAHU = False
+IS_HAHU = os.getenv("IS_HAHU", "False").lower() == "true"
 
 ALLOWED_HOSTS = [
     "studio.corelink.et",
