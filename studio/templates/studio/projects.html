@@ -252,9 +252,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
   <div class="stage" id="st" aria-hidden="true"><canvas id="core"></canvas></div>
   <div class="wrap">
     <div class="hero-text">
-      <div class="breadcrumb">
-        <a href="{% url 'studio_home' %}">Studio</a> <span>/</span> Projects
-      </div>
       <h1 id="h-title"><span class="ln"><span>Our Projects</span></span></h1>
       <p class="lead" id="h-lead">Showcasing our best work, technical engineering, and successful partnerships.</p>
     </div>
@@ -309,21 +306,20 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 </section>
 
 <!-- CTA Section -->
-<section class="alt" style="padding-top:0">
+<section class="alt" id="contact" style="padding-top:0">
   <div class="wrap">
     <div class="ctab rv dark">
       <div class="bigmark" aria-hidden="true"><svg><use href="#mark"/></svg></div>
-      <h2>Have a Project in Mind?</h2>
-      <p>Let's discuss how we can help bring your vision to life with our expertise and dedication. A senior engineer will review your brief within 24 hours.</p>
-
-      <div class="cta">
-        <a href="{% url 'studio_contact' %}" class="btn btn-p">
-          <span>Start Your Project</span> <i data-lucide="arrow-right"></i>
-        </a>
-        <a href="{% url 'studio_home' %}" class="btn btn-outline">
-          <i data-lucide="home"></i> <span>Back to Home</span>
-        </a>
-      </div>
+      <h2>Ready to Transform Your Vision Into Reality?</h2>
+      <p>Tell us what you need. Within 24 hours you'll hear from a senior engineer with a clear plan, timeline and estimate. Or call us at <a href="tel:+251952687749" style="color: #fff; text-decoration: underline; text-underline-offset: 4px; font-weight: 600;">+251 952 687 749</a>.</p>
+      <form class="cf" id="cf" novalidate>
+        <label>Your name<input name="n" required autocomplete="name"></label>
+        <label>Email<input name="e" type="email" required autocomplete="email"></label>
+        <label>What do you need?<select name="t"><option>Web platform</option><option>Mobile app</option><option>Custom software</option><option>ERP / business system</option><option>UI/UX design</option><option>Integration / API</option><option>Not sure yet</option></select></label>
+        <label>Timeline<select name="w"><option>As soon as possible</option><option>1 to 3 months</option><option>3 to 6 months</option><option>Just exploring</option></select></label>
+        <label class="full">Tell us about it<textarea name="m" rows="4" required></textarea></label>
+        <div class="full cf-act"><button class="btn btn-p" type="submit"><span>Send project brief</span> <i data-lucide="arrow-right"></i></button><small id="cf-msg" role="status">We reply within 24 hours. Or write to <a href="mailto:support@corelink.et">support@corelink.et</a>.</small></div>
+      </form>
     </div>
   </div>
 </section>
@@ -396,6 +392,54 @@ safe(function(){
   var tg=function(){bg.classList.toggle("on");mm.classList.toggle("on");bg.setAttribute("aria-expanded",bg.classList.contains("on"));document.body.style.overflow=mm.classList.contains("on")?"hidden":""};
   bg.onclick=tg;
   mm.querySelectorAll("a").forEach(function(a){a.onclick=tg});
+});
+
+/* CONTACT FORM (submits via AJAX to backend) */
+safe(function(){
+  var f=$("cf"),msg=$("cf-msg");
+  f.addEventListener("submit",function(e){
+    e.preventDefault();
+    var ok=true;
+    ["n","e","m"].forEach(function(k){
+      var i=f.elements[k],v=i.value.trim();
+      var bad=!v||(k==="e"&&!/^\S+@\S+\.\S+$/.test(v));
+      i.classList.toggle("bad",bad);if(bad)ok=false;
+    });
+    if(!ok){msg.textContent="Please fill in your name, a valid email and a short description.";return}
+
+    var formData=new FormData();
+    formData.append("n",f.elements.n.value.trim());
+    formData.append("e",f.elements.e.value.trim());
+    formData.append("t",f.elements.t.value);
+    formData.append("w",f.elements.w.value);
+    formData.append("m",f.elements.m.value.trim());
+
+    var btn=f.querySelector('button[type="submit"]');
+    var originalBtnText=btn.querySelector("span").textContent;
+    btn.querySelector("span").textContent="Sending...";
+    btn.disabled=true;
+
+    fetch("/studio/contact/submit/",{
+      method:"POST",
+      body:formData,
+      headers:{"X-Requested-With":"XMLHttpRequest"}
+    }).then(function(r){return r.json()}).then(function(data){
+      if(data.success){
+        msg.textContent=data.message;
+        msg.style.color="#8FA8FF";
+        f.reset();
+      }else{
+        msg.textContent=data.error||"An error occurred. Please try again.";
+        msg.style.color="#FF6B6B";
+      }
+    }).catch(function(err){
+      msg.textContent="Network error. Please try again.";
+      msg.style.color="#FF6B6B";
+    }).finally(function(){
+      btn.querySelector("span").textContent=originalBtnText;
+      btn.disabled=false;
+    });
+  });
 });
 
 /* HERO PLANET ENGINE */

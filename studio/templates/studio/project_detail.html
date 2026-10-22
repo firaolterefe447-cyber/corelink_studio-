@@ -279,9 +279,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
     <div class="proj-hero-grad"></div>
   {% endif %}
   <div class="wrap">
-    <div class="breadcrumb light">
-      <a href="{% url 'studio_home' %}">Studio</a> <span>/</span> <a href="{% url 'studio_projects' %}">Projects</a> <span>/</span> {{ project.title }}
-    </div>
     <h1>{{ project.title }}</h1>
     {% if not project.cover_image %}
       <p class="lead">{{ project.short_description }}</p>
