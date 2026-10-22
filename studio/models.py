@@ -89,6 +89,24 @@ class Project(models.Model):
         return self.cover_image.url if self.cover_image else ''
 
 
+class ProjectImage(models.Model):
+    """Gallery images for projects (screenshots, mockups, etc.)"""
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='gallery_images')
+    image = models.ImageField(upload_to='studio/projects/gallery/')
+    caption = models.CharField(max_length=300, blank=True, help_text="Optional caption for the image")
+    order = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['order', 'created_at']
+
+    def __str__(self):
+        return f"{self.project.title} - Image {self.order}"
+
+    def get_image_url(self):
+        return self.image.url if self.image else ''
+
+
 class Testimonial(models.Model):
     """Client testimonials"""
     client_name = models.CharField(max_length=200)

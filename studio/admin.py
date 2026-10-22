@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Service, Project, Testimonial, TeamMember, StudioPage, HeroSlide, ContactSubmission
+from .models import Service, Project, ProjectImage, Testimonial, TeamMember, StudioPage, HeroSlide, ContactSubmission
 
 
 @admin.register(Service)
@@ -12,6 +12,12 @@ class ServiceAdmin(admin.ModelAdmin):
     list_editable = ['order', 'is_featured']
 
 
+class ProjectImageInline(admin.TabularInline):
+    model = ProjectImage
+    extra = 1
+    fields = ['image', 'caption', 'order']
+
+
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ['title', 'client_name', 'status', 'is_featured', 'order', 'created_at']
@@ -20,6 +26,15 @@ class ProjectAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     list_editable = ['order', 'is_featured']
     readonly_fields = ['created_at', 'updated_at']
+    inlines = [ProjectImageInline]
+
+
+@admin.register(ProjectImage)
+class ProjectImageAdmin(admin.ModelAdmin):
+    list_display = ['project', 'caption', 'order', 'created_at']
+    list_filter = ['project', 'created_at']
+    search_fields = ['project__title', 'caption']
+    list_editable = ['order']
 
 
 @admin.register(Testimonial)

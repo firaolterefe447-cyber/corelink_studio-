@@ -88,11 +88,13 @@ def project_detail(request, slug):
     project = get_object_or_404(Project, slug=slug)
     related_projects = Project.objects.exclude(id=project.id).filter(status='COMPLETED')[:4]
     project_testimonials = project.testimonials.all()
+    gallery_images = project.gallery_images.all()
     
     context = {
         'project': project,
         'related_projects': related_projects,
         'testimonials': project_testimonials,
+        'gallery_images': gallery_images,
     }
     return render(request, 'studio/project_detail.html', context)
 
