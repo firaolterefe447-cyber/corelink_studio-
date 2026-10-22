@@ -36,8 +36,7 @@ urlpatterns = [
     path("robots.txt", robots_txt),
     path("sitemap.xml", sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path("admin/", admin.site.urls),
-    path("", lambda request: redirect('/studio/')),  # Redirect root to /studio/
-    path("studio/", include("studio.urls")),  # Studio app at /studio/
+    path("", include("studio.urls")),  # Studio app at root
 ]
 
 # Serve media files in both DEBUG and production for cPanel
