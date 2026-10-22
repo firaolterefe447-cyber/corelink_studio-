@@ -11,15 +11,13 @@ load_dotenv(BASE_DIR / ".env")
 # ==============================================
 # SECURITY CONFIGURATION
 # ==============================================
-# Admin can hardcode values here directly, or use environment variables
-SECRET_KEY = os.environ.get(
-    "SECRET_KEY", "your-secret-key-here"
-)
+# Production settings hardcoded
+SECRET_KEY = "django-insecure-#your-production-secret-key-here-replace-with-secure-random-key"
 
-DEBUG = os.environ.get("DEBUG", "True") == "True"
+DEBUG = False
 
 # Production environment flag (cPanel/Hahu hosting)
-IS_HAHU = os.environ.get("IS_HAHU", "False") == "True"
+IS_HAHU = True
 
 ALLOWED_HOSTS = [
     "studio.corelink.et",
@@ -103,31 +101,19 @@ if IS_HAHU:
     DATABASES = {
         "default": {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'corelink_corelink_db',
-            'USER': 'corelink_firaol',
-            'PASSWORD': 'corelink',  # <--- I WILL ADD MY REAL PRODUCITON PASSWROD HERE (Syntax error fixed here)
+            'NAME': 'corelink_studio_db',
+            'USER': 'corelink_studioadmin',
+            'PASSWORD': 'studioadmin7744$$@@*',
             'HOST': 'localhost',
             'PORT': '5432'
         }
     }
-elif os.getenv("USE_SQLITE") == "True" or DEBUG:
-    # LOCAL: Using SQLite if requested
+else:
+    # LOCAL: Using SQLite
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
-else:
-    # LOCAL: Default to PostgreSQL
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("DB_NAME", "corelink_corelink_db"),
-            "USER": os.getenv("DB_USER", "corelink_firaol"),
-            "PASSWORD": '',  # <--- ADD YOUR DATABASE PASSWORD HERE (if testing postgres locally)
-            "HOST": os.getenv("DB_HOST", "localhost"),
-            "PORT": os.getenv("DB_PORT", "5432"),
         }
     }
 
@@ -153,12 +139,8 @@ STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
-# On production, points to studio_project's media folder
-# On local development, uses studio_project's own media folder
-if not DEBUG:
-    MEDIA_ROOT = os.environ.get("MEDIA_ROOT", "/home/corelink/corelink_studio-/media")
-else:
-    MEDIA_ROOT = BASE_DIR / "media"
+# Production media path hardcoded
+MEDIA_ROOT = "/home/corelink/corelink_studio-/media"
 
 STORAGES = {
     "default": {
