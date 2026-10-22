@@ -36,7 +36,7 @@ urlpatterns = [
     path("robots.txt", robots_txt),
     path("sitemap.xml", sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path("admin/", admin.site.urls),
-    path("", include("studio.urls")),  # Studio app at root
+    path("studio/", include("studio.urls")),  # Studio app under /studio/
 ]
 
 # Serve static and media files only in DEBUG mode
