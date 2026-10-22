@@ -1,5 +1,9 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # ==============================================
 # BASE DIRECTORY SETUP
@@ -12,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-#your-production-secret-key-here-replace-with-secure-random-key")
 
 # Set to True for local development, False for production
-DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+DEBUG = os.getenv("DEBUG", "True").lower() == "true"
 
 # Environment: development or production
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development").lower()
@@ -89,18 +93,25 @@ SITE_ID = 1
 # ==============================================
 # DATABASE CONFIGURATION
 # ==============================================
-# Hardcoded PostgreSQL database configuration
-# This ensures the correct database is always used in production
-DATABASES = {
-    "default": {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'corelink_studio_db',
-        'USER': 'corelink_studioadmin',
-        'PASSWORD': 'studioadmin7744$$@@*',
-        'HOST': 'localhost',
-        'PORT': '5432'
+# Use SQLite for local development, PostgreSQL for production
+if DEBUG:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'corelink_studio_db',
+            'USER': 'corelink_studioadmin',
+            'PASSWORD': 'studioadmin7744$$@@*',
+            'HOST': 'localhost',
+            'PORT': '5432'
+        }
+    }
 
 # ==============================================
 # AUTHENTICATION
