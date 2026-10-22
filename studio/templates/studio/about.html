@@ -91,7 +91,7 @@
             <div class="text-center group">
                 <div class="relative mb-6 mx-auto w-48 h-48">
                     {% if member.photo %}
-                    <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="w-full h-full rounded-2xl object-cover group-hover:scale-105 transition duration-300 shadow-lg">
+                    <img src="{{ member.get_photo_url }}" alt="{{ member.name }}" class="w-full h-full rounded-2xl object-cover group-hover:scale-105 transition duration-300 shadow-lg">
                     {% else %}
                     <div class="w-full h-full rounded-2xl bg-gradient-to-br from-brand-100 to-brand-50 flex items-center justify-center shadow-lg">
                         <i data-lucide="user" class="w-20 h-20 text-brand-300"></i>

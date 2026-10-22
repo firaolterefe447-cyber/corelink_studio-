@@ -7,7 +7,7 @@
 
 {% block keywords %}{{ service.title|lower }}, {{ service.get_service_type_display|lower }}, {% for feature in service.features|slice:':3' %}{{ feature|lower }}, {% endfor %}CoreLink Studio{% endblock %}
 
-{% block og_image %}{% if service.thumbnail %}{{ service.thumbnail.url }}{% else %}{% static 'img/og-image.png' %}{% endif %}{% endblock %}
+{% block og_image %}{% if service.thumbnail %}{{ service.get_thumbnail_url }}{% else %}{% static 'img/og-image.png' %}{% endif %}{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">

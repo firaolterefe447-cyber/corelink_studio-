@@ -156,7 +156,7 @@ MEDIA_URL = "/media/"
 # On production, points to studio_project's media folder
 # On local development, uses studio_project's own media folder
 if not DEBUG:
-    MEDIA_ROOT = "/home/corelink/corelink_studio-/media"
+    MEDIA_ROOT = os.environ.get("MEDIA_ROOT", "/home/corelink/corelink_studio-/media")
 else:
     MEDIA_ROOT = BASE_DIR / "media"
 

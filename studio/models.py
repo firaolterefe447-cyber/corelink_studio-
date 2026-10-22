@@ -21,6 +21,7 @@ class Service(models.Model):
     service_type = models.CharField(max_length=20, choices=SERVICE_CHOICES, default='WEB')
     description = models.TextField()
     icon = models.CharField(max_length=100, help_text="Lucide icon name (e.g., 'code', 'smartphone')")
+    thumbnail = models.ImageField(upload_to='studio/services/thumbnails/', blank=True, help_text="Service thumbnail image")
     features = models.JSONField(default=list, help_text="List of service features")
     is_featured = models.BooleanField(default=False)
     order = models.IntegerField(default=0)
@@ -40,6 +41,9 @@ class Service(models.Model):
 
     def get_icon_url(self):
         return f"/static/img/icons/{self.icon}.svg"
+
+    def get_thumbnail_url(self):
+        return self.thumbnail.url if self.thumbnail else ''
 
 
 class Project(models.Model):

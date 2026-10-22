@@ -13,7 +13,7 @@ def robots_txt(request):
     lines = [
         "User-agent: *",
         "Disallow: /admin/",
-        "Disallow: /media/",
+        "Allow: /media/",
         "Allow: /",
         "Sitemap: https://studio.corelink.et/sitemap.xml"
     ]
@@ -39,7 +39,8 @@ urlpatterns = [
 ]
 
 # Serve media files in both DEBUG and production for cPanel
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# Always serve media files (production web server should handle this ideally, but this ensures it works on cPanel)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
