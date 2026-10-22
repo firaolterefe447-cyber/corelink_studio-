@@ -8,7 +8,7 @@
 <title>{% if page.meta_title %}{{ page.meta_title }}{% else %}About Corelink Studio{% endif %}</title>
 <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}?v=2">
 <meta name="description" content="{% if page.meta_description %}{{ page.meta_description }}{% else %}{{ page.hero_subtitle }}{% endif %}">
-<meta name="keywords" content="about us, our team, CoreLink Studio mission, CoreLink Studio vision, software company Ethiopia, digital transformation">
+<meta name="keywords" content="about us, our team, CoreLink Studio mission, CoreLink Studio vision, software company Ethiopia, digital transformation, Corelink Ethiopia professionals">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}About Corelink Studio{% endif %}">
 <meta property="og:description" content="{{ page.hero_subtitle }}">
@@ -25,7 +25,7 @@
         "@type": "Organization",
         "name": "CoreLink Studio",
         "url": "https://studio.corelink.et",
-        "description": "Software studio building web platforms, mobile apps, ERP and custom software."
+        "description": "Software studio building web platforms, mobile apps, ERP and custom software, backed by the Corelink Ethiopia professional network."
     }
 }
 </script>
@@ -70,7 +70,7 @@ footer .logo-t b { color: var(--accent); }
 .links a:hover, .links a.on { color: var(--ink); background: rgba(15,23,42,.05); }
 
 /* BUTTONS */
-.btn { display: inline-flex; align-items: center; gap: 8px; font: 700 16px var(--t); padding: 14px 28px; border-radius: 12px; transition: all .3s var(--ease); cursor: pointer; border: 0; overflow: hidden; position: relative; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 700 16px var(--t); padding: 14px 28px; border-radius: 12px; transition: all .3s var(--ease); cursor: pointer; border: 0; overflow: hidden; position: relative; }
 .btn-p { background: var(--core); color: #fff; box-shadow: 0 8px 20px -4px rgba(31,77,255,.45), inset 0 1px 0 rgba(255,255,255,.18); }
 .btn-p:hover { transform: translateY(-2px); background: #1539E0; box-shadow: 0 14px 28px -6px rgba(31,77,255,.55), inset 0 1px 0 rgba(255,255,255,.18); }
 .btn-p svg { width: 18px; height: 18px; transition: transform .3s var(--ease); }
@@ -78,6 +78,8 @@ footer .logo-t b { color: var(--accent); }
 .btn-s { padding: 10px 22px; font-size: 14px; box-shadow: 0 6px 14px -3px rgba(31,77,255,.3); }
 .btn-outline { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.2); color: #fff; backdrop-filter: blur(10px); }
 .btn-outline:hover { background: rgba(255,255,255,.15); border-color: rgba(255,255,255,.3); transform: translateY(-2px); }
+.btn-l { background: transparent; border: 1px solid var(--line); color: var(--ink); box-shadow: 0 2px 8px rgba(0,0,0,.02); }
+.btn-l:hover { border-color: var(--core); color: var(--core); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(31,77,255,.08); }
 
 /* MOBILE MENU */
 .burger { display: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(0,0,0,.08); background: transparent; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; transition: background .3s; }
@@ -105,10 +107,6 @@ h1 { font-size: clamp(2.9rem,6vw,5.8rem); font-weight: 800; line-height: .98; ma
 .ln { display: block; overflow: hidden; padding-bottom: .1em; }
 .ln > span { display: block; transform: translateY(115%); animation: up 1.1s var(--ease) forwards; }
 @keyframes up { to { transform: none; } }
-.breadcrumb { font-size: 14px; font-weight: 600; color: rgba(255,255,255,.5); margin-bottom: 24px; animation: fade 1s var(--ease) forwards; }
-.breadcrumb a { color: #fff; transition: color .2s; }
-.breadcrumb a:hover { color: var(--accent); }
-.breadcrumb span { margin: 0 8px; }
 
 /* WEBGL BACKGROUND */
 .stage { position: absolute; inset: 0; z-index: 0; overflow: hidden; background: var(--night); pointer-events: none; }
@@ -129,13 +127,10 @@ h2 { font-size: clamp(2.4rem,5vw,4.4rem); font-weight: 800; line-height: 1.02; m
 .alt { background: var(--bg); }
 
 /* MISSION, VISION, VALUES */
-.mvv-card { background: #fff; padding: 48px 40px; border-radius: 24px; border: 1px solid var(--line); box-shadow: 0 4px 20px rgba(0,0,0,.02); transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease); text-align: center; display: flex; flex-direction: column; align-items: center; }
+.mvv-card { background: #fff; padding: 48px 40px; border-radius: 24px; border: 1px solid var(--line); box-shadow: 0 4px 20px rgba(0,0,0,.02); transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .mvv-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(7,8,13,.07); border-color: #D3D8EC; }
-.mvv-icon { width: 72px; height: 72px; background: var(--bg); border-radius: 20px; display: grid; place-items: center; margin-bottom: 24px; color: var(--core); transition: all .4s var(--ease); box-shadow: inset 0 0 0 1px var(--line); }
-.mvv-card:hover .mvv-icon { background: var(--core); color: #fff; box-shadow: inset 0 0 0 1px var(--core); transform: scale(1.05) rotate(-5deg); }
-.mvv-icon svg { width: 32px; height: 32px; }
 .mvv-card h3 { font-size: 24px; font-weight: 800; margin-bottom: 16px; color: var(--ink); }
-.mvv-card p { color: var(--muted); line-height: 1.7; font-size: 16px; }
+.mvv-card p { color: var(--muted); line-height: 1.7; font-size: 16px; margin: 0; }
 
 /* TEAM */
 .tm-card { position: relative; height: 420px; border-radius: 24px; overflow: hidden; background: radial-gradient(120% 90% at 50% 0%, #1A3BD0 0%, #0B1F8F 40%, #07080D 100%); display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 12px 32px rgba(7,8,13,.07); transition: transform .4s var(--ease), box-shadow .4s var(--ease); }
@@ -213,7 +208,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 }
 @media(prefers-reduced-motion:reduce){
   * { animation: none !important; transition: none !important; }
-  .ln > span, .lead, .hero .cta, .js .rv, .breadcrumb { opacity: 1 !important; transform: none !important; }
+  .ln > span, .lead, .hero .cta, .js .rv { opacity: 1 !important; transform: none !important; }
 }
 </style>
 </head>
@@ -263,9 +258,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
   <div class="stage" id="st" aria-hidden="true"><canvas id="core"></canvas></div>
   <div class="wrap">
     <div class="hero-text">
-      <div class="breadcrumb">
-        <a href="{% url 'studio_home' %}">Studio</a> <span>/</span> About
-      </div>
       <h1 id="h-title"><span class="ln"><span>{{ page.hero_title|default:"About CoreLink" }}</span></span></h1>
       <p class="lead" id="h-lead">{{ page.hero_subtitle|default:"We are a premier digital solutions provider, building software that modern ambition runs on." }}</p>
     </div>
@@ -275,10 +267,18 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <!-- Who We Are -->
 <section id="story">
   <div class="wrap">
-    <div class="head rv" style="max-width: 900px; margin-left: auto; margin-right: auto;">
+    <div class="head rv" style="max-width: 900px; margin-left: auto; margin-right: auto; text-align: center;">
       <div class="eyebrow">Who We Are</div>
       <h2>Building the Digital Backbone of Modern Businesses</h2>
-      <p class="sub">CoreLink Studio is a premier digital solutions provider based in Ethiopia. We specialize in crafting innovative software solutions that transform businesses and drive growth. Our team of experienced developers, designers, and strategists work together to deliver exceptional results for our clients globally.</p>
+      <p class="sub" style="margin-left: auto; margin-right: auto;">Corelink Studio is the engineering and digital agency arm of <a href="https://corelink.et" target="_blank" rel="noopener noreferrer" style="color: var(--core); font-weight: 700;">Corelink Ethiopia</a>—the premier platform helping Ethiopian professionals build world-class portfolios and get discovered for transformative global opportunities.</p>
+
+      <p class="sub" style="margin-top: 20px; margin-left: auto; margin-right: auto;">Backed by our native ecosystem of over <strong>1,000 verified professionals</strong> spanning software engineering, UI/UX design, data science, and digital strategy, we are uniquely positioned to assemble elite, dedicated teams tailored specifically for your challenge. This deep integration makes us the only software studio in Ethiopia with direct, on-demand access to the country's most vetted and experienced tech talent.</p>
+
+      <div style="margin-top: 36px;">
+        <a href="https://corelink.et" target="_blank" rel="noopener noreferrer" class="btn btn-l">
+          <span>Discover the Corelink Platform</span> <i data-lucide="external-link"></i>
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -288,17 +288,14 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
   <div class="wrap">
     <div class="grid g3">
       <div class="mvv-card rv">
-        <div class="mvv-icon"><i data-lucide="target"></i></div>
         <h3>Our Mission</h3>
         <p>To empower businesses with cutting-edge technology solutions that drive innovation, streamline workflows, and ensure sustainable, long-term growth.</p>
       </div>
       <div class="mvv-card rv" style="transition-delay: 50ms;">
-        <div class="mvv-icon"><i data-lucide="eye"></i></div>
         <h3>Our Vision</h3>
         <p>To be the leading digital transformation partner in Ethiopia and across Africa, recognized globally for uncompromising engineering excellence and innovation.</p>
       </div>
       <div class="mvv-card rv" style="transition-delay: 100ms;">
-        <div class="mvv-icon"><i data-lucide="heart"></i></div>
         <h3>Our Values</h3>
         <p>Integrity, robust engineering, striking design, and total customer success form the absolute core of every single product we launch.</p>
       </div>
