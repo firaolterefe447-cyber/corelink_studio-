@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#07080D">
 <title>Our Projects - Corelink Studio</title>
-<link rel="icon" type="image/png" href="{% static 'img/logo.png' %}?v=2">
+<link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}?v=2">
 <meta name="description" content="Explore our portfolio of completed projects showcasing our expertise in web development, mobile apps, and digital solutions.">
 <meta name="keywords" content="portfolio, projects, web development portfolio, mobile apps portfolio, case studies, software development projects">
 <meta property="og:type" content="website">
@@ -144,6 +144,20 @@ h1 { font-size: clamp(2.9rem,6vw,5.8rem); font-weight: 800; line-height: .98; ma
 .empty-state .icon svg { width: 36px; height: 36px; }
 .empty-state h3 { font-size: 28px; font-weight: 800; margin-bottom: 12px; color: var(--ink); }
 .empty-state p { color: var(--muted); font-size: 18px; max-width: 500px; margin: 0 auto; line-height: 1.6; }
+
+/* CONTACT FORM */
+.cf { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 700px; margin: 0 auto; text-align: left; }
+.cf label { display: flex; flex-direction: column; gap: 8px; font: 700 13px var(--t); color: #D5D8E2; }
+.cf .full { grid-column: 1 / -1; }
+.cf input, .cf select, .cf textarea { font: 500 16px var(--t); color: #fff; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); border-radius: 12px; padding: 14px 16px; width: 100%; transition: border-color .2s, background .2s; }
+.cf select option { color: #07080D; }
+.cf input:focus, .cf select:focus, .cf textarea:focus { outline: none; border-color: var(--accent); background: rgba(255,255,255,.1); }
+.cf textarea { resize: vertical; min-height: 110px; }
+.cf-act { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 6px; }
+.cf-act small { color: #B8BCC8; font-size: 14px; flex: 1; min-width: 220px; }
+.cf-act small a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.cf .bad { border-color: #FF6B6B; }
+@media(max-width:600px){ .cf { grid-template-columns: 1fr; } }
 
 /* CTA */
 .alt { background: var(--bg); padding: 120px 0; position: relative; z-index: 5; }
