@@ -15,8 +15,8 @@
     <link rel="canonical" href="{% block canonical %}{{ request.build_absolute_uri }}{% endblock %}">
     
     <!-- Open Graph / Social Media -->
-    <meta property="og:title" content="{% block og_title %}{% block title %}CoreLink Studio{% endblock %}{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}{% block description %}CoreLink Studio builds web and mobile apps, custom software, ERP and complete digital solutions.{% endblock %}{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}CoreLink Studio{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}CoreLink Studio builds web and mobile apps, custom software, ERP and complete digital solutions.{% endblock %}">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <meta property="og:site_name" content="CoreLink Studio">
     <meta property="og:type" content="website">
@@ -26,9 +26,9 @@
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{% block twitter_title %}{% block title %}CoreLink Studio{% endblock %}{% endblock %}">
-    <meta name="twitter:description" content="{% block twitter_description %}{% block description %}CoreLink Studio builds web and mobile apps, custom software, ERP and complete digital solutions.{% endblock %}{% endblock %}">
-    <meta name="twitter:image" content="{% block twitter_image %}{% static 'img/og-image.png' %}{% endblock %}">
+    <meta name="twitter:title" content="CoreLink Studio">
+    <meta name="twitter:description" content="CoreLink Studio builds web and mobile apps, custom software, ERP and complete digital solutions.">
+    <meta name="twitter:image" content="{% static 'img/og-image.png' %}">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}?v=2">

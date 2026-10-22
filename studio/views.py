@@ -12,7 +12,7 @@ def studio_home(request):
             'hero_title': HOME_DEFAULT_TITLE,
             'hero_subtitle': 'We craft innovative software solutions that transform businesses and drive growth.',
             'hero_cta_text': 'Start Your Project',
-            'hero_cta_link': '/contact'
+            'hero_cta_link': '/studio/contact'
         }
     )
 
@@ -102,7 +102,7 @@ def about(request):
             'hero_title': 'About CoreLink Studio',
             'hero_subtitle': 'Passionate about building exceptional digital experiences.',
             'hero_cta_text': 'Contact Us',
-            'hero_cta_link': '/contact'
+            'hero_cta_link': '/studio/contact'
         }
     )
     

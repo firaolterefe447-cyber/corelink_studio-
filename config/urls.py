@@ -7,6 +7,7 @@ from django.views.generic.base import RedirectView
 from django.http import HttpResponse
 from django.contrib.sitemaps.views import sitemap
 from studio.sitemaps import StaticViewSitemap, ServiceSitemap, ProjectSitemap, TeamMemberSitemap
+from django.shortcuts import redirect
 
 
 def robots_txt(request):
@@ -35,7 +36,8 @@ urlpatterns = [
     path("robots.txt", robots_txt),
     path("sitemap.xml", sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path("admin/", admin.site.urls),
-    path("", include("studio.urls")),  # Studio app at root
+    path("", lambda request: redirect('/studio/')),  # Redirect root to /studio/
+    path("studio/", include("studio.urls")),  # Studio app at /studio/
 ]
 
 # Serve media files in both DEBUG and production for cPanel
