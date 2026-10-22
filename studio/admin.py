@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Service, Project, Testimonial, TeamMember, StudioPage, HeroSlide
+from .models import Service, Project, Testimonial, TeamMember, StudioPage, HeroSlide, ContactSubmission
 
 
 @admin.register(Service)
@@ -65,3 +65,12 @@ class HeroSlideAdmin(admin.ModelAdmin):
             return format_html('<img src="{}" style="max-height:340px;border-radius:12px">', obj.image.url)
         return "No image yet"
     preview_large.short_description = "Preview"
+
+
+@admin.register(ContactSubmission)
+class ContactSubmissionAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'need', 'timeline', 'is_read', 'created_at']
+    list_filter = ['is_read', 'created_at', 'need', 'timeline']
+    search_fields = ['name', 'email', 'message']
+    list_editable = ['is_read']
+    readonly_fields = ['created_at']

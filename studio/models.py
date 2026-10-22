@@ -198,3 +198,20 @@ class HeroSlide(models.Model):
 
     def get_image_url(self):
         return self.image.url if self.image else ''
+
+
+class ContactSubmission(models.Model):
+    """Contact form submissions from the home page"""
+    name = models.CharField(max_length=200)
+    email = models.EmailField()
+    need = models.CharField(max_length=100, help_text="Service type needed")
+    timeline = models.CharField(max_length=100, help_text="Timeline preference")
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.name} - {self.email}"

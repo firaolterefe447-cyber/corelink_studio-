@@ -1,5 +1,8 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Service, Project, Testimonial, TeamMember, StudioPage, HeroSlide
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from .models import Service, Project, Testimonial, TeamMember, StudioPage, HeroSlide, ContactSubmission
 
 
 HOME_DEFAULT_TITLE = 'Building Digital Excellence'  # value seeded by get_or_create below
@@ -151,3 +154,35 @@ def projects(request):
         'projects': projects,
     }
     return render(request, 'studio/projects.html', context)
+
+
+@require_POST
+@csrf_exempt
+def contact_submit(request):
+    """Handle contact form submission via AJAX"""
+    try:
+        name = request.POST.get('n', '').strip()
+        email = request.POST.get('e', '').strip()
+        need = request.POST.get('t', '').strip()
+        timeline = request.POST.get('w', '').strip()
+        message = request.POST.get('m', '').strip()
+
+        # Validation
+        if not name or not email or not message:
+            return JsonResponse({'success': False, 'error': 'Please fill in your name, email, and message.'}, status=400)
+
+        if '@' not in email or '.' not in email:
+            return JsonResponse({'success': False, 'error': 'Please provide a valid email address.'}, status=400)
+
+        # Save submission
+        ContactSubmission.objects.create(
+            name=name,
+            email=email,
+            need=need,
+            timeline=timeline,
+            message=message
+        )
+
+        return JsonResponse({'success': True, 'message': 'Thank you! We will get back to you within 24 hours.'})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': 'An error occurred. Please try again.'}, status=500)

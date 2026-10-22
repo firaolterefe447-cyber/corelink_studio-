@@ -549,7 +549,7 @@ safe(function(){
   if(Q){qf.className="quote rv";qf.innerHTML='<blockquote>&ldquo;'+esc(Q.t)+'&rdquo;</blockquote><figcaption>'+esc(Q.n||"")+(Q.r?', '+esc(Q.r):"")+'</figcaption>'}else qf.remove();
 });
 
-/* CONTACT FORM (opens the visitor's email app with the brief filled in) */
+/* CONTACT FORM (submits via AJAX to backend) */
 safe(function(){
   var f=$("cf"),msg=$("cf-msg");
   f.addEventListener("submit",function(e){
@@ -561,9 +561,39 @@ safe(function(){
       i.classList.toggle("bad",bad);if(bad)ok=false;
     });
     if(!ok){msg.textContent="Please fill in your name, a valid email and a short description.";return}
-    var b="Name: "+f.elements.n.value.trim()+"\nEmail: "+f.elements.e.value.trim()+"\nNeed: "+f.elements.t.value+"\nTimeline: "+f.elements.w.value+"\n\n"+f.elements.m.value.trim();
-    location.href="mailto:support@corelink.et?subject="+encodeURIComponent("Project brief: "+f.elements.t.value)+"&body="+encodeURIComponent(b);
-    msg.textContent="Your email app should open with the brief ready to send.";
+
+    var formData=new FormData();
+    formData.append("n",f.elements.n.value.trim());
+    formData.append("e",f.elements.e.value.trim());
+    formData.append("t",f.elements.t.value);
+    formData.append("w",f.elements.w.value);
+    formData.append("m",f.elements.m.value.trim());
+
+    var btn=f.querySelector('button[type="submit"]');
+    var originalBtnText=btn.querySelector("span").textContent;
+    btn.querySelector("span").textContent="Sending...";
+    btn.disabled=true;
+
+    fetch("/contact/submit/",{
+      method:"POST",
+      body:formData,
+      headers:{"X-Requested-With":"XMLHttpRequest"}
+    }).then(function(r){return r.json()}).then(function(data){
+      if(data.success){
+        msg.textContent=data.message;
+        msg.style.color="#8FA8FF";
+        f.reset();
+      }else{
+        msg.textContent=data.error||"An error occurred. Please try again.";
+        msg.style.color="#FF6B6B";
+      }
+    }).catch(function(err){
+      msg.textContent="Network error. Please try again.";
+      msg.style.color="#FF6B6B";
+    }).finally(function(){
+      btn.querySelector("span").textContent=originalBtnText;
+      btn.disabled=false;
+    });
   });
 });
 
