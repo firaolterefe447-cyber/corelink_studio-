@@ -1,5 +1,9 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # ==============================================
 # BASE DIRECTORY SETUP
@@ -9,15 +13,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ==============================================
 # SECURITY CONFIGURATION
 # ==============================================
-# Production settings hardcoded
-SECRET_KEY = "django-insecure-#your-production-secret-key-here-replace-with-secure-random-key"
+SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-#your-production-secret-key-here-replace-with-secure-random-key")
 
 # Set to True for local development, False for production
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-# Production environment flag (cPanel/Hahu hosting)
-# Set to True for production, False for local development
-IS_HAHU = os.getenv("IS_HAHU", "False").lower() == "true"
+# Environment: development or production
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development").lower()
 
 ALLOWED_HOSTS = [
     "studio.corelink.et",
@@ -91,29 +93,27 @@ SITE_ID = 1
 # ==============================================
 # DATABASE CONFIGURATION
 # ==============================================
-# Using the same database as main project
-# Admin can hardcode values here directly, or use environment variables
-# ==============================================
-# 4. DATABASE CONFIGURATION (POSTGRESQL)
-# ==============================================
-if IS_HAHU:
-    # PRODUCTION: Using the PostgreSQL database created in cPanel
+# Database configuration based on environment
+DB_ENGINE = os.getenv("DB_ENGINE", "django.db.backends.sqlite3")
+
+if DB_ENGINE == "django.db.backends.postgresql":
+    # PRODUCTION: Using PostgreSQL
     DATABASES = {
         "default": {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'corelink_studio_db',
-            'USER': 'corelink_studioadmin',
-            'PASSWORD': 'studioadmin7744$$@@*',
-            'HOST': 'localhost',
-            'PORT': '5432'
+            'ENGINE': DB_ENGINE,
+            'NAME': os.getenv("DB_NAME", "corelink_studio_db"),
+            'USER': os.getenv("DB_USER", "corelink_studioadmin"),
+            'PASSWORD': os.getenv("DB_PASSWORD", ""),
+            'HOST': os.getenv("DB_HOST", "localhost"),
+            'PORT': os.getenv("DB_PORT", "5432")
         }
     }
 else:
     # LOCAL: Using SQLite
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
+            "ENGINE": DB_ENGINE,
+            "NAME": BASE_DIR / os.getenv("DB_NAME", "db.sqlite3"),
         }
     }
 
