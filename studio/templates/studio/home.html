@@ -72,7 +72,7 @@ footer .logo-t b { color: var(--accent); }
 .mm.on a { transform: none; opacity: 1; transition-delay: calc(var(--i) * 50ms); }
 
 /* HERO */
-.hero { position: relative; background: var(--night); color: #fff; padding: 180px 0 120px; overflow: hidden; min-height: 100vh; }
+.hero { position: relative; background: var(--night); color: #fff; padding: 180px 0 calc(120px + clamp(50px,7vw,110px)); overflow: hidden; min-height: 100vh; -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - clamp(50px,7vw,110px)), 0 100%); clip-path: polygon(0 0, 100% 0, 100% calc(100% - clamp(50px,7vw,110px)), 0 100%); z-index: 5; }
 .hero:before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 12% 30%, rgba(24,52,200,.35), transparent 45%); z-index: 1; pointer-events: none; }
 .hero:after { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(ellipse at 50% 45%, black 10%, transparent 75%); -webkit-mask-image: radial-gradient(ellipse at 50% 45%, black 10%, transparent 75%); z-index: 1; pointer-events: none; }
 .hero .wrap { position: relative; z-index: 3; display: block; width: 100%; }
@@ -98,7 +98,6 @@ h1 em:after { content: ""; position: absolute; left: 0; right: 0; bottom: -.05em
 .stage:after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(7,8,13,.95) 0%, rgba(7,8,13,.65) 45%, rgba(7,8,13,0) 70%); }
 .stage.nogl { background: radial-gradient(circle at 74% 66%, #8FA8FF 0, #1F4DFF 14%, #0B1F8F 30%, rgba(7,8,13,0) 52%), var(--night); }
 
-.fold { height: clamp(50px,7vw,110px); background: var(--night); clip-path: polygon(0 0,100% 0,100% 10%,0 100%); margin-top: -1px; position: relative; z-index: 5; }
 #pg { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 100; background: linear-gradient(90deg, var(--core), var(--accent)); box-shadow: 0 0 12px rgba(143,168,255,.55); transition: width .12s linear; }
 
 /* FLOATING SERVICES WIDGET */
@@ -251,7 +250,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 
 /* RESPONSIVE */
 @media(max-width:1024px){
-  .hero { padding-bottom: 340px; }
+  .hero { padding-bottom: calc(340px + clamp(50px,7vw,110px)); }
   .stage:after { background: linear-gradient(180deg, rgba(7,8,13,.95) 0%, rgba(7,8,13,.55) 55%, rgba(7,8,13,0) 85%); }
   .bigmark { display: none; }
   #process .wrap { grid-template-columns: 1fr; }
@@ -275,7 +274,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 }
 @media(max-width:600px){
   .g4, .fg { grid-template-columns: 1fr; }
-  .hero { padding-top: 140px; padding-bottom: 300px; }
+  .hero { padding-top: 140px; padding-bottom: calc(300px + clamp(50px,7vw,110px)); }
   h1 em { white-space: normal; }
   section { padding: 80px 0; }
   .ctab { padding: 60px 24px; border-radius: 28px; }
@@ -329,7 +328,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 </div>
 </div>
 </header>
-<div class="fold"></div>
 
 <section id="services"><div class="wrap">
 <div class="head rv"><div class="eyebrow">Services</div><h2>Building Digital Excellence</h2><p class="sub">From a first MVP to systems that run a whole company. One team designs, engineers and operates all of it.</p></div>
