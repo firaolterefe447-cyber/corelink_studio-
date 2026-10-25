@@ -260,11 +260,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
   <div class="stage" id="st" aria-hidden="true"><canvas id="core"></canvas></div>
   <div class="wrap">
     <div class="hero-text">
-      <div class="breadcrumb">
-        <a href="{% url 'studio_home' %}">Studio</a>
-        <span>/</span>
-        <span>Services</span>
-      </div>
       <h1 id="h-title"><span class="ln"><span>Our Services</span></span></h1>
       <p class="lead" id="h-lead">Comprehensive digital solutions tailored to your business needs. From web platforms to mobile apps, we build products that scale.</p>
     </div>
@@ -295,13 +290,48 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
         {% endif %}
       </a>
       {% empty %}
-      <div class="col-span-full text-center py-20">
-        <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6" style="background: var(--bg); border-radius: 50%; width: 80px; height: 80px; display: grid; place-items: center; margin: 0 auto 24px;">
-          <i data-lucide="briefcase" style="width: 32px; height: 32px; color: var(--muted);"></i>
-        </div>
-        <h3 style="font-size: 24px; font-weight: 800; margin-bottom: 12px;">No Services Available</h3>
-        <p style="color: var(--muted);">We're currently updating our service offerings. Check back soon!</p>
-      </div>
+      <a href="#" class="svc-card rv" style="transition-delay: 0ms;">
+        <div class="svc-arrow"><i data-lucide="arrow-right"></i></div>
+        <div class="svc-icon"><i data-lucide="globe"></i></div>
+        <h3>Web Platforms</h3>
+        <p>Fast, secure web applications, portals and marketplaces built to scale with your business.</p>
+        <div class="svc-tags"><span>React</span><span>Django</span><span>SaaS</span></div>
+      </a>
+      <a href="#" class="svc-card rv" style="transition-delay: 50ms;">
+        <div class="svc-arrow"><i data-lucide="arrow-right"></i></div>
+        <div class="svc-icon"><i data-lucide="smartphone"></i></div>
+        <h3>Mobile Apps</h3>
+        <p>Native iOS and Android applications with exceptional performance and user experience.</p>
+        <div class="svc-tags"><span>Flutter</span><span>iOS</span><span>Android</span></div>
+      </a>
+      <a href="#" class="svc-card rv" style="transition-delay: 100ms;">
+        <div class="svc-arrow"><i data-lucide="arrow-right"></i></div>
+        <div class="svc-icon"><i data-lucide="code-2"></i></div>
+        <h3>Custom Software</h3>
+        <p>Tailored software solutions designed around your unique business workflows.</p>
+        <div class="svc-tags"><span>Tailored</span><span>Scalable</span></div>
+      </a>
+      <a href="#" class="svc-card rv" style="transition-delay: 150ms;">
+        <div class="svc-arrow"><i data-lucide="arrow-right"></i></div>
+        <div class="svc-icon"><i data-lucide="layers"></i></div>
+        <h3>ERP and Business Systems</h3>
+        <p>Integrated platforms for finance, HR, inventory and sales management.</p>
+        <div class="svc-tags"><span>ERP</span><span>CRM</span><span>HRM</span></div>
+      </a>
+      <a href="#" class="svc-card rv" style="transition-delay: 200ms;">
+        <div class="svc-arrow"><i data-lucide="arrow-right"></i></div>
+        <div class="svc-icon"><i data-lucide="pen-tool"></i></div>
+        <h3>UI/UX Design</h3>
+        <p>User-centered interfaces and design systems that drive engagement.</p>
+        <div class="svc-tags"><span>Figma</span><span>Branding</span></div>
+      </a>
+      <a href="#" class="svc-card rv" style="transition-delay: 250ms;">
+        <div class="svc-arrow"><i data-lucide="arrow-right"></i></div>
+        <div class="svc-icon"><i data-lucide="plug"></i></div>
+        <h3>Integrations and APIs</h3>
+        <p>Seamless connections for payments, SMS, banking and third-party services.</p>
+        <div class="svc-tags"><span>REST</span><span>Payments</span></div>
+      </a>
       {% endfor %}
     </div>
   </div>
