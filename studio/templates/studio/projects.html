@@ -136,11 +136,6 @@ h1 { font-size: clamp(2.9rem,6vw,5.8rem); font-weight: 800; line-height: .98; ma
 .proj-card:hover::after { background: linear-gradient(to top, rgba(7,8,13,.95) 0%, rgba(7,8,13,.3) 55%, transparent 100%); }
 
 .proj-content { position: relative; z-index: 3; padding: 32px; color: #fff; text-align: left; }
-.proj-tags { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.proj-tags span { font: 700 11.5px var(--t); text-transform: uppercase; letter-spacing: .05em; padding: 4px 10px; border-radius: 6px; background: rgba(255,255,255,.15); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: rgba(255,255,255,.95); }
-.proj-tags span.status { background: var(--core); color: #fff; border: none; }
-.proj-tags span.tech { background: transparent; border: 1px solid rgba(255,255,255,.3); }
-
 .proj-content h3 { font: 800 28px var(--d); margin-bottom: 8px; line-height: 1.1; letter-spacing: -0.02em; color: #fff; }
 .proj-content p { font: 500 16px var(--t); color: #B8BCC8; line-height: 1.6; margin-bottom: 24px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .proj-link { display: inline-flex; align-items: center; gap: 8px; font: 700 15px var(--t); color: #fff; transition: color .3s; }
@@ -298,22 +293,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
         </div>
 
         <div class="proj-content">
-          <div class="proj-tags">
-            <span class="status">{{ project.get_status_display }}</span>
-            {% if project.client_name %}
-              <span>{{ project.client_name }}</span>
-            {% endif %}
-
-            {% if project.technologies %}
-              {% for tech in project.technologies|slice:":3" %}
-                <span class="tech">{{ tech }}</span>
-              {% endfor %}
-              {% if project.technologies|length > 3 %}
-                <span class="tech">+{{ project.technologies|length|add:"-3" }}</span>
-              {% endif %}
-            {% endif %}
-          </div>
-
           <h3>{{ project.title }}</h3>
           <p>{{ project.short_description|truncatewords:15 }}</p>
           <span class="proj-link">Read case study <i data-lucide="arrow-right"></i></span>
