@@ -271,7 +271,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
   <a href="{% url 'studio_home' %}#services">Services</a>
   <a href="/studio/team">Team</a>
   <a href="{% url 'studio_home' %}#process">Process</a>
-  <a href="/studio/projects">Work</a>
+  <a href="/studio/projects">Projects</a>
   <a href="/studio/about">About</a>
   <a href="{% url 'studio_home' %}#contact">Contact</a>
 </div>
@@ -342,11 +342,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
       {% endif %}
 
       <div class="pd-actions rv">
-        {% if project.project_url %}
-        <a href="{{ project.project_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-p">
-          <span>View Live Site</span> <i data-lucide="external-link"></i>
-        </a>
-        {% endif %}
         {% if project.github_url %}
         <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-w">
           <i data-lucide="github"></i> <span>View on GitHub</span>

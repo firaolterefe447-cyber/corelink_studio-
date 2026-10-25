@@ -152,13 +152,6 @@ h2 { font-size: clamp(2.4rem,5vw,4.4rem); font-weight: 800; line-height: 1.02; m
 .tm-img.av-ph svg { width: 96px; height: 96px; color: rgba(143,168,255,.6); stroke-width: 1.1; transition: color .4s, transform .5s var(--ease); }
 .tm-card:hover .tm-img.av-ph svg { color: var(--accent); transform: scale(1.08); }
 
-/* TEAM STATS */
-.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-top: 80px; }
-.stat-item { text-align: center; padding: 40px 24px; background: #fff; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 4px 20px rgba(0,0,0,.02); transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
-.stat-item:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(7,8,13,.06); }
-.stat-number { font: 800 clamp(2.5rem,5vw,3.5rem) var(--d); color: var(--core); line-height: 1; margin-bottom: 8px; }
-.stat-label { font: 600 14px var(--t); color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
-
 /* CTA */
 .ctab { position: relative; background: var(--night); border-radius: 36px; padding: 100px 40px; text-align: center; color: #fff; overflow: hidden; box-shadow: 0 40px 80px rgba(7,8,13,.3); }
 .ctab:before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 15% 0, rgba(31,77,255,.55), transparent 50%), radial-gradient(circle at 90% 100%, rgba(143,168,255,.22), transparent 50%); }
@@ -197,7 +190,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 /* RESPONSIVE */
 @media(max-width:1024px){
   .bigmark { display: none; }
-  .g4, .fg, .stats-grid { grid-template-columns: 1fr 1fr; }
+  .g4, .fg { grid-template-columns: 1fr 1fr; }
   .g3 { grid-template-columns: 1fr; }
   .links { display: none; }
   .burger { display: flex; }
@@ -206,7 +199,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
   .logo-t { font-size: 20px; }
   .nav-cta { display: none; }
   .big { font-size: clamp(2rem,8vw,6rem); }
-  .stats-grid { grid-template-columns: 1fr; }
 }
 @media(max-width:600px){
   .g4, .fg { grid-template-columns: 1fr; }
@@ -244,7 +236,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
   <a href="{% url 'studio_home' %}#services">Services</a>
   <a href="/studio/team" class="on">Team</a>
   <a href="{% url 'studio_home' %}#process">Process</a>
-  <a href="/studio/projects">Work</a>
+  <a href="/studio/projects">Projects</a>
   <a href="/studio/about">About</a>
   <a href="{% url 'studio_home' %}#contact">Contact</a>
 </div>
@@ -275,36 +267,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
     </div>
   </div>
 </header>
-
-<!-- Team Stats -->
-<section id="stats">
-  <div class="wrap">
-    <div class="head rv">
-      <div class="eyebrow">Our Impact</div>
-      <h2>Numbers That Speak</h2>
-      <p class="sub">Backed by the Corelink Ethiopia professional network, we bring unmatched expertise to every project.</p>
-    </div>
-
-    <div class="stats-grid rv">
-      <div class="stat-item" style="transition-delay: 0ms;">
-        <div class="stat-number">1000+</div>
-        <div class="stat-label">Verified Professionals</div>
-      </div>
-      <div class="stat-item" style="transition-delay: 50ms;">
-        <div class="stat-number">50+</div>
-        <div class="stat-label">Projects Delivered</div>
-      </div>
-      <div class="stat-item" style="transition-delay: 100ms;">
-        <div class="stat-number">15+</div>
-        <div class="stat-label">Countries Served</div>
-      </div>
-      <div class="stat-item" style="transition-delay: 150ms;">
-        <div class="stat-number">98%</div>
-        <div class="stat-label">Client Satisfaction</div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- Team Section -->
 {% if team %}
