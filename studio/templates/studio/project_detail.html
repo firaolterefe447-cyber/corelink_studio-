@@ -330,17 +330,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
         <div class="pd-desc">{{ project.full_description }}</div>
       </div>
 
-      {% if project.technologies %}
-      <div class="rv">
-        <h2>Technologies Used</h2>
-        <div class="tech-chips">
-          {% for tech in project.technologies %}
-            <span>{{ tech }}</span>
-          {% endfor %}
-        </div>
-      </div>
-      {% endif %}
-
       <div class="pd-actions rv">
         {% if project.github_url %}
         <a href="{{ project.github_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-w">
