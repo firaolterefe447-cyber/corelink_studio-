@@ -8,7 +8,7 @@
 <title>{% if page.meta_title %}{{ page.meta_title }}{% else %}About Corelink Studio{% endif %}</title>
 <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}?v=2">
 <meta name="description" content="{% if page.meta_description %}{{ page.meta_description }}{% else %}{{ page.hero_subtitle }}{% endif %}">
-<meta name="keywords" content="about us, our team, CoreLink Studio mission, CoreLink Studio vision, software company Ethiopia, digital transformation, Corelink Ethiopia professionals">
+<meta name="keywords" content="about us, our talent, CoreLink Studio mission, CoreLink Studio vision, software company Ethiopia, digital transformation, Corelink Ethiopia professionals">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}About Corelink Studio{% endif %}">
 <meta property="og:description" content="{{ page.hero_subtitle }}">
@@ -319,7 +319,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <section id="team">
   <div class="wrap">
     <div class="head rv">
-      <div class="eyebrow">Our Team</div>
+      <div class="eyebrow">Our Talent</div>
       <h2>The Talent Behind the Tech</h2>
       <p class="sub">Meet the visionaries, engineers, and creatives who make CoreLink Studio exceptional.</p>
     </div>
@@ -335,7 +335,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 
         <div class="tm-info">
           <h3>{{ member.name }}</h3>
-          <p class="role">{{ member.get_role_display }}</p>
+          <p class="role">{{ member.title }}</p>
           {% if member.bio %}
             <p class="bio">{{ member.bio }}</p>
           {% endif %}
@@ -360,6 +360,11 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
       </div>
       {% endfor %}
     </div>
+    <div style="text-align: center; margin-top: 48px;">
+      <a href="https://corelink.et/professionals/" class="btn btn-l" target="_blank" rel="noopener noreferrer">
+        Discover more talent from Corelink Ethiopia <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>
+      </a>
+    </div>
   </div>
 </section>
 {% endif %}
@@ -370,7 +375,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
     <div class="ctab rv dark">
       <div class="bigmark" aria-hidden="true"><svg><use href="#mark"/></svg></div>
       <h2>Ready to Build with Us?</h2>
-      <p>Whether you want to launch your next big platform or you're a talented engineer looking to join our team, we'd love to hear from you.</p>
+      <p>Whether you want to launch your next big platform or you're a talented engineer looking to join our talent, we'd love to hear from you.</p>
 
       <div class="cta">
         <a href="{% url 'studio_contact' %}" class="btn btn-p">
