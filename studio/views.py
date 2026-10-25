@@ -120,6 +120,27 @@ def about(request):
     return render(request, 'studio/about.html', context)
 
 
+def team(request):
+    """Team page"""
+    page_content, _ = StudioPage.objects.get_or_create(
+        page_type='TEAM',
+        defaults={
+            'hero_title': 'Our Team',
+            'hero_subtitle': 'Meet the brilliant minds building the future of digital innovation.',
+            'hero_cta_text': 'Join Our Team',
+            'hero_cta_link': 'mailto:careers@corelink.et'
+        }
+    )
+    
+    team_members = TeamMember.objects.all()
+    
+    context = {
+        'page': page_content,
+        'team': team_members,
+    }
+    return render(request, 'studio/team.html', context)
+
+
 def contact(request):
     """Contact page"""
     page_content, _ = StudioPage.objects.get_or_create(
