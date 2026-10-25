@@ -321,10 +321,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 
     <!-- Main Content -->
     <div class="pd-main">
-      {% if project.thumbnail %}
-        <img src="{{ project.get_thumbnail_url }}" alt="{{ project.title }} Overview" class="pd-thumb rv">
-      {% endif %}
-
       <div class="rv">
         <h2>Project Overview</h2>
         <div class="pd-desc">{{ project.full_description }}</div>
