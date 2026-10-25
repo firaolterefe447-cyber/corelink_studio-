@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from .models import Service, Project, Testimonial, TeamMember, StudioPage, HeroSlide, ContactSubmission
+from .models import Service, Project, Testimonial, TeamMember, StudioPage, HeroSlide, ContactSubmission, JobApplication
 
 
 HOME_DEFAULT_TITLE = 'Building Digital Excellence'  # value seeded by get_or_create below
@@ -207,5 +207,66 @@ def contact_submit(request):
         )
 
         return JsonResponse({'success': True, 'message': 'Thank you! We will get back to you within 24 hours.'})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': 'An error occurred. Please try again.'}, status=500)
+
+
+def join_team(request):
+    """Join our team application page"""
+    page_content, _ = StudioPage.objects.get_or_create(
+        page_type='TEAM',
+        defaults={
+            'hero_title': 'Join Our Team',
+            'hero_subtitle': 'Build the future with CoreLink Studio. We\'re looking for exceptional talent to join our growing team.',
+            'hero_cta_text': 'Apply Now',
+            'hero_cta_link': '/studio/join'
+        }
+    )
+
+    context = {
+        'page': page_content,
+    }
+    return render(request, 'studio/join.html', context)
+
+
+@require_POST
+@csrf_exempt
+def join_submit(request):
+    """Handle job application submission via AJAX"""
+    try:
+        name = request.POST.get('name', '').strip()
+        email = request.POST.get('email', '').strip()
+        phone = request.POST.get('phone', '').strip()
+        role = request.POST.get('role', 'FULLSTACK')
+        corelink_profile = request.POST.get('corelink_profile', '').strip()
+        github = request.POST.get('github', '').strip()
+        linkedin = request.POST.get('linkedin', '').strip()
+        portfolio = request.POST.get('portfolio', '').strip()
+        cover_letter = request.POST.get('cover_letter', '').strip()
+
+        # Validation
+        if not name or not email or not corelink_profile or not cover_letter:
+            return JsonResponse({'success': False, 'error': 'Please fill in all required fields (name, email, Corelink profile, and cover letter).'}, status=400)
+
+        if '@' not in email or '.' not in email:
+            return JsonResponse({'success': False, 'error': 'Please provide a valid email address.'}, status=400)
+
+        if 'corelink.et' not in corelink_profile.lower():
+            return JsonResponse({'success': False, 'error': 'Please provide a valid Corelink Ethiopia profile URL.'}, status=400)
+
+        # Save application
+        JobApplication.objects.create(
+            name=name,
+            email=email,
+            phone=phone,
+            role=role,
+            corelink_profile=corelink_profile,
+            github=github,
+            linkedin=linkedin,
+            portfolio=portfolio,
+            cover_letter=cover_letter
+        )
+
+        return JsonResponse({'success': True, 'message': 'Thank you for your application! We will review it and get back to you soon.'})
     except Exception as e:
         return JsonResponse({'success': False, 'error': 'An error occurred. Please try again.'}, status=500)

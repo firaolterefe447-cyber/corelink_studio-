@@ -9,6 +9,8 @@ urlpatterns = [
     path('projects/<slug:slug>/', views.project_detail, name='studio_project_detail'),
     path('about/', views.about, name='studio_about'),
     path('team/', views.team, name='studio_team'),
+    path('join/', views.join_team, name='studio_join'),
+    path('join/submit/', views.join_submit, name='join_submit'),
     path('contact/', views.contact, name='studio_contact'),
     path('contact/submit/', views.contact_submit, name='contact_submit'),
 ]

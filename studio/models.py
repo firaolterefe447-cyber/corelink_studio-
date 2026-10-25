@@ -163,6 +163,7 @@ class StudioPage(models.Model):
         ('HOME', 'Home Page'),
         ('ABOUT', 'About Page'),
         ('CONTACT', 'Contact Page'),
+        ('TEAM', 'Team Page'),
     ]
     
     page_type = models.CharField(max_length=20, choices=PAGE_CHOICES, unique=True)
@@ -233,3 +234,37 @@ class ContactSubmission(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.email}"
+
+
+class JobApplication(models.Model):
+    """Job applications for joining the team"""
+    ROLE_CHOICES = [
+        ('FRONTEND', 'Frontend Developer'),
+        ('BACKEND', 'Backend Developer'),
+        ('FULLSTACK', 'Full Stack Developer'),
+        ('MOBILE', 'Mobile Developer'),
+        ('UI_UX', 'UI/UX Designer'),
+        ('PRODUCT', 'Product Manager'),
+        ('DEVOPS', 'DevOps Engineer'),
+        ('DATA', 'Data Scientist'),
+        ('OTHER', 'Other'),
+    ]
+
+    name = models.CharField(max_length=200)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='FULLSTACK')
+    corelink_profile = models.URLField(help_text="Corelink Ethiopia profile URL (required)")
+    github = models.URLField(blank=True, help_text="GitHub profile URL (optional)")
+    linkedin = models.URLField(blank=True, help_text="LinkedIn profile URL (optional)")
+    portfolio = models.URLField(blank=True, help_text="Portfolio website URL (optional)")
+    cover_letter = models.TextField(help_text="Tell us about yourself and why you want to join")
+    resume = models.FileField(upload_to='studio/applications/resumes/', blank=True, help_text="Resume/CV file (PDF)")
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_reviewed = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.name} - {self.get_role_display()}"
