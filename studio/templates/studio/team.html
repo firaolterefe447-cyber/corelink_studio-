@@ -12,7 +12,13 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}Our Team - Corelink Studio{% endif %}">
 <meta property="og:description" content="{{ page.hero_subtitle }}">
+<meta property="og:image" content="{% static 'img/preview.png' %}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}Our Team - Corelink Studio{% endif %}">
+<meta name="twitter:description" content="{{ page.hero_subtitle }}">
+<meta name="twitter:image" content="{% static 'img/preview.png' %}">
 
 <script type="application/ld+json">
 {
@@ -314,6 +320,11 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
           <p class="text-slate-500" style="color: var(--muted); text-align: center; width: 100%;">Team members will be added soon.</p>
       </div>
       {% endfor %}
+    </div>
+    <div style="text-align: center; margin-top: 48px;">
+      <a href="https://corelink.et/professionals/" class="btn btn-l" target="_blank" rel="noopener noreferrer">
+        Discover more talent from Corelink Ethiopia <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>
+      </a>
     </div>
   </div>
 </section>
