@@ -12,13 +12,13 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Join Our Team - Corelink Studio">
 <meta property="og:description" content="{{ page.hero_subtitle }}">
-<meta property="og:image" content="{% static 'img/preview.png' %}">
+<meta property="og:image" content="https://studio.corelink.et/static/img/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Join Our Team - Corelink Studio">
 <meta name="twitter:description" content="{{ page.hero_subtitle }}">
-<meta name="twitter:image" content="{% static 'img/preview.png' %}">
+<meta name="twitter:image" content="https://studio.corelink.et/static/img/preview.png">
 
 <script type="application/ld+json">
 {
@@ -263,13 +263,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
   <div class="stage" id="st" aria-hidden="true"><canvas id="core"></canvas></div>
   <div class="wrap">
     <div class="hero-text">
-      <div class="breadcrumb">
-        <a href="{% url 'studio_home' %}">Studio</a>
-        <span>/</span>
-        <a href="/studio/team">Team</a>
-        <span>/</span>
-        <span>Join Us</span>
-      </div>
       <h1 id="h-title"><span class="ln"><span>{{ page.hero_title|default:"Join Our Team" }}</span></span></h1>
       <p class="lead" id="h-lead">{{ page.hero_subtitle|default:"Build the future with CoreLink Studio. We're looking for exceptional talent to join our growing team." }}</p>
     </div>
@@ -301,7 +294,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
           <option value="DATA">Data Scientist</option>
           <option value="OTHER">Other</option>
         </select></label>
-        <label class="full">Corelink Ethiopia Profile URL *<input name="corelink_profile" type="url" required placeholder="https://corelink.et/profile/your-username"></label>
+        <label class="full">Corelink Ethiopia Profile URL *<input name="corelink_profile" type="url" required placeholder="https://corelink.et/p/your-username"></label>
         <label>GitHub Profile<input name="github" type="url" placeholder="https://github.com/your-username"></label>
         <label>LinkedIn Profile<input name="linkedin" type="url" placeholder="https://linkedin.com/in/your-username"></label>
         <label>Portfolio Website<input name="portfolio" type="url" placeholder="https://your-portfolio.com"></label>
