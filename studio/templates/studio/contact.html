@@ -336,7 +336,6 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
           <label>Your Full Name<input name="n" required autocomplete="name"></label>
           <label>Email Address<input name="e" type="email" required autocomplete="email"></label>
           <label class="full">What do you need?<input name="t" placeholder="Web development, mobile app, etc."></label>
-          <label class="full">Timeline<input name="w" placeholder="ASAP, 1-3 months, 3-6 months, etc."></label>
           <label class="full">Message<textarea name="m" rows="6" required placeholder="Tell us about your project..."></textarea></label>
           <div class="full cf-act"><button class="btn btn-p" type="submit"><span>Send Message</span> <i data-lucide="send"></i></button><small id="form-message" role="status"></small></div>
         </form>
@@ -432,7 +431,6 @@ safe(function(){
     formData.append("n",f.elements.n.value.trim());
     formData.append("e",f.elements.e.value.trim());
     formData.append("t",f.elements.t.value.trim());
-    formData.append("w",f.elements.w.value.trim());
     formData.append("m",f.elements.m.value.trim());
 
     var btn=f.querySelector('button[type="submit"]');

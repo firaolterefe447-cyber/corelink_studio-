@@ -393,8 +393,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <form class="cf" id="cf" novalidate>
 <label>Your name<input name="n" required autocomplete="name"></label>
 <label>Email<input name="e" type="email" required autocomplete="email"></label>
-<label>What do you need?<select name="t"><option>Web platform</option><option>Mobile app</option><option>Custom software</option><option>ERP / business system</option><option>UI/UX design</option><option>Integration / API</option><option>Not sure yet</option></select></label>
-<label>Timeline<select name="w"><option>As soon as possible</option><option>1 to 3 months</option><option>3 to 6 months</option><option>Just exploring</option></select></label>
+<label class="full">What do you need?<select name="t"><option>Web platform</option><option>Mobile app</option><option>Custom software</option><option>ERP / business system</option><option>UI/UX design</option><option>Integration / API</option><option>Not sure yet</option></select></label>
 <label class="full">Tell us about it<textarea name="m" rows="4" required></textarea></label>
 <div class="full cf-act"><button class="btn btn-p" type="submit"><span>Send project brief</span> <i data-lucide="arrow-right"></i></button><small id="cf-msg" role="status">We reply within 24 hours. Or write to <a href="mailto:support@corelink.et">support@corelink.et</a>.</small></div>
 </form>
@@ -550,7 +549,6 @@ safe(function(){
     formData.append("n",f.elements.n.value.trim());
     formData.append("e",f.elements.e.value.trim());
     formData.append("t",f.elements.t.value);
-    formData.append("w",f.elements.w.value);
     formData.append("m",f.elements.m.value.trim());
 
     var btn=f.querySelector('button[type="submit"]');

@@ -187,7 +187,6 @@ def contact_submit(request):
         name = request.POST.get('n', '').strip()
         email = request.POST.get('e', '').strip()
         need = request.POST.get('t', '').strip()
-        timeline = request.POST.get('w', '').strip()
         message = request.POST.get('m', '').strip()
 
         # Validation
@@ -202,7 +201,7 @@ def contact_submit(request):
             name=name,
             email=email,
             need=need,
-            timeline=timeline,
+            timeline='',
             message=message
         )
 
