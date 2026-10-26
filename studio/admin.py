@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Service, Project, ProjectImage, Testimonial, TeamMember, StudioPage, HeroSlide, ContactSubmission
+from .models import Service, Project, ProjectImage, Testimonial, TeamMember, StudioPage, HeroSlide, ContactSubmission, JobApplication
 
 
 @admin.register(Service)
@@ -88,4 +88,13 @@ class ContactSubmissionAdmin(admin.ModelAdmin):
     list_filter = ['is_read', 'created_at', 'need', 'timeline']
     search_fields = ['name', 'email', 'message']
     list_editable = ['is_read']
+    readonly_fields = ['created_at']
+
+
+@admin.register(JobApplication)
+class JobApplicationAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'role', 'is_reviewed', 'created_at']
+    list_filter = ['role', 'is_reviewed', 'created_at']
+    search_fields = ['name', 'email', 'cover_letter']
+    list_editable = ['is_reviewed']
     readonly_fields = ['created_at']
