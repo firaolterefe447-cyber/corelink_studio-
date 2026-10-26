@@ -243,6 +243,7 @@ def join_submit(request):
         linkedin = request.POST.get('linkedin', '').strip()
         portfolio = request.POST.get('portfolio', '').strip()
         cover_letter = request.POST.get('cover_letter', '').strip()
+        resume = request.FILES.get('resume')
 
         # Validation
         if not name or not email or not corelink_profile or not cover_letter:
@@ -264,7 +265,8 @@ def join_submit(request):
             github=github,
             linkedin=linkedin,
             portfolio=portfolio,
-            cover_letter=cover_letter
+            cover_letter=cover_letter,
+            resume=resume
         )
 
         return JsonResponse({'success': True, 'message': 'Thank you for your application! We will review it and get back to you soon.'})

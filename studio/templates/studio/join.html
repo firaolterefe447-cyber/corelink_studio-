@@ -152,6 +152,15 @@ h1 { font-size: clamp(2.9rem,6vw,5.8rem); font-weight: 800; line-height: .98; ma
 .cf-act small { color: var(--muted); font-size: 14px; flex: 1; min-width: 220px; }
 .cf-act small a { color: var(--core); text-decoration: underline; text-underline-offset: 3px; }
 .cf .bad { border-color: #FF6B6B; }
+.cf .success { border-color: #22C55E; background: #F0FDF4; }
+
+/* SUCCESS MESSAGE */
+.success-message { display: none; padding: 24px; background: linear-gradient(135deg, #F0FDF4, #DCFCE7); border: 2px solid #22C55E; border-radius: 16px; text-align: center; margin-top: 24px; animation: slideIn .4s var(--ease); }
+.success-message.show { display: block; }
+.success-message i { width: 48px; height: 48px; color: #22C55E; margin-bottom: 12px; }
+.success-message h4 { font-size: 20px; font-weight: 800; color: #166534; margin-bottom: 8px; }
+.success-message p { color: #15803D; font-size: 15px; line-height: 1.6; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 @media(max-width:600px){ .cf { grid-template-columns: 1fr; } }
 
 /* CTA */
@@ -298,9 +307,15 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
         <label>GitHub Profile<input name="github" type="url" placeholder="https://github.com/your-username"></label>
         <label>LinkedIn Profile<input name="linkedin" type="url" placeholder="https://linkedin.com/in/your-username"></label>
         <label>Portfolio Website<input name="portfolio" type="url" placeholder="https://your-portfolio.com"></label>
+        <label class="full">Resume/CV (PDF)<input name="resume" type="file" accept=".pdf,application/pdf" placeholder="Upload your resume"></label>
         <label class="full">Tell Us About Yourself<textarea name="cover_letter" rows="6" required placeholder="Tell us about your experience, skills, and why you want to join CoreLink Studio..."></textarea></label>
         <div class="full cf-act"><button class="btn btn-p" type="submit"><span>Submit Application</span> <i data-lucide="send"></i></button><small id="form-message" role="status"></small></div>
       </form>
+      <div class="success-message" id="success-message">
+        <i data-lucide="check-circle-2"></i>
+        <h4>Application Submitted Successfully!</h4>
+        <p>Thank you for your interest in joining CoreLink Studio. We've received your application and will review it shortly.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -391,7 +406,7 @@ safe(function(){
 
 /* JOB APPLICATION FORM */
 safe(function(){
-  var f=$("join-form"),msg=$("form-message");
+  var f=$("join-form"),msg=$("form-message"),successMsg=$("success-message");
   f.addEventListener("submit",function(e){
     e.preventDefault();
     var ok=true;
@@ -411,6 +426,9 @@ safe(function(){
     formData.append("github",f.elements.github.value.trim());
     formData.append("linkedin",f.elements.linkedin.value.trim());
     formData.append("portfolio",f.elements.portfolio.value.trim());
+    if(f.elements.resume.files[0]){
+      formData.append("resume",f.elements.resume.files[0]);
+    }
     formData.append("cover_letter",f.elements.cover_letter.value.trim());
 
     var btn=f.querySelector('button[type="submit"]');
@@ -424,9 +442,9 @@ safe(function(){
       headers:{"X-Requested-With":"XMLHttpRequest"}
     }).then(function(r){return r.json()}).then(function(data){
       if(data.success){
-        msg.textContent=data.message;
-        msg.style.color="#8FA8FF";
-        f.reset();
+        f.style.display="none";
+        successMsg.classList.add("show");
+        lucide.createIcons();
       }else{
         msg.textContent=data.error||"An error occurred. Please try again.";
         msg.style.color="#FF6B6B";

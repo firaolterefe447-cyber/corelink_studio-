@@ -248,6 +248,15 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 .cf-act small { color: #B8BCC8; font-size: 14px; flex: 1; min-width: 220px; }
 .cf-act small a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
 .cf .bad { border-color: #FF6B6B; }
+.cf .success { border-color: #22C55E; background: #F0FDF4; }
+
+/* SUCCESS MESSAGE */
+.success-message { display: none; padding: 24px; background: linear-gradient(135deg, #F0FDF4, #DCFCE7); border: 2px solid #22C55E; border-radius: 16px; text-align: center; margin-top: 24px; animation: slideIn .4s var(--ease); }
+.success-message.show { display: block; }
+.success-message i { width: 48px; height: 48px; color: #22C55E; margin-bottom: 12px; }
+.success-message h4 { font-size: 20px; font-weight: 800; color: #166534; margin-bottom: 8px; }
+.success-message p { color: #15803D; font-size: 15px; line-height: 1.6; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 @media(max-width:600px){ .cf { grid-template-columns: 1fr; } }
 
 /* REVEAL */
@@ -389,6 +398,11 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <label class="full">Tell us about it<textarea name="m" rows="4" required></textarea></label>
 <div class="full cf-act"><button class="btn btn-p" type="submit"><span>Send project brief</span> <i data-lucide="arrow-right"></i></button><small id="cf-msg" role="status">We reply within 24 hours. Or write to <a href="mailto:support@corelink.et">support@corelink.et</a>.</small></div>
 </form>
+<div class="success-message" id="cf-success">
+  <i data-lucide="check-circle-2"></i>
+  <h4>Message Sent Successfully!</h4>
+  <p>Thank you for reaching out. We've received your message and will get back to you within 24 hours.</p>
+</div>
 </div>
 </div></section>
 
@@ -521,7 +535,7 @@ safe(function(){
 
 /* CONTACT FORM (submits via AJAX to backend) */
 safe(function(){
-  var f=$("cf"),msg=$("cf-msg");
+  var f=$("cf"),msg=$("cf-msg"),successMsg=$("cf-success");
   f.addEventListener("submit",function(e){
     e.preventDefault();
     var ok=true;
@@ -550,9 +564,9 @@ safe(function(){
       headers:{"X-Requested-With":"XMLHttpRequest"}
     }).then(function(r){return r.json()}).then(function(data){
       if(data.success){
-        msg.textContent=data.message;
-        msg.style.color="#8FA8FF";
-        f.reset();
+        f.style.display="none";
+        successMsg.classList.add("show");
+        lucide.createIcons();
       }else{
         msg.textContent=data.error||"An error occurred. Please try again.";
         msg.style.color="#FF6B6B";
