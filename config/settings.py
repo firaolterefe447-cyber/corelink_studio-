@@ -199,12 +199,7 @@ UNFOLD = {
             "900": "23 37 84",
             "950": "15 23 42",
         },
-    },
-
-    # Custom CSS for clean, optimized design
-    "STYLES": [
-        "unfold/custom.css",
-    ],
+ },
 
     # Disable sidebar completely for clean layout
     "SIDEBAR": {
