@@ -1,46 +1,420 @@
 {% extends "base.html" %}
 
 {% block extra_css %}
-<!-- Tailwind CSS -->
-<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root {
+  --core: #1F4DFF;
+  --electric: #1F4DFF;
+  --cyan: #8FA8FF;
+  --abyss: #0B1F8F;
+  --night: #07080D;
+  --bg: #F3F3EF;
+  --line: #E4E4DE;
+  --ink: #0B0D14;
+  --muted: #5F6470;
+  --accent: #8FA8FF;
+  --ease: cubic-bezier(.22,1,.36,1);
+  --d: 'Bricolage Grotesque', system-ui, sans-serif;
+  --t: 'Hanken Grotesk', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font: 400 16px/1.65 var(--t); color: var(--ink); background: #FBFBF9; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4 { font-family: var(--d); letter-spacing: -0.04em; }
+a { color: inherit; text-decoration: none; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+/* CRM Header */
+.crm-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(251,251,249,.95);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  padding: 20px 0;
+}
+
+.crm-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.crm-logo {
+  font: 800 28px var(--d);
+  letter-spacing: -0.05em;
+  color: var(--ink);
+}
+
+.crm-logo b { color: var(--core); }
+
+/* Navigation */
+.crm-nav {
+  display: flex;
+  gap: 8px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.crm-nav a {
+  padding: 10px 20px;
+  border-radius: 99px;
+  transition: all .3s var(--ease);
+}
+
+.crm-nav a:hover,
+.crm-nav a.active {
+  color: var(--ink);
+  background: rgba(15,23,42,.05);
+}
+
+/* Cards */
+.card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 32px;
+  transition: all .4s var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(31,77,255,.03), transparent);
+  opacity: 0;
+  transition: opacity .4s var(--ease);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--core);
+  box-shadow: 0 20px 50px rgba(7,8,13,.1);
+}
+
+.card:hover::before { opacity: 1; }
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #fff, rgba(255,255,255,.9));
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(31,77,255,.08), transparent 60%);
+  opacity: 0;
+  transition: opacity .4s var(--ease);
+}
+
+.stat-card:hover::before { opacity: 1; }
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(7,8,13,.08);
+}
+
+.stat-value {
+  font: 800 42px var(--d);
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  line-height: 1;
+  margin: 12px 0;
+}
+
+.stat-label {
+  font: 700 13px var(--t);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stat-sub {
+  font: 600 14px var(--t);
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.stat-sub span {
+  color: var(--core);
+  font-weight: 700;
+}
+
+/* Icon */
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--bg), #fff);
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 16px;
+  border: 1px solid var(--line);
+  transition: all .4s var(--ease);
+}
+
+.stat-card:hover .stat-icon {
+  background: var(--core);
+  border-color: var(--core);
+}
+
+.stat-card:hover .stat-icon svg {
+  color: #fff;
+}
+
+.stat-icon svg {
+  width: 28px;
+  height: 28px;
+  color: var(--core);
+  transition: color .4s var(--ease);
+}
+
+/* Lists */
+.list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+  transition: all .3s var(--ease);
+}
+
+.list-item:last-child { border-bottom: none; }
+
+.list-item:hover {
+  background: rgba(31,77,255,.02);
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 12px;
+  margin: 0 -12px;
+}
+
+.list-item-name {
+  font: 700 16px var(--d);
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.list-item-sub {
+  font: 500 14px var(--t);
+  color: var(--muted);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 99px;
+  font: 700 12px var(--t);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.badge-primary { background: var(--core); color: #fff; }
+.badge-success { background: #22C55E; color: #fff; }
+.badge-warning { background: #F59E0B; color: #fff; }
+.badge-danger { background: #EF4444; color: #fff; }
+.badge-neutral { background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 700 16px var(--t);
+  padding: 14px 28px;
+  border-radius: 12px;
+  transition: all .3s var(--ease);
+  cursor: pointer;
+  border: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.btn-primary {
+  background: var(--core);
+  color: #fff;
+  box-shadow: 0 8px 20px -4px rgba(31,77,255,.45), inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  background: #1539E0;
+  box-shadow: 0 14px 28px -6px rgba(31,77,255,.55), inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+.btn-secondary {
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 12px rgba(0,0,0,.03);
+}
+
+.btn-secondary:hover {
+  border-color: var(--core);
+  color: var(--core);
+  transform: translateY(-2px);
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font: 700 13px var(--t);
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.form-input {
+  width: 100%;
+  font: 500 16px var(--t);
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: all .3s var(--ease);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--core);
+  box-shadow: 0 0 0 3px rgba(31,77,255,.1);
+}
+
+/* Tables */
+.table-container {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.crm-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.crm-table th {
+  font: 700 12px var(--t);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 16px 24px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.crm-table td {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.crm-table tr:last-child td { border-bottom: none; }
+
+.crm-table tr:hover td {
+  background: rgba(31,77,255,.02);
+}
+
+/* Section Headers */
+.section-header {
+  margin-bottom: 32px;
+}
+
+.section-title {
+  font: 800 32px var(--d);
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.section-subtitle {
+  font: 500 18px var(--t);
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Grid Layouts */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+@media(max-width:1024px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media(max-width:768px) {
+  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .crm-header .wrap { flex-direction: column; gap: 16px; }
+  .crm-nav { flex-wrap: wrap; }
+}
+</style>
 {% endblock %}
 
 {% block title %}CRM - Corelink Studio{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50">
-    <!-- CRM Header -->
-    <div class="bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-6">
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-900">CRM Dashboard</h1>
-                    <p class="mt-1 text-sm text-gray-500">Ethiopian Business Tracking System</p>
-                </div>
-                <nav class="flex space-x-4">
-                    <a href="{% url 'crm:dashboard' %}" class="px-4 py-2 rounded-md text-sm font-medium {% if request.resolver_match.url_name == 'dashboard' %}bg-blue-100 text-blue-700{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
-                        Dashboard
-                    </a>
-                    <a href="{% url 'crm:company_list' %}" class="px-4 py-2 rounded-md text-sm font-medium {% if request.resolver_match.url_name == 'company_list' %}bg-blue-100 text-blue-700{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
-                        Companies
-                    </a>
-                    <a href="{% url 'crm:pipeline' %}" class="px-4 py-2 rounded-md text-sm font-medium {% if request.resolver_match.url_name == 'pipeline' %}bg-blue-100 text-blue-700{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
-                        Pipeline
-                    </a>
-                    <a href="{% url 'crm:communications' %}" class="px-4 py-2 rounded-md text-sm font-medium {% if request.resolver_match.url_name == 'communications' %}bg-blue-100 text-blue-700{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
-                        Communications
-                    </a>
-                    <a href="/admin/crm/" class="px-4 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-100">
-                        Admin
-                    </a>
-                </nav>
-            </div>
-        </div>
+<div style="min-height: 100vh; background: #FBFBF9;">
+  <!-- CRM Header -->
+  <div class="crm-header">
+    <div class="wrap">
+      <a href="{% url 'crm:dashboard' %}" class="crm-logo">core<b>link</b> crm</a>
+      <nav class="crm-nav">
+        <a href="{% url 'crm:dashboard' %}" class="active">Dashboard</a>
+        <a href="{% url 'crm:company_list' %}">Companies</a>
+        <a href="{% url 'crm:pipeline' %}">Pipeline</a>
+        <a href="{% url 'crm:communications' %}">Communications</a>
+        <a href="/admin/crm/" target="_blank">Admin</a>
+      </nav>
     </div>
+  </div>
 
-    <!-- Main Content -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {% block crm_content %}{% endblock %}
-    </div>
+  <!-- Main Content -->
+  <div class="wrap" style="padding-top: 48px; padding-bottom: 80px;">
+    {% block crm_content %}{% endblock %}
+  </div>
 </div>
 {% endblock %}

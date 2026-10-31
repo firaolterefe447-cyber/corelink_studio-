@@ -1,174 +1,132 @@
 {% extends "crm/base.html" %}
 
 {% block crm_content %}
-<!-- Stats Cards -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-sm font-medium text-gray-500">Total Companies</p>
-                <p class="text-3xl font-bold text-gray-900 mt-2">{{ total_companies }}</p>
-                <p class="text-sm text-gray-500 mt-2">
-                    <span class="text-green-600 font-semibold">{{ clients }}</span> clients,
-                    <span class="text-blue-600 font-semibold">{{ prospects }}</span> prospects
-                </p>
-            </div>
-            <div class="bg-blue-100 rounded-full p-3">
-                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                </svg>
-            </div>
-        </div>
-    </div>
+<!-- Section Header -->
+<div class="section-header">
+  <h1 class="section-title">CRM Dashboard</h1>
+  <p class="section-subtitle">Track your Ethiopian business relationships and opportunities</p>
+</div>
 
-    <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-sm font-medium text-gray-500">Opportunities</p>
-                <p class="text-3xl font-bold text-gray-900 mt-2">{{ total_opportunities }}</p>
-                <p class="text-sm text-gray-500 mt-2">
-                    <span class="text-green-600 font-semibold">{{ won_opportunities }}</span> won,
-                    <span class="text-blue-600 font-semibold">{{ active_opportunities }}</span> active
-                </p>
-            </div>
-            <div class="bg-green-100 rounded-full p-3">
-                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                </svg>
-            </div>
-        </div>
+<!-- Stats Grid -->
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4 8 4v14M8 21v-2a2 2 0 0 1 4 0v2M8 10a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M8 18h8"/></svg>
     </div>
+    <div class="stat-label">Total Companies</div>
+    <div class="stat-value">{{ total_companies }}</div>
+    <div class="stat-sub">
+      <span>{{ clients }}</span> clients, <span>{{ prospects }}</span> prospects
+    </div>
+  </div>
 
-    <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-sm font-medium text-gray-500">Pipeline Value</p>
-                <p class="text-3xl font-bold text-gray-900 mt-2">{{ pipeline_value|floatformat:0 }}</p>
-                <p class="text-sm text-gray-500 mt-2">Estimated ETB</p>
-            </div>
-            <div class="bg-purple-100 rounded-full p-3">
-                <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-            </div>
-        </div>
+  <div class="stat-card">
+    <div class="stat-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
     </div>
+    <div class="stat-label">Opportunities</div>
+    <div class="stat-value">{{ total_opportunities }}</div>
+    <div class="stat-sub">
+      <span>{{ won_opportunities }}</span> won, <span>{{ active_opportunities }}</span> active
+    </div>
+  </div>
 
-    <div class="bg-white rounded-lg shadow p-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-sm font-medium text-gray-500">Communications</p>
-                <p class="text-3xl font-bold text-gray-900 mt-2">{{ recent_communications|length }}</p>
-                <p class="text-sm text-gray-500 mt-2">Recent activities</p>
-            </div>
-            <div class="bg-orange-100 rounded-full p-3">
-                <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                </svg>
-            </div>
-        </div>
+  <div class="stat-card">
+    <div class="stat-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
     </div>
+    <div class="stat-label">Pipeline Value</div>
+    <div class="stat-value">{{ pipeline_value|floatformat:0 }}</div>
+    <div class="stat-sub">Estimated ETB</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
+    <div class="stat-label">Communications</div>
+    <div class="stat-value">{{ recent_communications|length }}</div>
+    <div class="stat-sub">Recent activities</div>
+  </div>
 </div>
 
 <!-- Recent Companies & Upcoming Follow-ups -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-    <div class="bg-white rounded-lg shadow">
-        <div class="px-6 py-4 border-b border-gray-200">
-            <h2 class="text-lg font-semibold text-gray-900">Recent Companies</h2>
+<div class="grid-2">
+  <div class="card">
+    <h2 style="font: 700 20px var(--d); margin-bottom: 24px;">Recent Companies</h2>
+    {% if recent_companies %}
+      <div>
+        {% for company in recent_companies %}
+        <div class="list-item">
+          <div>
+            <a href="{% url 'crm:company_detail' company.id %}" class="list-item-name">{{ company.name }}</a>
+            <div class="list-item-sub">{{ company.industry|default:"No industry" }}</div>
+          </div>
+          <span class="badge
+            {% if company.status == 'client' %}badge-success
+            {% elif company.status == 'prospect' %}badge-neutral
+            {% elif company.status == 'contacted' %}badge-primary
+            {% elif company.status == 'in_discussion' %}badge-warning
+            {% else %}badge-danger{% endif %}">
+            {{ company.get_status_display }}
+          </span>
         </div>
-        <div class="px-6 py-4">
-            {% if recent_companies %}
-                <ul class="divide-y divide-gray-200">
-                    {% for company in recent_companies %}
-                    <li class="py-4">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <a href="{% url 'crm:company_detail' company.id %}" class="text-sm font-medium text-blue-600 hover:text-blue-800">
-                                    {{ company.name }}
-                                </a>
-                                <p class="text-sm text-gray-500">{{ company.industry|default:"No industry" }}</p>
-                            </div>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                {% if company.status == 'client' %}bg-green-100 text-green-800
-                                {% elif company.status == 'prospect' %}bg-gray-100 text-gray-800
-                                {% elif company.status == 'contacted' %}bg-blue-100 text-blue-800
-                                {% elif company.status == 'in_discussion' %}bg-yellow-100 text-yellow-800
-                                {% else %}bg-red-100 text-red-800{% endif %}">
-                                {{ company.get_status_display }}
-                            </span>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-gray-500 text-sm">No companies yet.</p>
-            {% endif %}
-        </div>
-    </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="color: var(--muted);">No companies yet.</p>
+    {% endif %}
+  </div>
 
-    <div class="bg-white rounded-lg shadow">
-        <div class="px-6 py-4 border-b border-gray-200">
-            <h2 class="text-lg font-semibold text-gray-900">Upcoming Follow-ups</h2>
+  <div class="card">
+    <h2 style="font: 700 20px var(--d); margin-bottom: 24px;">Upcoming Follow-ups</h2>
+    {% if upcoming_followups %}
+      <div>
+        {% for comm in upcoming_followups %}
+        <div class="list-item">
+          <div>
+            <div class="list-item-name">{{ comm.company.name }}</div>
+            <div class="list-item-sub">{{ comm.next_action|truncatewords:10 }}</div>
+          </div>
+          <span style="font: 600 14px var(--t); color: var(--muted);">{{ comm.next_action_date }}</span>
         </div>
-        <div class="px-6 py-4">
-            {% if upcoming_followups %}
-                <ul class="divide-y divide-gray-200">
-                    {% for comm in upcoming_followups %}
-                    <li class="py-4">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm font-medium text-gray-900">{{ comm.company.name }}</p>
-                                <p class="text-sm text-gray-500">{{ comm.next_action|truncatewords:10 }}</p>
-                            </div>
-                            <span class="text-sm text-gray-500">{{ comm.next_action_date }}</span>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p class="text-gray-500 text-sm">No upcoming follow-ups.</p>
-            {% endif %}
-        </div>
-    </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="color: var(--muted);">No upcoming follow-ups.</p>
+    {% endif %}
+  </div>
 </div>
 
 <!-- Recent Communications -->
-<div class="bg-white rounded-lg shadow">
-    <div class="px-6 py-4 border-b border-gray-200">
-        <h2 class="text-lg font-semibold text-gray-900">Recent Communications</h2>
-    </div>
-    <div class="px-6 py-4">
-        {% if recent_communications %}
-            <ul class="divide-y divide-gray-200">
-                {% for comm in recent_communications %}
-                <li class="py-4">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <div class="bg-blue-100 rounded-full p-2 mr-4">
-                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-gray-900">{{ comm.company.name }}</p>
-                                <p class="text-sm text-gray-500">{{ comm.get_method_display }} - {{ comm.date|date:"M d, Y" }}</p>
-                            </div>
-                        </div>
-                        {% if comm.outcome %}
-                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                            {% if comm.outcome == 'interested' %}bg-green-100 text-green-800
-                            {% elif comm.outcome == 'not_interested' %}bg-red-100 text-red-800
-                            {% else %}bg-gray-100 text-gray-800{% endif %}">
-                            {{ comm.get_outcome_display }}
-                        </span>
-                        {% endif %}
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p class="text-gray-500 text-sm">No communications recorded yet.</p>
+<div class="card">
+  <h2 style="font: 700 20px var(--d); margin-bottom: 24px;">Recent Communications</h2>
+  {% if recent_communications %}
+    <div>
+      {% for comm in recent_communications %}
+      <div class="list-item">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div class="stat-icon" style="width: 40px; height: 40px; margin-bottom: 0;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div>
+            <div class="list-item-name">{{ comm.company.name }}</div>
+            <div class="list-item-sub">{{ comm.get_method_display }} - {{ comm.date|date:"M d, Y" }}</div>
+          </div>
+        </div>
+        {% if comm.outcome %}
+        <span class="badge
+          {% if comm.outcome == 'interested' %}badge-success
+          {% elif comm.outcome == 'not_interested' %}badge-danger
+          {% else %}badge-neutral{% endif %}">
+          {{ comm.get_outcome_display }}
+        </span>
         {% endif %}
+      </div>
+      {% endfor %}
     </div>
+  {% else %}
+    <p style="color: var(--muted);">No communications recorded yet.</p>
+  {% endif %}
 </div>
 {% endblock %}
