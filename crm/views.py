@@ -4,6 +4,24 @@ from django.http import JsonResponse
 from django.db.models import Sum, Count, Q
 from .models import Company, Opportunity, CommunicationLog
 
+# Ethiopian regions
+ETHIOPIAN_REGIONS = [
+    ('Addis Ababa', 'Addis Ababa'),
+    ('Afar', 'Afar'),
+    ('Amhara', 'Amhara'),
+    ('Benishangul-Gumuz', 'Benishangul-Gumuz'),
+    ('Central Ethiopia', 'Central Ethiopia'),
+    ('Dire Dawa', 'Dire Dawa'),
+    ('Gambela', 'Gambela'),
+    ('Harari', 'Harari'),
+    ('Oromia', 'Oromia'),
+    ('Sidama', 'Sidama'),
+    ('Somali', 'Somali'),
+    ('South Ethiopia', 'South Ethiopia'),
+    ('South West Ethiopia', 'South West Ethiopia'),
+    ('Tigray', 'Tigray'),
+]
+
 
 @login_required
 def crm_dashboard(request):
@@ -99,6 +117,8 @@ def company_list(request):
         'region_filter': region_filter,
         'tech_readiness_filter': tech_readiness_filter,
         'search_query': search_query,
+        'industry_choices': Company.INDUSTRY_CHOICES,
+        'ethiopian_regions': ETHIOPIAN_REGIONS,
     }
     
     return render(request, 'crm/company_list.html', context)

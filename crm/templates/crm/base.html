@@ -403,10 +403,10 @@ a { color: inherit; text-decoration: none; }
     <div class="wrap">
       <a href="{% url 'crm:dashboard' %}" class="crm-logo">core<b>link</b> crm</a>
       <nav class="crm-nav">
-        <a href="{% url 'crm:dashboard' %}" class="active">Dashboard</a>
-        <a href="{% url 'crm:company_list' %}">Companies</a>
-        <a href="{% url 'crm:pipeline' %}">Pipeline</a>
-        <a href="{% url 'crm:communications' %}">Communications</a>
+        <a href="{% url 'crm:dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
+        <a href="{% url 'crm:company_list' %}" class="{% if request.resolver_match.url_name == 'company_list' %}active{% endif %}">Companies</a>
+        <a href="{% url 'crm:pipeline' %}" class="{% if request.resolver_match.url_name == 'pipeline' %}active{% endif %}">Pipeline</a>
+        <a href="{% url 'crm:communications' %}" class="{% if request.resolver_match.url_name == 'communications' %}active{% endif %}">Communications</a>
         <a href="/admin/crm/" target="_blank">Admin</a>
       </nav>
     </div>
