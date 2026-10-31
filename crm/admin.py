@@ -101,22 +101,27 @@ class CompanyAdmin(ModelAdmin):
     # Inlines
     inlines = [ContactPersonInline, PhoneNumberInline, SocialLinkInline, CommunicationLogInline, OpportunityInline]
     
-    # Fieldsets for organized form
+    # Fieldsets for organized form with tab navigation
     fieldsets = (
         (_("Basic Information"), {
-            'fields': ('name', 'industry', 'business_type', 'description')
+            'fields': ('name', 'industry', 'business_type', 'description'),
+            'classes': ('tab-basic',)
         }),
         (_("Location"), {
-            'fields': ('address', 'city', 'region')
+            'fields': ('address', 'city', 'region'),
+            'classes': ('tab-location',)
         }),
         (_("Status & Tracking"), {
-            'fields': ('status', 'tech_readiness', 'last_contacted', 'source')
+            'fields': ('status', 'tech_readiness', 'last_contacted', 'source'),
+            'classes': ('tab-status',)
         }),
         (_("Needs Assessment"), {
-            'fields': ('needs_website', 'needs_erp', 'needs_upgrade', 'needs_custom_system', 'other_needs')
+            'fields': ('needs_website', 'needs_erp', 'needs_upgrade', 'needs_custom_system', 'other_needs'),
+            'classes': ('tab-needs',)
         }),
         (_("Notes"), {
-            'fields': ('notes',)
+            'fields': ('notes',),
+            'classes': ('tab-needs',)
         }),
         (_("Metadata"), {
             'fields': ('created_at', 'updated_at'),
@@ -239,22 +244,25 @@ class CompanyAdmin(ModelAdmin):
 class ContactPersonAdmin(ModelAdmin):
     """Admin interface for ContactPerson model."""
     
-    list_display = ['name', 'company_link', 'role', 'email', 'is_primary_badge', 'phone_count']
+    list_display = ['name', 'company_link', 'role', 'telegram_handle', 'is_primary_badge', 'phone_count']
     list_filter = ['is_primary', 'company__industry', 'company__status']
-    search_fields = ['name', 'role', 'email', 'company__name']
+    search_fields = ['name', 'role', 'telegram_handle', 'company__name']
     readonly_fields = ['created_at', 'updated_at']
     
     inlines = [PhoneNumberInline]
     
     fieldsets = (
-        (_("Basic Information"), {
-            'fields': ('company', 'name', 'role', 'email')
+        (_("Contact Info"), {
+            'fields': ('company', 'name', 'role', 'telegram_handle'),
+            'classes': ('tab-info',)
         }),
-        (_("Contact Details"), {
-            'fields': ('telegram_handle', 'linkedin_profile', 'is_primary')
+        (_("Settings"), {
+            'fields': ('is_primary',),
+            'classes': ('tab-details',)
         }),
         (_("Notes"), {
-            'fields': ('notes',)
+            'fields': ('notes',),
+            'classes': ('tab-details',)
         }),
         (_("Metadata"), {
             'fields': ('created_at', 'updated_at'),
@@ -292,14 +300,17 @@ class PhoneNumberAdmin(ModelAdmin):
     readonly_fields = ['created_at', 'updated_at']
     
     fieldsets = (
-        (_("Phone Details"), {
-            'fields': ('number', 'phone_type', 'is_primary', 'is_verified')
+        (_("Phone Info"), {
+            'fields': ('number', 'phone_type', 'is_primary', 'is_verified'),
+            'classes': ('tab-info',)
         }),
         (_("Owner"), {
-            'fields': ('company', 'contact_person')
+            'fields': ('company', 'contact_person'),
+            'classes': ('tab-info',)
         }),
         (_("Notes"), {
-            'fields': ('notes',)
+            'fields': ('notes',),
+            'classes': ('tab-info',)
         }),
         (_("Metadata"), {
             'fields': ('created_at', 'updated_at'),
@@ -367,14 +378,17 @@ class SocialLinkAdmin(ModelAdmin):
     readonly_fields = ['created_at', 'updated_at']
     
     fieldsets = (
-        (_("Link Details"), {
-            'fields': ('platform', 'url', 'is_primary')
+        (_("Link Info"), {
+            'fields': ('platform', 'url', 'is_primary'),
+            'classes': ('tab-info',)
         }),
         (_("Company"), {
-            'fields': ('company',)
+            'fields': ('company',),
+            'classes': ('tab-info',)
         }),
         (_("Notes"), {
-            'fields': ('notes',)
+            'fields': ('notes',),
+            'classes': ('tab-info',)
         }),
         (_("Metadata"), {
             'fields': ('created_at', 'updated_at'),
@@ -445,14 +459,17 @@ class CommunicationLogAdmin(ModelAdmin):
     date_hierarchy = 'date'
     
     fieldsets = (
-        (_("Communication Details"), {
-            'fields': ('company', 'contact_person', 'date', 'method', 'outcome')
+        (_("Communication"), {
+            'fields': ('company', 'contact_person', 'date', 'method', 'outcome'),
+            'classes': ('tab-comm',)
         }),
         (_("Details"), {
-            'fields': ('duration_minutes', 'notes')
+            'fields': ('duration_minutes', 'notes'),
+            'classes': ('tab-details',)
         }),
         (_("Next Action"), {
-            'fields': ('next_action', 'next_action_date')
+            'fields': ('next_action', 'next_action_date'),
+            'classes': ('tab-next',)
         }),
         (_("Metadata"), {
             'fields': ('created_at', 'updated_at'),
@@ -546,17 +563,17 @@ class OpportunityAdmin(ModelAdmin):
     date_hierarchy = 'expected_close_date'
     
     fieldsets = (
-        (_("Basic Information"), {
-            'fields': ('company', 'title', 'opportunity_type', 'status')
+        (_("Basic Info"), {
+            'fields': ('company', 'title', 'opportunity_type', 'status'),
+            'classes': ('tab-basic',)
         }),
         (_("Financials"), {
-            'fields': ('estimated_value', 'actual_value')
-        }),
-        (_("Probability & Timeline"), {
-            'fields': ('probability', 'expected_close_date', 'actual_close_date')
+            'fields': ('estimated_value', 'actual_value'),
+            'classes': ('tab-financials',)
         }),
         (_("Details"), {
-            'fields': ('description', 'requirements', 'notes')
+            'fields': ('probability', 'expected_close_date', 'actual_close_date', 'description', 'requirements', 'notes'),
+            'classes': ('tab-details',)
         }),
         (_("Loss Analysis"), {
             'fields': ('loss_reason',),

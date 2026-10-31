@@ -237,5 +237,54 @@ UNFOLD = {
                 {"title": _("Settings"), "link": "#settings"},
             ],
         },
+        {
+            "models": ["crm.company"],
+            "items": [
+                {"title": _("Basic Info"), "link": "#basic"},
+                {"title": _("Location"), "link": "#location"},
+                {"title": _("Status"), "link": "#status"},
+                {"title": _("Needs"), "link": "#needs"},
+                {"title": _("Contacts"), "link": "#contacts"},
+                {"title": _("Communications"), "link": "#communications"},
+                {"title": _("Opportunities"), "link": "#opportunities"},
+            ],
+        },
+        {
+            "models": ["crm.contactperson"],
+            "items": [
+                {"title": _("Contact Info"), "link": "#info"},
+                {"title": _("Details"), "link": "#details"},
+            ],
+        },
+        {
+            "models": ["crm.phonenumber"],
+            "items": [
+                {"title": _("Phone Info"), "link": "#info"},
+                {"title": _("Settings"), "link": "#settings"},
+            ],
+        },
+        {
+            "models": ["crm.sociallink"],
+            "items": [
+                {"title": _("Link Info"), "link": "#info"},
+                {"title": _("Settings"), "link": "#settings"},
+            ],
+        },
+        {
+            "models": ["crm.communicationlog"],
+            "items": [
+                {"title": _("Communication"), "link": "#comm"},
+                {"title": ("Details"), "link": "#details"},
+                {"title": _("Next Action"), "link": "#next"},
+            ],
+        },
+        {
+            "models": ["crm.opportunity"],
+            "items": [
+                {"title": _("Basic Info"), "link": "#basic"},
+                {"title": _("Financials"), "link": "#financials"},
+                {"title": ("Details"), "link": "#details"},
+            ],
+        },
     ],
 }

@@ -201,21 +201,11 @@ class ContactPerson(TimeStampedModel):
         null=True,
         help_text=_("Job title/role")
     )
-    email = models.EmailField(
-        blank=True,
-        null=True,
-        help_text=_("Email address")
-    )
     telegram_handle = models.CharField(
         max_length=100,
         blank=True,
         null=True,
         help_text=_("Telegram username (without @)")
-    )
-    linkedin_profile = models.URLField(
-        blank=True,
-        null=True,
-        help_text=_("LinkedIn profile URL")
     )
     is_primary = models.BooleanField(
         default=False,
@@ -408,7 +398,9 @@ class CommunicationLog(TimeStampedModel):
     )
     
     date = models.DateTimeField(
-        help_text=_("Date and time of communication")
+        blank=True,
+        null=True,
+        help_text=_("Date and time of communication (optional)")
     )
     method = models.CharField(
         max_length=20,
