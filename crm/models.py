@@ -6,6 +6,30 @@ from core.models import TimeStampedModel
 class Company(TimeStampedModel):
     """Core business/company entity - only name is required."""
     
+    INDUSTRY_CHOICES = [
+        ('technology', _('Technology & Software')),
+        ('banking_finance', _('Banking & Finance')),
+        ('telecommunications', _('Telecommunications')),
+        ('manufacturing', _('Manufacturing')),
+        ('agriculture', _('Agriculture & Agribusiness')),
+        ('retail', _('Retail & E-commerce')),
+        ('healthcare', _('Healthcare & Pharmaceuticals')),
+        ('education', _('Education & Training')),
+        ('construction', _('Construction & Real Estate')),
+        ('transportation', _('Transportation & Logistics')),
+        ('hospitality', _('Hospitality & Tourism')),
+        ('media_entertainment', _('Media & Entertainment')),
+        ('energy', _('Energy & Utilities')),
+        ('mining', _('Mining & Natural Resources')),
+        ('government', _('Government & Public Sector')),
+        ('ngo', _('NGO & Non-Profit')),
+        ('legal', _('Legal Services')),
+        ('consulting', _('Consulting & Professional Services')),
+        ('food_beverage', _('Food & Beverage')),
+        ('textile', _('Textile & Apparel')),
+        ('other', _('Other')),
+    ]
+    
     # Basic Information
     name = models.CharField(
         max_length=255,
@@ -14,7 +38,8 @@ class Company(TimeStampedModel):
     
     # Optional Details
     industry = models.CharField(
-        max_length=100,
+        max_length=50,
+        choices=INDUSTRY_CHOICES,
         blank=True,
         null=True,
         help_text=_("Industry sector")
