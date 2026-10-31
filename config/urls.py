@@ -55,6 +55,7 @@ urlpatterns = [
     path("robots.txt", robots_txt),
     path("sitemap.xml", sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path("admin/", admin.site.urls),
+    path("crm/", include("crm.urls")),  # CRM system
     path("", include("studio.urls")),  # Studio app at root
     path("studio/", include("studio.urls")),  # Studio app under /studio/ (for backward compatibility)
 ]

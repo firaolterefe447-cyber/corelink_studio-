@@ -41,6 +41,10 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # APPLICATION DEFINITIONS
 # ==============================================
 INSTALLED_APPS = [
+    # CRITICAL: Unfold MUST be above django.contrib.admin
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -52,6 +56,7 @@ INSTALLED_APPS = [
     "whitenoise",
     "core",
     "studio",
+    "crm",
 ]
 
 MIDDLEWARE = [
@@ -163,3 +168,76 @@ CSRF_COOKIE_SECURE = True if not DEBUG else False
 # DEFAULT AUTO FIELD
 # ==============================================
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# ==============================================
+# CORELINK UNFOLD ADMIN CONFIGURATION
+# ==============================================
+from django.utils.translation import gettext_lazy as _
+
+UNFOLD = {
+    # Custom dashboard callback for KPI cards
+    "DASHBOARD_CALLBACK": "core.dashboard.dashboard_callback",
+
+    # Branding
+    "SITE_TITLE": "Corelink Studio",
+    "SITE_HEADER": "Corelink Studio",
+    "SITE_URL": "/",
+    "SITE_ICON": None,
+
+    # Custom color scheme based on CoreLink branding (Tailwind RGB values)
+    "COLORS": {
+        "primary": {
+            "50": "239 246 255",
+            "100": "219 234 254",
+            "200": "191 219 254",
+            "300": "147 197 253",
+            "400": "96 165 250",
+            "500": "59 130 246",
+            "600": "37 99 235",
+            "700": "29 78 216",
+            "800": "30 64 175",
+            "900": "23 37 84",
+            "950": "15 23 42",
+        },
+    },
+
+    # Custom CSS for clean, optimized design
+    "STYLES": [
+        "unfold/custom.css",
+    ],
+
+    # Disable sidebar completely for clean layout
+    "SIDEBAR": {
+        "show_search": False,
+        "show_all_applications": False,
+        "navigation": [],
+    },
+
+    # Tabbed fieldsets for better organization
+    "TABS": [
+        {
+            "models": ["studio.service"],
+            "items": [
+                {"title": _("Service Details"), "link": "#details"},
+                {"title": _("Content"), "link": "#content"},
+                {"title": _("Settings"), "link": "#settings"},
+            ],
+        },
+        {
+            "models": ["studio.project"],
+            "items": [
+                {"title": _("Project Info"), "link": "#info"},
+                {"title": _("Gallery"), "link": "#gallery"},
+                {"title": _("Settings"), "link": "#settings"},
+            ],
+        },
+        {
+            "models": ["studio.teammember"],
+            "items": [
+                {"title": _("Profile"), "link": "#profile"},
+                {"title": _("Social"), "link": "#social"},
+                {"title": _("Settings"), "link": "#settings"},
+            ],
+        },
+    ],
+}

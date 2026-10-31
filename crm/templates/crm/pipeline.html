@@ -1,0 +1,188 @@
+{% extends "crm/base.html" %}
+
+{% block crm_content %}
+<div class="mb-6 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-gray-900">Opportunity Pipeline</h1>
+    <a href="/admin/crm/opportunity/add/" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">
+        + Add Opportunity
+    </a>
+</div>
+
+<!-- Pipeline Board -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <!-- Lead -->
+    <div class="bg-gray-100 rounded-lg p-4">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-gray-900">Lead</h3>
+            <span class="bg-gray-200 text-gray-700 text-xs font-medium px-2 py-1 rounded-full">
+                {{ pipeline.lead|length }}
+            </span>
+        </div>
+        <div class="space-y-3">
+            {% for opp in pipeline.lead %}
+            <div class="bg-white rounded-lg shadow p-4">
+                <p class="font-medium text-gray-900 text-sm">{{ opp.title }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ opp.company.name }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ opp.get_opportunity_type_display }}</p>
+                {% if opp.estimated_value %}
+                <p class="text-xs font-semibold text-green-600 mt-2">{{ opp.estimated_value|floatformat:0 }} ETB</p>
+                {% endif %}
+                <a href="/admin/crm/opportunity/{{ opp.id }}/change/" class="text-xs text-blue-600 hover:text-blue-800 mt-2 block">Edit</a>
+            </div>
+            {% empty %}
+            <p class="text-xs text-gray-500 text-center py-4">No opportunities</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Qualified -->
+    <div class="bg-blue-50 rounded-lg p-4">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-gray-900">Qualified</h3>
+            <span class="bg-blue-200 text-blue-700 text-xs font-medium px-2 py-1 rounded-full">
+                {{ pipeline.qualified|length }}
+            </span>
+        </div>
+        <div class="space-y-3">
+            {% for opp in pipeline.qualified %}
+            <div class="bg-white rounded-lg shadow p-4">
+                <p class="font-medium text-gray-900 text-sm">{{ opp.title }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ opp.company.name }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ opp.get_opportunity_type_display }}</p>
+                {% if opp.estimated_value %}
+                <p class="text-xs font-semibold text-green-600 mt-2">{{ opp.estimated_value|floatformat:0 }} ETB</p>
+                {% endif %}
+                <a href="/admin/crm/opportunity/{{ opp.id }}/change/" class="text-xs text-blue-600 hover:text-blue-800 mt-2 block">Edit</a>
+            </div>
+            {% empty %}
+            <p class="text-xs text-gray-500 text-center py-4">No opportunities</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Proposal -->
+    <div class="bg-yellow-50 rounded-lg p-4">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-gray-900">Proposal</h3>
+            <span class="bg-yellow-200 text-yellow-700 text-xs font-medium px-2 py-1 rounded-full">
+                {{ pipeline.proposal|length }}
+            </span>
+        </div>
+        <div class="space-y-3">
+            {% for opp in pipeline.proposal %}
+            <div class="bg-white rounded-lg shadow p-4">
+                <p class="font-medium text-gray-900 text-sm">{{ opp.title }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ opp.company.name }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ opp.get_opportunity_type_display }}</p>
+                {% if opp.estimated_value %}
+                <p class="text-xs font-semibold text-green-600 mt-2">{{ opp.estimated_value|floatformat:0 }} ETB</p>
+                {% endif %}
+                <a href="/admin/crm/opportunity/{{ opp.id }}/change/" class="text-xs text-blue-600 hover:text-blue-800 mt-2 block">Edit</a>
+            </div>
+            {% empty %}
+            <p class="text-xs text-gray-500 text-center py-4">No opportunities</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Negotiation -->
+    <div class="bg-orange-50 rounded-lg p-4">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-gray-900">Negotiation</h3>
+            <span class="bg-orange-200 text-orange-700 text-xs font-medium px-2 py-1 rounded-full">
+                {{ pipeline.negotiation|length }}
+            </span>
+        </div>
+        <div class="space-y-3">
+            {% for opp in pipeline.negotiation %}
+            <div class="bg-white rounded-lg shadow p-4">
+                <p class="font-medium text-gray-900 text-sm">{{ opp.title }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ opp.company.name }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ opp.get_opportunity_type_display }}</p>
+                {% if opp.estimated_value %}
+                <p class="text-xs font-semibold text-green-600 mt-2">{{ opp.estimated_value|floatformat:0 }} ETB</p>
+                {% endif %}
+                <a href="/admin/crm/opportunity/{{ opp.id }}/change/" class="text-xs text-blue-600 hover:text-blue-800 mt-2 block">Edit</a>
+            </div>
+            {% empty %}
+            <p class="text-xs text-gray-500 text-center py-4">No opportunities</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Won -->
+    <div class="bg-green-50 rounded-lg p-4">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-gray-900">Won</h3>
+            <span class="bg-green-200 text-green-700 text-xs font-medium px-2 py-1 rounded-full">
+                {{ pipeline.won|length }}
+            </span>
+        </div>
+        <div class="space-y-3">
+            {% for opp in pipeline.won %}
+            <div class="bg-white rounded-lg shadow p-4 border-2 border-green-200">
+                <p class="font-medium text-gray-900 text-sm">{{ opp.title }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ opp.company.name }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ opp.get_opportunity_type_display }}</p>
+                {% if opp.actual_value %}
+                <p class="text-xs font-semibold text-green-600 mt-2">{{ opp.actual_value|floatformat:0 }} ETB</p>
+                {% elif opp.estimated_value %}
+                <p class="text-xs font-semibold text-green-600 mt-2">{{ opp.estimated_value|floatformat:0 }} ETB</p>
+                {% endif %}
+                <a href="/admin/crm/opportunity/{{ opp.id }}/change/" class="text-xs text-blue-600 hover:text-blue-800 mt-2 block">Edit</a>
+            </div>
+            {% empty %}
+            <p class="text-xs text-gray-500 text-center py-4">No opportunities</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Lost & On Hold -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+    <!-- Lost -->
+    <div class="bg-red-50 rounded-lg p-4">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-gray-900">Lost</h3>
+            <span class="bg-red-200 text-red-700 text-xs font-medium px-2 py-1 rounded-full">
+                {{ pipeline.lost|length }}
+            </span>
+        </div>
+        <div class="space-y-3">
+            {% for opp in pipeline.lost %}
+            <div class="bg-white rounded-lg shadow p-4 border-2 border-red-200">
+                <p class="font-medium text-gray-900 text-sm">{{ opp.title }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ opp.company.name }}</p>
+                {% if opp.loss_reason %}
+                <p class="text-xs text-red-600 mt-2">{{ opp.loss_reason|truncatewords:10 }}</p>
+                {% endif %}
+                <a href="/admin/crm/opportunity/{{ opp.id }}/change/" class="text-xs text-blue-600 hover:text-blue-800 mt-2 block">Edit</a>
+            </div>
+            {% empty %}
+            <p class="text-xs text-gray-500 text-center py-4">No opportunities</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- On Hold -->
+    <div class="bg-gray-50 rounded-lg p-4">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-gray-900">On Hold</h3>
+            <span class="bg-gray-200 text-gray-700 text-xs font-medium px-2 py-1 rounded-full">
+                {{ pipeline.on_hold|length }}
+            </span>
+        </div>
+        <div class="space-y-3">
+            {% for opp in pipeline.on_hold %}
+            <div class="bg-white rounded-lg shadow p-4">
+                <p class="font-medium text-gray-900 text-sm">{{ opp.title }}</p>
+                <p class="text-xs text-gray-500 mt-1">{{ opp.company.name }}</p>
+                <a href="/admin/crm/opportunity/{{ opp.id }}/change/" class="text-xs text-blue-600 hover:text-blue-800 mt-2 block">Edit</a>
+            </div>
+            {% empty %}
+            <p class="text-xs text-gray-500 text-center py-4">No opportunities</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

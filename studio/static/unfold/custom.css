@@ -1,0 +1,221 @@
+/* Custom CSS for Clean CoreLink Studio Admin Design */
+
+/* Hide sidebar completely for clean layout */
+.sidebar,
+.navigation,
+.nav-menu,
+.unfold-sidebar,
+aside,
+[class*="sidebar"],
+[class*="navigation"],
+[class*="nav-menu"] {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    flex: 0 !important;
+}
+
+/* Hide gear icon and any site icons */
+.site-icon,
+.brand-icon,
+.header-icon,
+.unfold-icon,
+[class*="icon"] {
+    display: none !important;
+}
+
+/* Expand main content to full width */
+.main-content,
+.content-main,
+#content-main,
+[class*="content"] {
+    margin-left: 0 !important;
+    max-width: 100% !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    flex: 1 !important;
+}
+
+/* Remove any left padding from body and main wrapper */
+body,
+.wrapper,
+.main-wrapper,
+[class*="wrapper"] {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+}
+
+/* Hide app list section on the right */
+.app-list,
+.module-list,
+[class*="app-list"],
+[class*="module-list"] {
+    display: none !important;
+}
+
+/* Clean header styling */
+header {
+    background: linear-gradient(135deg, #07080D 0%, #1F4DFF 100%) !important;
+    border-bottom: none !important;
+    box-shadow: 0 4px 20px rgba(31, 77, 255, 0.15) !important;
+}
+
+/* Brand text styling */
+.site-title {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.03em !important;
+    color: #FFFFFF !important;
+}
+
+/* Clean navigation links */
+.nav-item a {
+    font-family: 'Hanken Grotesk', system-ui, sans-serif !important;
+    font-weight: 600 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    transition: all 0.2s ease !important;
+}
+
+.nav-item a:hover {
+    color: #8FA8FF !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Clean card styling */
+.card {
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+    border: 1px solid #E4E4DE !important;
+}
+
+/* Clean table styling */
+table {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+}
+
+thead {
+    background: linear-gradient(135deg, #1F4DFF 0%, #0B1F8F 100%) !important;
+}
+
+thead th {
+    color: #FFFFFF !important;
+    font-family: 'Hanken Grotesk', system-ui, sans-serif !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+}
+
+tbody tr:hover {
+    background: rgba(31, 77, 255, 0.03) !important;
+}
+
+/* Clean button styling */
+.button {
+    border-radius: 10px !important;
+    font-family: 'Hanken Grotesk', system-ui, sans-serif !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+}
+
+.button-primary {
+    background: linear-gradient(135deg, #1F4DFF 0%, #0B1F8F 100%) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(31, 77, 255, 0.3) !important;
+}
+
+.button-primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 16px rgba(31, 77, 255, 0.4) !important;
+}
+
+/* Clean form styling */
+.form-row {
+    margin-bottom: 20px !important;
+}
+
+.form-row label {
+    font-family: 'Hanken Grotesk', system-ui, sans-serif !important;
+    font-weight: 600 !important;
+    color: #0B0D14 !important;
+}
+
+.form-row input,
+.form-row select,
+.form-row textarea {
+    border-radius: 10px !important;
+    border: 2px solid #E4E4DE !important;
+    padding: 12px 16px !important;
+    font-family: 'Hanken Grotesk', system-ui, sans-serif !important;
+    transition: border-color 0.2s ease !important;
+}
+
+.form-row input:focus,
+.form-row select:focus,
+.form-row textarea:focus {
+    border-color: #1F4DFF !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(31, 77, 255, 0.1) !important;
+}
+
+/* Clean badge styling */
+.badge {
+    border-radius: 20px !important;
+    padding: 6px 14px !important;
+    font-family: 'Hanken Grotesk', system-ui, sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    letter-spacing: 0.02em !important;
+}
+
+/* Global font smoothing */
+* {
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Clean dashboard KPI cards */
+.kpi-card {
+    border-radius: 16px !important;
+    padding: 24px !important;
+    background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%) !important;
+    border: 1px solid #E4E4DE !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.3s ease !important;
+}
+
+.kpi-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 30px rgba(31, 77, 255, 0.15) !important;
+}
+
+.kpi-metric {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 36px !important;
+    color: #1F4DFF !important;
+    letter-spacing: -0.03em !important;
+}
+
+/* Clean tab styling */
+.tabs {
+    border-bottom: 2px solid #E4E4DE !important;
+}
+
+.tab-link {
+    font-family: 'Hanken Grotesk', system-ui, sans-serif !important;
+    font-weight: 600 !important;
+    color: #5F6470 !important;
+    padding: 12px 24px !important;
+    border-radius: 10px 10px 0 0 !important;
+    transition: all 0.2s ease !important;
+}
+
+.tab-link.active {
+    color: #1F4DFF !important;
+    border-bottom: 2px solid #1F4DFF !important;
+    background: rgba(31, 77, 255, 0.05) !important;
+}
+
+.tab-link:hover {
+    color: #1F4DFF !important;
+}

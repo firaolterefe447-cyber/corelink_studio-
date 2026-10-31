@@ -1,0 +1,13 @@
+{% extends "unfold/base.html" %}
+
+{% block sidebar %}{% endblock %}
+
+{% block content %}
+<div class="main-content" style="margin-left: 0; padding: 24px;">
+    {% block content_title %}{% endblock %}
+    {% block breadcrumbs %}{% endblock %}
+    {% block object-tools %}{% endblock %}
+    {% block messages %}{% endblock %}
+    {% block content_main %}{% endblock %}
+</div>
+{% endblock %}
