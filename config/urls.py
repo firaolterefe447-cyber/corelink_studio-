@@ -78,15 +78,15 @@ urlpatterns = [
     path("studio/", include("studio.urls")),  # Studio app under /studio/ (for backward compatibility)
 ]
 
-# Serve static files via Whitenoise in DEBUG, via Django in production (bypasses LiteSpeed)
+# Serve static files via Django (DEBUG) or Django (production) - most robust method
+# This bypasses any web server configuration issues
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-else:
-    urlpatterns += [path('static/<path:path>', serve_static, name='serve_static')]
-
-# Serve media files via Django in production (bypasses LiteSpeed inconsistency)
-# In DEBUG, use Django's standard static helper
-if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 else:
-    urlpatterns += [path('media/<path:path>', serve_media, name='serve_media')]
+    # Serve both static and media files through Django in production
+    # This is the most robust method that guarantees files are served correctly
+    urlpatterns += [
+        path('static/<path:path>', serve_static, name='serve_static'),
+        path('media/<path:path>', serve_media, name='serve_media'),
+    ]
