@@ -40,6 +40,24 @@ def serve_media(request, path):
         raise Http404("Could not read file")
 
 
+def serve_static(request, path):
+    """Serve static files through Django to bypass LiteSpeed's inconsistent behavior"""
+    path = path.lstrip('/')
+    full_path = os.path.join(settings.STATIC_ROOT, path)
+    
+    if not os.path.abspath(full_path).startswith(os.path.abspath(settings.STATIC_ROOT)):
+        raise Http404("Invalid path")
+    
+    if not os.path.exists(full_path):
+        raise Http404(f"Static file not found: {path}")
+    
+    try:
+        file_handle = open(full_path, 'rb')
+        return FileResponse(file_handle)
+    except IOError:
+        raise Http404("Could not read file")
+
+
 sitemaps = {
     'static': StaticViewSitemap,
     'services': ServiceSitemap,
@@ -60,8 +78,11 @@ urlpatterns = [
     path("studio/", include("studio.urls")),  # Studio app under /studio/ (for backward compatibility)
 ]
 
-# Serve static files via Whitenoise
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# Serve static files via Whitenoise in DEBUG, via Django in production (bypasses LiteSpeed)
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+else:
+    urlpatterns += [path('static/<path:path>', serve_static, name='serve_static')]
 
 # Serve media files via Django in production (bypasses LiteSpeed inconsistency)
 # In DEBUG, use Django's standard static helper
