@@ -37,9 +37,10 @@ class ContactPersonInline(StackedInline):
     """Inline for contact persons in company admin."""
     model = ContactPerson
     extra = 0
-    fields = ['name', 'role', 'email', 'telegram_handle', 'linkedin_profile', 'is_primary']
+    fields = ['name', 'role', 'telegram_handle', 'is_primary']
     verbose_name = _("Contact Person")
     verbose_name_plural = _("Contact People")
+    classes = ('tab-contacts',)
 
 
 class CommunicationLogInline(TabularInline):
@@ -51,6 +52,7 @@ class CommunicationLogInline(TabularInline):
     can_delete = True
     verbose_name = _("Communication")
     verbose_name_plural = _("Communications")
+    classes = ('tab-communications',)
 
 
 class OpportunityInline(TabularInline):
@@ -62,6 +64,7 @@ class OpportunityInline(TabularInline):
     can_delete = True
     verbose_name = _("Opportunity")
     verbose_name_plural = _("Opportunities")
+    classes = ('tab-opportunities',)
 
 
 # ============================================================================
@@ -111,16 +114,12 @@ class CompanyAdmin(ModelAdmin):
             'fields': ('address', 'city', 'region'),
             'classes': ('tab-location',)
         }),
-        (_("Status & Tracking"), {
+        (_("Status"), {
             'fields': ('status', 'tech_readiness', 'last_contacted', 'source'),
             'classes': ('tab-status',)
         }),
-        (_("Needs Assessment"), {
-            'fields': ('needs_website', 'needs_erp', 'needs_upgrade', 'needs_custom_system', 'other_needs'),
-            'classes': ('tab-needs',)
-        }),
-        (_("Notes"), {
-            'fields': ('notes',),
+        (_("Needs"), {
+            'fields': ('needs_website', 'needs_erp', 'needs_upgrade', 'needs_custom_system', 'other_needs', 'notes'),
             'classes': ('tab-needs',)
         }),
         (_("Metadata"), {
