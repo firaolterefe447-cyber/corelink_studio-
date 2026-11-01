@@ -335,6 +335,10 @@
                 <label class="form-label">Telegram Handle</label>
                 <input type="text" name="contact_telegram_0" class="form-input" placeholder="@username">
               </div>
+              <div class="form-group">
+                <label class="form-label">Phone</label>
+                <input type="tel" name="contact_phone_0" class="form-input" placeholder="+251 911 123 456">
+              </div>
             </div>
             <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer; margin-top: 16px;">
               <input type="checkbox" name="contact_primary_0" style="width: 20px; height: 20px; accent-color: var(--core);">
@@ -661,6 +665,10 @@ function addContact() {
         <div class="form-group">
           <label class="form-label">Telegram Handle</label>
           <input type="text" name="contact_telegram_${contactIndex}" class="form-input" placeholder="@username">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input type="tel" name="contact_phone_${contactIndex}" class="form-input" placeholder="+251 911 123 456">
         </div>
       </div>
       <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer; margin-top: 16px;">

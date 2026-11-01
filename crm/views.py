@@ -213,25 +213,42 @@ def company_add(request):
     """Add a new company with all related data."""
     if request.method == 'POST':
         name = request.POST.get('name')
-        company = Company.objects.create(
-            name=name,
-            industry=request.POST.get('industry'),
-            business_type=request.POST.get('business_type'),
-            description=request.POST.get('description'),
-            address=request.POST.get('address'),
-            city=request.POST.get('city'),
-            region=request.POST.get('region'),
-            status=request.POST.get('status', 'prospect'),
-            tech_readiness=request.POST.get('tech_readiness'),
-            last_contacted=request.POST.get('last_contacted'),
-            needs_website=request.POST.get('needs_website') == 'on',
-            needs_erp=request.POST.get('needs_erp') == 'on',
-            needs_upgrade=request.POST.get('needs_upgrade') == 'on',
-            needs_custom_system=request.POST.get('needs_custom_system') == 'on',
-            other_needs=request.POST.get('other_needs'),
-            notes=request.POST.get('notes'),
-            source=request.POST.get('source'),
-        )
+
+        # Build company data dict, only including non-empty values
+        company_data = {
+            'name': name,
+            'status': request.POST.get('status', 'prospect'),
+            'needs_website': request.POST.get('needs_website') == 'on',
+            'needs_erp': request.POST.get('needs_erp') == 'on',
+            'needs_upgrade': request.POST.get('needs_upgrade') == 'on',
+            'needs_custom_system': request.POST.get('needs_custom_system') == 'on',
+        }
+
+        # Add optional fields only if they have values
+        if request.POST.get('industry'):
+            company_data['industry'] = request.POST.get('industry')
+        if request.POST.get('business_type'):
+            company_data['business_type'] = request.POST.get('business_type')
+        if request.POST.get('description'):
+            company_data['description'] = request.POST.get('description')
+        if request.POST.get('address'):
+            company_data['address'] = request.POST.get('address')
+        if request.POST.get('city'):
+            company_data['city'] = request.POST.get('city')
+        if request.POST.get('region'):
+            company_data['region'] = request.POST.get('region')
+        if request.POST.get('tech_readiness'):
+            company_data['tech_readiness'] = request.POST.get('tech_readiness')
+        if request.POST.get('last_contacted'):
+            company_data['last_contacted'] = request.POST.get('last_contacted')
+        if request.POST.get('other_needs'):
+            company_data['other_needs'] = request.POST.get('other_needs')
+        if request.POST.get('notes'):
+            company_data['notes'] = request.POST.get('notes')
+        if request.POST.get('source'):
+            company_data['source'] = request.POST.get('source')
+
+        company = Company.objects.create(**company_data)
 
         # Log company creation
         log_activity(
@@ -253,6 +270,7 @@ def company_add(request):
                         role=request.POST.get(f'contact_role_{index}'),
                         email=request.POST.get(f'contact_email_{index}'),
                         telegram_handle=request.POST.get(f'contact_telegram_{index}'),
+                        phone=request.POST.get(f'contact_phone_{index}'),
                         is_primary=request.POST.get(f'contact_primary_{index}') == 'on',
                     )
                     log_activity(
@@ -305,16 +323,21 @@ def company_add(request):
         # Handle initial communication
         comm_method = request.POST.get('comm_method')
         if comm_method:
-            comm = CommunicationLog.objects.create(
-                company=company,
-                date=request.POST.get('comm_date'),
-                method=comm_method,
-                outcome=request.POST.get('comm_outcome'),
-                duration_minutes=request.POST.get('comm_duration'),
-                notes=request.POST.get('comm_notes'),
-                next_action=request.POST.get('comm_next_action'),
-                next_action_date=request.POST.get('comm_next_action_date'),
-            )
+            comm_data = {
+                'company': company,
+                'method': comm_method,
+                'outcome': request.POST.get('comm_outcome'),
+                'duration_minutes': request.POST.get('comm_duration'),
+                'notes': request.POST.get('comm_notes'),
+                'next_action': request.POST.get('comm_next_action'),
+                'next_action_date': request.POST.get('comm_next_action_date'),
+            }
+            # Only add date if it's provided
+            comm_date = request.POST.get('comm_date')
+            if comm_date:
+                comm_data['date'] = comm_date
+
+            comm = CommunicationLog.objects.create(**comm_data)
             log_activity(
                 user=request.user,
                 action='communication_logged',
@@ -360,6 +383,7 @@ def contact_add(request, company_id):
             role=request.POST.get('role'),
             email=request.POST.get('email'),
             telegram_handle=request.POST.get('telegram_handle'),
+            phone=request.POST.get('phone'),
             is_primary=request.POST.get('is_primary') == 'on',
             notes=request.POST.get('notes'),
         )
