@@ -103,6 +103,7 @@
           <td style="color: var(--muted);">{{ company.contacts.count }}</td>
           <td style="color: var(--muted);">{{ company.last_contacted|default:"-" }}</td>
           <td>
+            <a href="{% url 'crm:company_edit' company.id %}" style="font: 600 14px var(--t); color: var(--core); margin-right: 12px;">Edit</a>
             <a href="{% url 'crm:company_detail' company.id %}" style="font: 600 14px var(--t); color: var(--core);">View</a>
           </td>
         </tr>

@@ -1,0 +1,174 @@
+{% extends "crm/base.html" %}
+
+{% block crm_content %}
+<!-- Back Button -->
+<div style="margin-bottom: 24px;">
+  <a href="{% url 'crm:company_detail' company.id %}" style="font: 600 14px var(--t); color: var(--core); display: inline-flex; align-items: center; gap: 8px;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    Back to {{ company.name }}
+  </a>
+</div>
+
+<!-- Section Header -->
+<div class="section-header">
+  <h1 class="section-title">Edit Company</h1>
+  <p class="section-subtitle">Update company information</p>
+</div>
+
+<!-- Form Card -->
+<div class="card">
+  <form method="post" style="display: grid; gap: 32px;">
+    {% csrf_token %}
+
+    <!-- Basic Information -->
+    <div>
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Basic Information</h2>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Company Name *</label>
+          <input type="text" name="name" class="form-input" value="{{ company.name }}" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Industry</label>
+          <select name="industry" class="form-input">
+            <option value="">Select Industry</option>
+            <option value="technology" {% if company.industry == 'technology' %}selected{% endif %}>Technology & Software</option>
+            <option value="banking_finance" {% if company.industry == 'banking_finance' %}selected{% endif %}>Banking & Finance</option>
+            <option value="telecommunications" {% if company.industry == 'telecommunications' %}selected{% endif %}>Telecommunications</option>
+            <option value="manufacturing" {% if company.industry == 'manufacturing' %}selected{% endif %}>Manufacturing</option>
+            <option value="agriculture" {% if company.industry == 'agriculture' %}selected{% endif %}>Agriculture & Agribusiness</option>
+            <option value="retail" {% if company.industry == 'retail' %}selected{% endif %}>Retail & E-commerce</option>
+            <option value="healthcare" {% if company.industry == 'healthcare' %}selected{% endif %}>Healthcare & Pharmaceuticals</option>
+            <option value="education" {% if company.industry == 'education' %}selected{% endif %}>Education & Training</option>
+            <option value="construction" {% if company.industry == 'construction' %}selected{% endif %}>Construction & Real Estate</option>
+            <option value="transportation" {% if company.industry == 'transportation' %}selected{% endif %}>Transportation & Logistics</option>
+            <option value="hospitality" {% if company.industry == 'hospitality' %}selected{% endif %}>Hospitality & Tourism</option>
+            <option value="media_entertainment" {% if company.industry == 'media_entertainment' %}selected{% endif %}>Media & Entertainment</option>
+            <option value="energy" {% if company.industry == 'energy' %}selected{% endif %}>Energy & Utilities</option>
+            <option value="mining" {% if company.industry == 'mining' %}selected{% endif %}>Mining & Natural Resources</option>
+            <option value="government" {% if company.industry == 'government' %}selected{% endif %}>Government & Public Sector</option>
+            <option value="ngo" {% if company.industry == 'ngo' %}selected{% endif %}>NGO & Non-Profit</option>
+            <option value="legal" {% if company.industry == 'legal' %}selected{% endif %}>Legal Services</option>
+            <option value="consulting" {% if company.industry == 'consulting' %}selected{% endif %}>Consulting & Professional Services</option>
+            <option value="food_beverage" {% if company.industry == 'food_beverage' %}selected{% endif %}>Food & Beverage</option>
+            <option value="textile" {% if company.industry == 'textile' %}selected{% endif %}>Textile & Apparel</option>
+            <option value="other" {% if company.industry == 'other' %}selected{% endif %}>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Business Type</label>
+          <input type="text" name="business_type" class="form-input" value="{{ company.business_type|default:"" }}" placeholder="e.g., LLC, PLC, Sole Proprietorship">
+        </div>
+        <div class="form-group" style="grid-column: span 2;">
+          <label class="form-label">Description</label>
+          <textarea name="description" class="form-input" rows="4" placeholder="What the company does, current tech stack, etc.">{{ company.description|default:"" }}</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Location -->
+    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Location</h2>
+      <div class="grid-2">
+        <div class="form-group" style="grid-column: span 2;">
+          <label class="form-label">Address</label>
+          <textarea name="address" class="form-input" rows="2" placeholder="Full physical address">{{ company.address|default:"" }}</textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">City</label>
+          <input type="text" name="city" class="form-input" value="{{ company.city|default:"" }}" placeholder="City">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Region</label>
+          <select name="region" class="form-input">
+            <option value="">Select Region</option>
+            {% for value, label in ethiopian_regions %}
+            <option value="{{ value }}" {% if company.region == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status & Tracking -->
+    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Status & Tracking</h2>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select name="status" class="form-input">
+            <option value="prospect" {% if company.status == 'prospect' %}selected{% endif %}>Prospect</option>
+            <option value="contacted" {% if company.status == 'contacted' %}selected{% endif %}>Contacted</option>
+            <option value="in_discussion" {% if company.status == 'in_discussion' %}selected{% endif %}>In Discussion</option>
+            <option value="client" {% if company.status == 'client' %}selected{% endif %}>Client</option>
+            <option value="closed" {% if company.status == 'closed' %}selected{% endif %}>Closed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tech Readiness</label>
+          <select name="tech_readiness" class="form-input">
+            <option value="">Select Level</option>
+            <option value="1" {% if company.tech_readiness == 1 %}selected{% endif %}>1 - Very Low (No tech presence)</option>
+            <option value="2" {% if company.tech_readiness == 2 %}selected{% endif %}>2 - Low (Basic website only)</option>
+            <option value="3" {% if company.tech_readiness == 3 %}selected{% endif %}>3 - Medium (Some digital presence)</option>
+            <option value="4" {% if company.tech_readiness == 4 %}selected{% endif %}>4 - High (Good tech stack)</option>
+            <option value="5" {% if company.tech_readiness == 5 %}selected{% endif %}>5 - Very High (Advanced tech infrastructure)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Contacted</label>
+          <input type="date" name="last_contacted" class="form-input" value="{{ company.last_contacted|default:"" }}">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Source</label>
+          <input type="text" name="source" class="form-input" value="{{ company.source|default:"" }}" placeholder="Where did you find this company?">
+        </div>
+      </div>
+    </div>
+
+    <!-- Needs Assessment -->
+    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Needs Assessment</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+        <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+          <input type="checkbox" name="needs_website" style="width: 20px; height: 20px; accent-color: var(--core);" {% if company.needs_website %}checked{% endif %}>
+          Needs Website
+        </label>
+        <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+          <input type="checkbox" name="needs_erp" style="width: 20px; height: 20px; accent-color: var(--core);" {% if company.needs_erp %}checked{% endif %}>
+          Needs ERP System
+        </label>
+        <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+          <input type="checkbox" name="needs_upgrade" style="width: 20px; height: 20px; accent-color: var(--core);" {% if company.needs_upgrade %}checked{% endif %}>
+          Needs System Upgrade
+        </label>
+        <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+          <input type="checkbox" name="needs_custom_system" style="width: 20px; height: 20px; accent-color: var(--core);" {% if company.needs_custom_system %}checked{% endif %}>
+          Needs Custom System
+        </label>
+      </div>
+      <div class="form-group" style="margin-top: 16px;">
+        <label class="form-label">Other Needs</label>
+        <textarea name="other_needs" class="form-input" rows="3" placeholder="Any other specific needs...">{{ company.other_needs|default:"" }}</textarea>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Notes</h2>
+      <div class="form-group">
+        <label class="form-label">General Notes</label>
+        <textarea name="notes" class="form-input" rows="4" placeholder="Any additional notes about this company...">{{ company.notes|default:"" }}</textarea>
+      </div>
+    </div>
+
+    <!-- Submit Buttons -->
+    <div style="display: flex; gap: 16px; padding-top: 32px; border-top: 1px solid var(--line);">
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+      <a href="{% url 'crm:company_detail' company.id %}" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

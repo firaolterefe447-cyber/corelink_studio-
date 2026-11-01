@@ -20,7 +20,7 @@
     </div>
     <div style="display: flex; gap: 12px;">
       <a href="{% url 'crm:activity_timeline' company.id %}" class="btn btn-secondary" style="padding: 12px 24px; font-size: 14px;">Activity Timeline</a>
-      <a href="/admin/crm/company/{{ company.id }}/change/" class="btn btn-primary" style="padding: 12px 24px; font-size: 14px;">Edit Company</a>
+      <a href="{% url 'crm:company_edit' company.id %}" class="btn btn-primary" style="padding: 12px 24px; font-size: 14px;">Edit Company</a>
     </div>
   </div>
 

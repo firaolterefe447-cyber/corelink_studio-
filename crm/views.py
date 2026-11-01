@@ -371,6 +371,87 @@ def company_add(request):
 
 
 @login_required
+def company_edit(request, company_id):
+    """Edit an existing company."""
+    company = get_object_or_404(Company, id=company_id)
+
+    if request.method == 'POST':
+        # Build company data dict, only including non-empty values
+        company_data = {
+            'name': request.POST.get('name'),
+            'status': request.POST.get('status', 'prospect'),
+            'needs_website': request.POST.get('needs_website') == 'on',
+            'needs_erp': request.POST.get('needs_erp') == 'on',
+            'needs_upgrade': request.POST.get('needs_upgrade') == 'on',
+            'needs_custom_system': request.POST.get('needs_custom_system') == 'on',
+        }
+
+        # Add optional fields only if they have values
+        if request.POST.get('industry'):
+            company_data['industry'] = request.POST.get('industry')
+        else:
+            company_data['industry'] = None
+        if request.POST.get('business_type'):
+            company_data['business_type'] = request.POST.get('business_type')
+        else:
+            company_data['business_type'] = None
+        if request.POST.get('description'):
+            company_data['description'] = request.POST.get('description')
+        else:
+            company_data['description'] = None
+        if request.POST.get('address'):
+            company_data['address'] = request.POST.get('address')
+        else:
+            company_data['address'] = None
+        if request.POST.get('city'):
+            company_data['city'] = request.POST.get('city')
+        else:
+            company_data['city'] = None
+        if request.POST.get('region'):
+            company_data['region'] = request.POST.get('region')
+        else:
+            company_data['region'] = None
+        if request.POST.get('tech_readiness'):
+            company_data['tech_readiness'] = request.POST.get('tech_readiness')
+        else:
+            company_data['tech_readiness'] = None
+        if request.POST.get('last_contacted'):
+            company_data['last_contacted'] = request.POST.get('last_contacted')
+        else:
+            company_data['last_contacted'] = None
+        if request.POST.get('other_needs'):
+            company_data['other_needs'] = request.POST.get('other_needs')
+        else:
+            company_data['other_needs'] = None
+        if request.POST.get('notes'):
+            company_data['notes'] = request.POST.get('notes')
+        else:
+            company_data['notes'] = None
+        if request.POST.get('source'):
+            company_data['source'] = request.POST.get('source')
+        else:
+            company_data['source'] = None
+
+        for key, value in company_data.items():
+            setattr(company, key, value)
+        company.save()
+
+        log_activity(
+            user=request.user,
+            action='company_updated',
+            company=company,
+            description=f'Updated company: {company.name}'
+        )
+
+        return redirect('crm:company_detail', company_id=company.id)
+
+    return render(request, 'crm/company_edit.html', {
+        'company': company,
+        'ethiopian_regions': ETHIOPIAN_REGIONS,
+    })
+
+
+@login_required
 def contact_add(request, company_id):
     """Add a new contact person."""
     company = get_object_or_404(Company, id=company_id)
