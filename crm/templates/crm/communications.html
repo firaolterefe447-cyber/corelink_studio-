@@ -8,7 +8,7 @@
 </div>
 
 <div style="margin-bottom: 32px;">
-  <a href="/admin/crm/communicationlog/add/" class="btn btn-primary">+ Log Communication</a>
+  <a href="{% url 'crm:company_list' %}" class="btn btn-primary">+ Log Communication</a>
 </div>
 
 <!-- Filters -->
@@ -110,7 +110,7 @@
             </div>
             {% endif %}
           </div>
-          <a href="/admin/crm/communicationlog/{{ comm.id }}/change/" style="font: 600 14px var(--t); color: var(--core);">Edit →</a>
+          <a href="{% url 'crm:company_detail' comm.company.id %}" style="font: 600 14px var(--t); color: var(--core);">View Company →</a>
         </div>
         {% endfor %}
       </div>

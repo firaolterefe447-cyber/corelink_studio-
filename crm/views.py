@@ -302,6 +302,26 @@ def company_add(request):
                         description=f'Added social link: {link.get_platform_display()}'
                     )
 
+        # Handle initial communication
+        comm_method = request.POST.get('comm_method')
+        if comm_method:
+            comm = CommunicationLog.objects.create(
+                company=company,
+                date=request.POST.get('comm_date'),
+                method=comm_method,
+                outcome=request.POST.get('comm_outcome'),
+                duration_minutes=request.POST.get('comm_duration'),
+                notes=request.POST.get('comm_notes'),
+                next_action=request.POST.get('comm_next_action'),
+                next_action_date=request.POST.get('comm_next_action_date'),
+            )
+            log_activity(
+                user=request.user,
+                action='communication_logged',
+                company=company,
+                description=f'Logged {comm.get_method_display()} communication'
+            )
+
         # Handle initial opportunity
         opp_title = request.POST.get('opp_title')
         if opp_title:

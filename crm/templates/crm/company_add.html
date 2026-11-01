@@ -141,6 +141,7 @@
   <div class="progress-step" id="step-3"></div>
   <div class="progress-step" id="step-4"></div>
   <div class="progress-step" id="step-5"></div>
+  <div class="progress-step" id="step-6"></div>
 </div>
 
 <!-- Form Card -->
@@ -154,6 +155,7 @@
       <button type="button" class="tab-btn" data-tab="location">Location</button>
       <button type="button" class="tab-btn" data-tab="contacts">Contacts & Phones</button>
       <button type="button" class="tab-btn" data-tab="social">Social Links</button>
+      <button type="button" class="tab-btn" data-tab="communication">Communication</button>
       <button type="button" class="tab-btn" data-tab="opportunity">Opportunity</button>
     </div>
 
@@ -450,6 +452,77 @@
 
       <div style="display: flex; justify-content: space-between; margin-top: 32px;">
         <button type="button" class="btn btn-secondary prev-tab" data-prev="contacts">← Previous</button>
+        <button type="button" class="btn btn-primary next-tab" data-next="communication">Next: Communication →</button>
+      </div>
+    </div>
+
+    <!-- Tab 5: Communication -->
+    <div class="tab-content" id="tab-communication">
+      <div style="margin-bottom: 32px;">
+        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Initial Communication (Optional)</h2>
+        <p style="font: 500 16px var(--t); color: var(--muted); margin-bottom: 24px;">Log an initial communication if you've already contacted this company.</p>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Date & Time</label>
+            <input type="datetime-local" name="comm_date" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Method</label>
+            <select name="comm_method" class="form-input">
+              <option value="">Select method</option>
+              <option value="phone">Phone Call</option>
+              <option value="telegram">Telegram</option>
+              <option value="email">Email</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="in_person">In Person</option>
+              <option value="social_media">Social Media</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Outcome</label>
+            <select name="comm_outcome" class="form-input">
+              <option value="">Select outcome</option>
+              <option value="no_answer">No Answer</option>
+              <option value="left_message">Left Message</option>
+              <option value="interested">Interested</option>
+              <option value="not_interested">Not Interested</option>
+              <option value="follow_up_scheduled">Follow-up Scheduled</option>
+              <option value="meeting_scheduled">Meeting Scheduled</option>
+              <option value="proposal_sent">Proposal Sent</option>
+              <option value="negotiation">In Negotiation</option>
+              <option value="closed_won">Closed Won</option>
+              <option value="closed_lost">Closed Lost</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Duration (minutes)</label>
+            <input type="number" name="comm_duration" class="form-input" placeholder="e.g., 15">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Conversation Notes</label>
+          <textarea name="comm_notes" class="form-input" rows="4" placeholder="Detailed notes about the conversation..."></textarea>
+        </div>
+      </div>
+
+      <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Next Action</h2>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Next Action</label>
+            <textarea name="comm_next_action" class="form-input" rows="3" placeholder="What is the next action to take?"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Next Action Date</label>
+            <input type="date" name="comm_next_action_date" class="form-input">
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: 32px;">
+        <button type="button" class="btn btn-secondary prev-tab" data-prev="social">← Previous</button>
         <button type="button" class="btn btn-primary next-tab" data-next="opportunity">Next: Opportunity →</button>
       </div>
     </div>
@@ -495,7 +568,7 @@
       </div>
 
       <div style="display: flex; justify-content: space-between; margin-top: 32px;">
-        <button type="button" class="btn btn-secondary prev-tab" data-prev="social">← Previous</button>
+        <button type="button" class="btn btn-secondary prev-tab" data-prev="communication">← Previous</button>
         <button type="submit" class="btn btn-primary">Create Company</button>
       </div>
     </div>
@@ -543,7 +616,7 @@ function switchTab(tabName) {
   document.getElementById('tab-' + tabName).classList.add('active');
 
   // Update progress bar
-  const tabs = ['basic', 'location', 'contacts', 'social', 'opportunity'];
+  const tabs = ['basic', 'location', 'contacts', 'social', 'communication', 'opportunity'];
   const currentIndex = tabs.indexOf(tabName);
   document.querySelectorAll('.progress-step').forEach((step, index) => {
     if (index <= currentIndex) {
