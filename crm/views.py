@@ -400,7 +400,6 @@ def contact_add(request, company_id):
 def contact_detail(request, contact_id):
     """View contact person details."""
     contact = get_object_or_404(ContactPerson, id=contact_id)
-    contact.phonenumbers = contact.phonenumbers.all()
 
     return render(request, 'crm/contact_detail.html', {
         'contact': contact,

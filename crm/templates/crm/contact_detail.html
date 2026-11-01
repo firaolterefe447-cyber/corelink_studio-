@@ -13,7 +13,7 @@
 
 <!-- Section Header -->
 <div class="section-header">
-  <h1 class="section-title">{{ contact.name or "Contact" }}</h1>
+  <h1 class="section-title">{{ contact.name|default:"Contact" }}</h1>
   <p class="section-subtitle">{{ contact.company.name }}</p>
 </div>
 
@@ -50,14 +50,14 @@
 </div>
 
 <!-- Phone Numbers -->
-{% if contact.phonenumbers %}
+{% if contact.phonenumbers.all %}
 <div class="card" style="margin-bottom: 32px;">
   <div style="padding: 24px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
     <h2 style="font: 700 20px var(--d); color: var(--ink);">Phone Numbers</h2>
   </div>
   <div style="padding: 24px;">
     <div style="display: flex; flex-direction: column; gap: 16px;">
-      {% for phone in contact.phonenumbers %}
+      {% for phone in contact.phonenumbers.all %}
       <div class="list-item" style="padding: 16px; background: var(--bg); border-radius: 12px;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div>
