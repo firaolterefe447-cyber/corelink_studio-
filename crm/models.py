@@ -1,6 +1,9 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth import get_user_model
 from core.models import TimeStampedModel
+
+User = get_user_model()
 
 
 class Company(TimeStampedModel):
@@ -565,3 +568,69 @@ class Opportunity(TimeStampedModel):
     
     def __str__(self):
         return f"{self.title} - {self.company.name}"
+
+
+class ActivityLog(TimeStampedModel):
+    """Track all user activities in the CRM for audit trail and team visibility."""
+
+    ACTION_CHOICES = [
+        ('company_created', _('Company Created')),
+        ('company_updated', _('Company Updated')),
+        ('contact_created', _('Contact Created')),
+        ('contact_updated', _('Contact Updated')),
+        ('phone_created', _('Phone Number Added')),
+        ('phone_updated', _('Phone Number Updated')),
+        ('social_created', _('Social Link Added')),
+        ('social_updated', _('Social Link Updated')),
+        ('communication_logged', _('Communication Logged')),
+        ('opportunity_created', _('Opportunity Created')),
+        ('opportunity_updated', _('Opportunity Updated')),
+        ('opportunity_won', _('Opportunity Won')),
+        ('opportunity_lost', _('Opportunity Lost')),
+        ('status_changed', _('Status Changed')),
+        ('note_added', _('Note Added')),
+    ]
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='crm_activities',
+        help_text=_("User who performed the action")
+    )
+
+    action = models.CharField(
+        max_length=30,
+        choices=ACTION_CHOICES,
+        help_text=_("Type of action performed")
+    )
+
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        related_name='activities',
+        help_text=_("Company this activity relates to")
+    )
+
+    description = models.TextField(
+        help_text=_("Detailed description of the activity")
+    )
+
+    metadata = models.JSONField(
+        blank=True,
+        null=True,
+        help_text=_("Additional metadata about the activity")
+    )
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name_plural = _("Activity Logs")
+        indexes = [
+            models.Index(fields=['user']),
+            models.Index(fields=['company']),
+            models.Index(fields=['action']),
+            models.Index(fields=['-created_at']),
+        ]
+
+    def __str__(self):
+        return f"{self.get_action_display()} - {self.company.name} by {self.user}"

@@ -1,0 +1,113 @@
+{% extends "crm/base.html" %}
+
+{% block crm_content %}
+<!-- Back Button -->
+<div style="margin-bottom: 24px;">
+  <a href="{% url 'crm:company_detail' company.id %}" style="font: 600 14px var(--t); color: var(--core); display: inline-flex; align-items: center; gap: 8px;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    Back to {{ company.name }}
+  </a>
+</div>
+
+<!-- Section Header -->
+<div class="section-header">
+  <h1 class="section-title">Log Communication</h1>
+  <p class="section-subtitle">Record a communication with {{ company.name }}</p>
+</div>
+
+<!-- Form Card -->
+<div class="card">
+  <form method="post" style="display: grid; gap: 32px;">
+    {% csrf_token %}
+
+    <!-- Communication Details -->
+    <div>
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Communication Details</h2>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Date & Time</label>
+          <input type="datetime-local" name="date" class="form-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Method *</label>
+          <select name="method" class="form-input" required>
+            <option value="phone">Phone Call</option>
+            <option value="telegram">Telegram</option>
+            <option value="email">Email</option>
+            <option value="whatsapp">WhatsApp</option>
+            <option value="in_person">In Person</option>
+            <option value="social_media">Social Media</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contact Person</label>
+          <select name="contact_person" class="form-input">
+            <option value="">Select contact person</option>
+            {% for contact in company.contacts.all %}
+            <option value="{{ contact.id }}">{{ contact.name|default:"Unnamed" }} - {{ contact.role|default:"No role" }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Duration (minutes)</label>
+          <input type="number" name="duration_minutes" class="form-input" placeholder="e.g., 15">
+        </div>
+      </div>
+    </div>
+
+    <!-- Outcome -->
+    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Outcome</h2>
+      <div class="form-group">
+        <label class="form-label">Result</label>
+        <select name="outcome" class="form-input">
+          <option value="">Select outcome</option>
+          <option value="no_answer">No Answer</option>
+          <option value="left_message">Left Message</option>
+          <option value="interested">Interested</option>
+          <option value="not_interested">Not Interested</option>
+          <option value="follow_up_scheduled">Follow-up Scheduled</option>
+          <option value="meeting_scheduled">Meeting Scheduled</option>
+          <option value="proposal_sent">Proposal Sent</option>
+          <option value="negotiation">In Negotiation</option>
+          <option value="closed_won">Closed Won</option>
+          <option value="closed_lost">Closed Lost</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Details</h2>
+      <div class="form-group">
+        <label class="form-label">Conversation Notes</label>
+        <textarea name="notes" class="form-input" rows="6" placeholder="Detailed notes about the conversation..."></textarea>
+      </div>
+    </div>
+
+    <!-- Next Action -->
+    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Next Action</h2>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Next Action</label>
+          <textarea name="next_action" class="form-input" rows="3" placeholder="What is the next action to take?"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Next Action Date</label>
+          <input type="date" name="next_action_date" class="form-input">
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Buttons -->
+    <div style="display: flex; gap: 16px; padding-top: 32px; border-top: 1px solid var(--line);">
+      <button type="submit" class="btn btn-primary">Log Communication</button>
+      <a href="{% url 'crm:company_detail' company.id %}" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

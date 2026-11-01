@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.db.models import Sum, Count, Q
-from .models import Company, Opportunity, CommunicationLog
+from .models import Company, Opportunity, CommunicationLog, ContactPerson, PhoneNumber, SocialLink, ActivityLog
 
 # Ethiopian regions
 ETHIOPIAN_REGIONS = [
@@ -170,28 +170,233 @@ def opportunity_pipeline(request):
 @login_required
 def communication_timeline(request):
     """Timeline view of all communications."""
-    
+
     communications = CommunicationLog.objects.select_related(
         'company', 'contact_person'
     ).order_by('-date')
-    
+
     # Filters
     company_filter = request.GET.get('company')
     method_filter = request.GET.get('method')
     outcome_filter = request.GET.get('outcome')
-    
+
     if company_filter:
         communications = communications.filter(company_id=company_filter)
     if method_filter:
         communications = communications.filter(method=method_filter)
     if outcome_filter:
         communications = communications.filter(outcome=outcome_filter)
-    
+
     context = {
         'communications': communications,
         'company_filter': company_filter,
         'method_filter': method_filter,
         'outcome_filter': outcome_filter,
     }
-    
+
     return render(request, 'crm/communications.html', context)
+
+
+def log_activity(user, action, company, description, metadata=None):
+    """Helper function to log activities."""
+    ActivityLog.objects.create(
+        user=user,
+        action=action,
+        company=company,
+        description=description,
+        metadata=metadata or {}
+    )
+
+
+@login_required
+def company_add(request):
+    """Add a new company."""
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        company = Company.objects.create(
+            name=name,
+            industry=request.POST.get('industry'),
+            business_type=request.POST.get('business_type'),
+            description=request.POST.get('description'),
+            address=request.POST.get('address'),
+            city=request.POST.get('city'),
+            region=request.POST.get('region'),
+            status=request.POST.get('status', 'prospect'),
+            tech_readiness=request.POST.get('tech_readiness'),
+            last_contacted=request.POST.get('last_contacted'),
+            needs_website=request.POST.get('needs_website') == 'on',
+            needs_erp=request.POST.get('needs_erp') == 'on',
+            needs_upgrade=request.POST.get('needs_upgrade') == 'on',
+            needs_custom_system=request.POST.get('needs_custom_system') == 'on',
+            other_needs=request.POST.get('other_needs'),
+            notes=request.POST.get('notes'),
+            source=request.POST.get('source'),
+        )
+        log_activity(
+            user=request.user,
+            action='company_created',
+            company=company,
+            description=f'Created company: {name}'
+        )
+        return redirect('crm:company_detail', company_id=company.id)
+
+    return render(request, 'crm/company_add.html', {
+        'ethiopian_regions': ETHIOPIAN_REGIONS,
+    })
+
+
+@login_required
+def contact_add(request, company_id):
+    """Add a new contact person."""
+    company = get_object_or_404(Company, id=company_id)
+
+    if request.method == 'POST':
+        contact = ContactPerson.objects.create(
+            company=company,
+            name=request.POST.get('name'),
+            role=request.POST.get('role'),
+            email=request.POST.get('email'),
+            telegram_handle=request.POST.get('telegram_handle'),
+            is_primary=request.POST.get('is_primary') == 'on',
+            notes=request.POST.get('notes'),
+        )
+        log_activity(
+            user=request.user,
+            action='contact_created',
+            company=company,
+            description=f'Added contact: {contact.name or "Unnamed"}'
+        )
+        return redirect('crm:company_detail', company_id=company.id)
+
+    return render(request, 'crm/contact_add.html', {'company': company})
+
+
+@login_required
+def phone_add(request, company_id):
+    """Add a new phone number."""
+    company = get_object_or_404(Company, id=company_id)
+
+    if request.method == 'POST':
+        phone = PhoneNumber.objects.create(
+            company=company,
+            number=request.POST.get('number'),
+            phone_type=request.POST.get('phone_type', 'mobile'),
+            is_primary=request.POST.get('is_primary') == 'on',
+            is_verified=request.POST.get('is_verified') == 'on',
+            notes=request.POST.get('notes'),
+        )
+        log_activity(
+            user=request.user,
+            action='phone_created',
+            company=company,
+            description=f'Added phone number: {phone.number}'
+        )
+        return redirect('crm:company_detail', company_id=company.id)
+
+    return render(request, 'crm/phone_add.html', {'company': company})
+
+
+@login_required
+def social_add(request, company_id):
+    """Add a new social link."""
+    company = get_object_or_404(Company, id=company_id)
+
+    if request.method == 'POST':
+        link = SocialLink.objects.create(
+            company=company,
+            platform=request.POST.get('platform'),
+            url=request.POST.get('url'),
+            is_primary=request.POST.get('is_primary') == 'on',
+            notes=request.POST.get('notes'),
+        )
+        log_activity(
+            user=request.user,
+            action='social_created',
+            company=company,
+            description=f'Added social link: {link.get_platform_display()}'
+        )
+        return redirect('crm:company_detail', company_id=company.id)
+
+    return render(request, 'crm/social_add.html', {'company': company})
+
+
+@login_required
+def communication_add(request, company_id):
+    """Log a new communication."""
+    company = get_object_or_404(Company, id=company_id)
+
+    if request.method == 'POST':
+        contact_person = None
+        if request.POST.get('contact_person'):
+            contact_person = get_object_or_404(ContactPerson, id=request.POST.get('contact_person'))
+
+        comm = CommunicationLog.objects.create(
+            company=company,
+            contact_person=contact_person,
+            date=request.POST.get('date'),
+            method=request.POST.get('method'),
+            outcome=request.POST.get('outcome'),
+            duration_minutes=request.POST.get('duration_minutes'),
+            notes=request.POST.get('notes'),
+            next_action=request.POST.get('next_action'),
+            next_action_date=request.POST.get('next_action_date'),
+        )
+        log_activity(
+            user=request.user,
+            action='communication_logged',
+            company=company,
+            description=f'Logged {comm.get_method_display()} communication'
+        )
+        return redirect('crm:company_detail', company_id=company.id)
+
+    return render(request, 'crm/communication_add.html', {'company': company})
+
+
+@login_required
+def opportunity_add(request, company_id):
+    """Add a new opportunity."""
+    company = get_object_or_404(Company, id=company_id)
+
+    if request.method == 'POST':
+        opp = Opportunity.objects.create(
+            company=company,
+            title=request.POST.get('title'),
+            opportunity_type=request.POST.get('opportunity_type'),
+            status=request.POST.get('status', 'lead'),
+            estimated_value=request.POST.get('estimated_value'),
+            actual_value=request.POST.get('actual_value'),
+            probability=request.POST.get('probability'),
+            expected_close_date=request.POST.get('expected_close_date'),
+            actual_close_date=request.POST.get('actual_close_date'),
+            description=request.POST.get('description'),
+            requirements=request.POST.get('requirements'),
+            notes=request.POST.get('notes'),
+            loss_reason=request.POST.get('loss_reason'),
+        )
+        log_activity(
+            user=request.user,
+            action='opportunity_created',
+            company=company,
+            description=f'Created opportunity: {opp.title}'
+        )
+        return redirect('crm:company_detail', company_id=company.id)
+
+    return render(request, 'crm/opportunity_add.html', {'company': company})
+
+
+@login_required
+def activity_timeline(request, company_id):
+    """View activity timeline for a company."""
+    company = get_object_or_404(
+        Company.objects.prefetch_related('activities'),
+        id=company_id
+    )
+
+    activities = company.activities.all().order_by('-created_at')
+
+    context = {
+        'company': company,
+        'activities': activities,
+    }
+
+    return render(request, 'crm/activity_timeline.html', context)

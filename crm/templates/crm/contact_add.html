@@ -1,0 +1,75 @@
+{% extends "crm/base.html" %}
+
+{% block crm_content %}
+<!-- Back Button -->
+<div style="margin-bottom: 24px;">
+  <a href="{% url 'crm:company_detail' company.id %}" style="font: 600 14px var(--t); color: var(--core); display: inline-flex; align-items: center; gap: 8px;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    Back to {{ company.name }}
+  </a>
+</div>
+
+<!-- Section Header -->
+<div class="section-header">
+  <h1 class="section-title">Add Contact Person</h1>
+  <p class="section-subtitle">Add a new contact for {{ company.name }}</p>
+</div>
+
+<!-- Form Card -->
+<div class="card">
+  <form method="post" style="display: grid; gap: 32px;">
+    {% csrf_token %}
+
+    <!-- Contact Information -->
+    <div>
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Contact Information</h2>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input type="text" name="name" class="form-input" placeholder="Contact person name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Role / Job Title</label>
+          <input type="text" name="role" class="form-input" placeholder="e.g., CEO, Manager, etc.">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" name="email" class="form-input" placeholder="email@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telegram Handle</label>
+          <input type="text" name="telegram_handle" class="form-input" placeholder="@username (without @)">
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Settings</h2>
+      <div style="display: flex; gap: 24px;">
+        <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+          <input type="checkbox" name="is_primary" style="width: 20px; height: 20px; accent-color: var(--core);">
+          Set as Primary Contact
+        </label>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Notes</h2>
+      <div class="form-group">
+        <label class="form-label">Additional Notes</label>
+        <textarea name="notes" class="form-input" rows="4" placeholder="Any notes about this contact..."></textarea>
+      </div>
+    </div>
+
+    <!-- Submit Buttons -->
+    <div style="display: flex; gap: 16px; padding-top: 32px; border-top: 1px solid var(--line);">
+      <button type="submit" class="btn btn-primary">Add Contact</button>
+      <a href="{% url 'crm:company_detail' company.id %}" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

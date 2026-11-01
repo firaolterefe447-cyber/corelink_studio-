@@ -18,7 +18,10 @@
       <h1 style="font: 800 32px var(--d); letter-spacing: -0.04em; color: var(--ink); margin-bottom: 8px;">{{ company.name }}</h1>
       <p style="font: 500 16px var(--t); color: var(--muted);">{{ company.industry|default:"No industry specified" }}</p>
     </div>
-    <a href="/admin/crm/company/{{ company.id }}/change/" class="btn btn-primary" style="padding: 12px 24px; font-size: 14px;">Edit Company</a>
+    <div style="display: flex; gap: 12px;">
+      <a href="{% url 'crm:activity_timeline' company.id %}" class="btn btn-secondary" style="padding: 12px 24px; font-size: 14px;">Activity Timeline</a>
+      <a href="/admin/crm/company/{{ company.id }}/change/" class="btn btn-primary" style="padding: 12px 24px; font-size: 14px;">Edit Company</a>
+    </div>
   </div>
 
   <!-- Stats Row -->
@@ -80,7 +83,7 @@
   <div class="card">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line);">
       <h2 style="font: 700 20px var(--d); color: var(--ink);">Contact People ({{ company.contacts.count }})</h2>
-      <a href="/admin/crm/contactperson/add/?company={{ company.id }}" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px;">+ Add Contact</a>
+      <a href="{% url 'crm:contact_add' company.id %}" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px;">+ Add Contact</a>
     </div>
     {% if company.contacts.all %}
       {% for contact in company.contacts.all %}
@@ -109,7 +112,7 @@
   <div class="card">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line);">
       <h2 style="font: 700 20px var(--d); color: var(--ink);">Phone Numbers ({{ company.phonenumbers.count }})</h2>
-      <a href="/admin/crm/phonenumber/add/?company={{ company.id }}" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px;">+ Add Phone</a>
+      <a href="{% url 'crm:phone_add' company.id %}" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px;">+ Add Phone</a>
     </div>
     {% if company.phonenumbers.all %}
       {% for phone in company.phonenumbers.all %}
@@ -138,7 +141,7 @@
 <div class="card" style="margin-bottom: 24px;">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line);">
     <h2 style="font: 700 20px var(--d); color: var(--ink);">Social Links ({{ company.sociallinks.count }})</h2>
-    <a href="/admin/crm/sociallink/add/?company={{ company.id }}" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px;">+ Add Link</a>
+    <a href="{% url 'crm:social_add' company.id %}" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px;">+ Add Link</a>
   </div>
   {% if company.sociallinks.all %}
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
@@ -165,7 +168,7 @@
 <div class="card" style="margin-bottom: 24px;">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line);">
     <h2 style="font: 700 20px var(--d); color: var(--ink);">Opportunities ({{ company.opportunities.count }})</h2>
-    <a href="/admin/crm/opportunity/add/?company={{ company.id }}" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px;">+ Add Opportunity</a>
+    <a href="{% url 'crm:opportunity_add' company.id %}" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px;">+ Add Opportunity</a>
   </div>
   {% if company.opportunities.all %}
     {% for opp in company.opportunities.all %}
@@ -197,7 +200,7 @@
 <div class="card">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line);">
     <h2 style="font: 700 20px var(--d); color: var(--ink);">Communication History ({{ company.communications.count }})</h2>
-    <a href="/admin/crm/communicationlog/add/?company={{ company.id }}" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px;">+ Log Communication</a>
+    <a href="{% url 'crm:communication_add' company.id %}" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px;">+ Log Communication</a>
   </div>
   {% if company.communications.all %}
     {% for comm in company.communications.all %}

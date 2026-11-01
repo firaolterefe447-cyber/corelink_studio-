@@ -1,0 +1,82 @@
+{% extends "crm/base.html" %}
+
+{% block crm_content %}
+<!-- Back Button -->
+<div style="margin-bottom: 24px;">
+  <a href="{% url 'crm:company_detail' company.id %}" style="font: 600 14px var(--t); color: var(--core); display: inline-flex; align-items: center; gap: 8px;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    Back to {{ company.name }}
+  </a>
+</div>
+
+<!-- Section Header -->
+<div class="section-header">
+  <h1 class="section-title">Add Social Link</h1>
+  <p class="section-subtitle">Add a social media or profile link for {{ company.name }}</p>
+</div>
+
+<!-- Form Card -->
+<div class="card">
+  <form method="post" style="display: grid; gap: 32px;">
+    {% csrf_token %}
+
+    <!-- Link Information -->
+    <div>
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Link Information</h2>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Platform</label>
+          <select name="platform" class="form-input">
+            <option value="website">Website</option>
+            <option value="facebook">Facebook</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="twitter">Twitter/X</option>
+            <option value="instagram">Instagram</option>
+            <option value="telegram">Telegram</option>
+            <option value="2merkato">2Merkato</option>
+            <option value="youtube">YouTube</option>
+            <option value="tiktok">TikTok</option>
+            <option value="ethiojobs">EthioJobs</option>
+            <option value="qefira">Qefira</option>
+            <option value="jumia">Jumia</option>
+            <option value="dealdeal">DealDeal</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">URL *</label>
+          <input type="url" name="url" class="form-input" placeholder="https://..." required>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Settings</h2>
+      <div style="display: flex; gap: 24px;">
+        <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+          <input type="checkbox" name="is_primary" style="width: 20px; height: 20px; accent-color: var(--core);">
+          Set as Primary Link
+        </label>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Notes</h2>
+      <div class="form-group">
+        <label class="form-label">Additional Notes</label>
+        <input type="text" name="notes" class="form-input" placeholder="Any notes about this link...">
+      </div>
+    </div>
+
+    <!-- Submit Buttons -->
+    <div style="display: flex; gap: 16px; padding-top: 32px; border-top: 1px solid var(--line);">
+      <button type="submit" class="btn btn-primary">Add Social Link</button>
+      <a href="{% url 'crm:company_detail' company.id %}" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
