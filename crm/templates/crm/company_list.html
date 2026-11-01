@@ -103,13 +103,13 @@
           <td style="color: var(--muted);">{{ company.contacts.count }}</td>
           <td style="color: var(--muted);">{{ company.last_contacted|default:"-" }}</td>
           <td>
-            <a href="/admin/crm/company/{{ company.id }}/change/" style="font: 600 14px var(--t); color: var(--core);">Edit</a>
+            <a href="{% url 'crm:company_detail' company.id %}" style="font: 600 14px var(--t); color: var(--core);">View</a>
           </td>
         </tr>
         {% empty %}
         <tr>
           <td colspan="8" style="text-align: center; padding: 40px; color: var(--muted);">
-            No companies found. <a href="/admin/crm/company/add/" style="color: var(--core); font-weight: 700;">Add your first company</a>
+            No companies found. <a href="{% url 'crm:company_add' %}" style="color: var(--core); font-weight: 700;">Add your first company</a>
           </td>
         </tr>
         {% endfor %}
