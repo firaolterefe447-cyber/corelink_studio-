@@ -1,5 +1,121 @@
 {% extends "crm/base.html" %}
 
+{% block extra_css %}
+<style>
+.tab-nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  border-bottom: 2px solid var(--line);
+  padding-bottom: 0;
+}
+
+.tab-btn {
+  padding: 16px 24px;
+  font: 600 14px var(--t);
+  color: var(--muted);
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: all .3s var(--ease);
+  margin-bottom: -2px;
+}
+
+.tab-btn:hover {
+  color: var(--ink);
+}
+
+.tab-btn.active {
+  color: var(--core);
+  border-bottom-color: var(--core);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.dynamic-item {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #EF4444;
+  color: #fff;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .3s var(--ease);
+}
+
+.remove-btn:hover {
+  background: #DC2626;
+  transform: scale(1.1);
+}
+
+.add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--bg);
+  border: 2px dashed var(--line);
+  border-radius: 12px;
+  font: 600 14px var(--t);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .3s var(--ease);
+  width: 100%;
+  justify-content: center;
+}
+
+.add-btn:hover {
+  border-color: var(--core);
+  color: var(--core);
+  background: rgba(31,77,255,.05);
+}
+
+.progress-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.progress-step {
+  flex: 1;
+  height: 4px;
+  background: var(--line);
+  border-radius: 2px;
+  position: relative;
+}
+
+.progress-step.completed {
+  background: var(--core);
+}
+
+.progress-step.active {
+  background: var(--core);
+}
+</style>
+{% endblock %}
+
 {% block crm_content %}
 <!-- Back Button -->
 <div style="margin-bottom: 24px;">
@@ -14,145 +130,538 @@
 <!-- Section Header -->
 <div class="section-header">
   <h1 class="section-title">Add New Company</h1>
-  <p class="section-subtitle">Add a new company to your CRM pipeline</p>
+  <p class="section-subtitle">Add company and all related information in one place</p>
+</div>
+
+<!-- Progress Indicator -->
+<div class="progress-bar">
+  <div class="progress-step completed" id="step-1"></div>
+  <div class="progress-step" id="step-2"></div>
+  <div class="progress-step" id="step-3"></div>
+  <div class="progress-step" id="step-4"></div>
+  <div class="progress-step" id="step-5"></div>
 </div>
 
 <!-- Form Card -->
 <div class="card">
-  <form method="post" style="display: grid; gap: 32px;">
+  <form method="post" id="company-form">
     {% csrf_token %}
 
-    <!-- Basic Information -->
-    <div>
-      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Basic Information</h2>
-      <div class="grid-2">
-        <div class="form-group">
-          <label class="form-label">Company Name *</label>
-          <input type="text" name="name" class="form-input" placeholder="Enter company name" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Industry</label>
-          <select name="industry" class="form-input">
-            <option value="">Select industry</option>
-            {% for value, label in form.industry.field.choices %}
-            <option value="{{ value }}">{{ label }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Business Type</label>
-          <input type="text" name="business_type" class="form-input" placeholder="e.g., LLC, PLC, Sole Proprietorship">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Source</label>
-          <input type="text" name="source" class="form-input" placeholder="Where did you find this company?">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Description</label>
-        <textarea name="description" class="form-input" rows="4" placeholder="What does the company do? Current tech stack, etc."></textarea>
-      </div>
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+      <button type="button" class="tab-btn active" data-tab="basic">Basic Info</button>
+      <button type="button" class="tab-btn" data-tab="location">Location</button>
+      <button type="button" class="tab-btn" data-tab="contacts">Contacts & Phones</button>
+      <button type="button" class="tab-btn" data-tab="social">Social Links</button>
+      <button type="button" class="tab-btn" data-tab="opportunity">Opportunity</button>
     </div>
 
-    <!-- Location -->
-    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
-      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Location</h2>
-      <div class="grid-2">
-        <div class="form-group">
-          <label class="form-label">Address</label>
-          <textarea name="address" class="form-input" rows="2" placeholder="Full physical address"></textarea>
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+    <!-- Tab 1: Basic Information -->
+    <div class="tab-content active" id="tab-basic">
+      <div style="margin-bottom: 32px;">
+        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Basic Information</h2>
+        <div class="grid-2">
           <div class="form-group">
-            <label class="form-label">City</label>
-            <input type="text" name="city" class="form-input" placeholder="City">
+            <label class="form-label">Company Name *</label>
+            <input type="text" name="name" class="form-input" placeholder="Enter company name" required>
           </div>
           <div class="form-group">
-            <label class="form-label">Region</label>
-            <select name="region" class="form-input">
-              <option value="">Select region</option>
-              {% for value, label in ethiopian_regions %}
-              <option value="{{ value }}">{{ label }}</option>
-              {% endfor %}
+            <label class="form-label">Industry</label>
+            <select name="industry" class="form-input" id="industry-select">
+              <option value="">Select industry</option>
+              <option value="technology">Technology & Software</option>
+              <option value="banking_finance">Banking & Finance</option>
+              <option value="telecommunications">Telecommunications</option>
+              <option value="manufacturing">Manufacturing</option>
+              <option value="agriculture">Agriculture & Agribusiness</option>
+              <option value="retail">Retail & E-commerce</option>
+              <option value="healthcare">Healthcare & Pharmaceuticals</option>
+              <option value="education">Education & Training</option>
+              <option value="construction">Construction & Real Estate</option>
+              <option value="transportation">Transportation & Logistics</option>
+              <option value="hospitality">Hospitality & Tourism</option>
+              <option value="media_entertainment">Media & Entertainment</option>
+              <option value="energy">Energy & Utilities</option>
+              <option value="mining">Mining & Natural Resources</option>
+              <option value="government">Government & Public Sector</option>
+              <option value="ngo">NGO & Non-Profit</option>
+              <option value="legal">Legal Services</option>
+              <option value="consulting">Consulting & Professional Services</option>
+              <option value="food_beverage">Food & Beverage</option>
+              <option value="textile">Textile & Apparel</option>
+              <option value="other">Other</option>
             </select>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Status & Tracking -->
-    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
-      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Status & Tracking</h2>
-      <div class="grid-2">
-        <div class="form-group">
-          <label class="form-label">Status</label>
-          <select name="status" class="form-input">
-            <option value="prospect">Prospect</option>
-            <option value="contacted">Contacted</option>
-            <option value="in_discussion">In Discussion</option>
-            <option value="client">Client</option>
-            <option value="closed">Closed</option>
-          </select>
+          <div class="form-group">
+            <label class="form-label">Business Type</label>
+            <input type="text" name="business_type" class="form-input" placeholder="e.g., LLC, PLC, Sole Proprietorship">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Source</label>
+            <input type="text" name="source" class="form-input" placeholder="Where did you find this company?">
+          </div>
         </div>
         <div class="form-group">
-          <label class="form-label">Tech Readiness (1-5)</label>
-          <select name="tech_readiness" class="form-input">
-            <option value="">Not assessed</option>
-            <option value="1">1 - Very Low (No tech presence)</option>
-            <option value="2">2 - Low (Basic website only)</option>
-            <option value="3">3 - Medium (Some digital presence)</option>
-            <option value="4">4 - High (Good tech stack)</option>
-            <option value="5">5 - Very High (Advanced tech infrastructure)</option>
-          </select>
+          <label class="form-label">Description</label>
+          <textarea name="description" class="form-input" rows="4" placeholder="What does the company do? Current tech stack, etc."></textarea>
+        </div>
+      </div>
+
+      <!-- Status & Tracking -->
+      <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Status & Tracking</h2>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <select name="status" class="form-input">
+              <option value="prospect">Prospect</option>
+              <option value="contacted">Contacted</option>
+              <option value="in_discussion">In Discussion</option>
+              <option value="client">Client</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tech Readiness (1-5)</label>
+            <select name="tech_readiness" class="form-input">
+              <option value="">Not assessed</option>
+              <option value="1">1 - Very Low (No tech presence)</option>
+              <option value="2">2 - Low (Basic website only)</option>
+              <option value="3">3 - Medium (Some digital presence)</option>
+              <option value="4">4 - High (Good tech stack)</option>
+              <option value="5">5 - Very High (Advanced tech infrastructure)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Contacted</label>
+            <input type="date" name="last_contacted" class="form-input">
+          </div>
+        </div>
+      </div>
+
+      <!-- Needs Assessment -->
+      <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Needs Assessment</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+          <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+            <input type="checkbox" name="needs_website" style="width: 20px; height: 20px; accent-color: var(--core);">
+            Needs Website
+          </label>
+          <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+            <input type="checkbox" name="needs_erp" style="width: 20px; height: 20px; accent-color: var(--core);">
+            Needs ERP System
+          </label>
+          <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+            <input type="checkbox" name="needs_upgrade" style="width: 20px; height: 20px; accent-color: var(--core);">
+            Needs System Upgrade
+          </label>
+          <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+            <input type="checkbox" name="needs_custom_system" style="width: 20px; height: 20px; accent-color: var(--core);">
+            Needs Custom System
+          </label>
         </div>
         <div class="form-group">
-          <label class="form-label">Last Contacted</label>
-          <input type="date" name="last_contacted" class="form-input">
+          <label class="form-label">Other Needs</label>
+          <textarea name="other_needs" class="form-input" rows="3" placeholder="Any other specific needs..."></textarea>
         </div>
       </div>
-    </div>
 
-    <!-- Needs Assessment -->
-    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
-      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Needs Assessment</h2>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
-        <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
-          <input type="checkbox" name="needs_website" style="width: 20px; height: 20px; accent-color: var(--core);">
-          Needs Website
-        </label>
-        <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
-          <input type="checkbox" name="needs_erp" style="width: 20px; height: 20px; accent-color: var(--core);">
-          Needs ERP System
-        </label>
-        <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
-          <input type="checkbox" name="needs_upgrade" style="width: 20px; height: 20px; accent-color: var(--core);">
-          Needs System Upgrade
-        </label>
-        <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
-          <input type="checkbox" name="needs_custom_system" style="width: 20px; height: 20px; accent-color: var(--core);">
-          Needs Custom System
-        </label>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Other Needs</label>
-        <textarea name="other_needs" class="form-input" rows="3" placeholder="Any other specific needs..."></textarea>
+      <div style="display: flex; justify-content: flex-end; margin-top: 32px;">
+        <button type="button" class="btn btn-primary next-tab" data-next="location">Next: Location →</button>
       </div>
     </div>
 
-    <!-- Notes -->
-    <div style="padding-top: 32px; border-top: 1px solid var(--line);">
-      <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Notes</h2>
-      <div class="form-group">
-        <label class="form-label">General Notes</label>
-        <textarea name="notes" class="form-input" rows="4" placeholder="Any additional notes about this company..."></textarea>
+    <!-- Tab 2: Location -->
+    <div class="tab-content" id="tab-location">
+      <div style="margin-bottom: 32px;">
+        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Location Information</h2>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Address</label>
+            <textarea name="address" class="form-input" rows="3" placeholder="Full physical address"></textarea>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+              <label class="form-label">City</label>
+              <input type="text" name="city" class="form-input" placeholder="City">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Region</label>
+              <select name="region" class="form-input">
+                <option value="">Select region</option>
+                {% for value, label in ethiopian_regions %}
+                <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: 32px;">
+        <button type="button" class="btn btn-secondary prev-tab" data-prev="basic">← Previous</button>
+        <button type="button" class="btn btn-primary next-tab" data-next="contacts">Next: Contacts →</button>
       </div>
     </div>
 
-    <!-- Submit Buttons -->
-    <div style="display: flex; gap: 16px; padding-top: 32px; border-top: 1px solid var(--line);">
-      <button type="submit" class="btn btn-primary">Add Company</button>
-      <a href="{% url 'crm:company_list' %}" class="btn btn-secondary">Cancel</a>
+    <!-- Tab 3: Contacts & Phones -->
+    <div class="tab-content" id="tab-contacts">
+      <div style="margin-bottom: 32px;">
+        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Contact People</h2>
+        <div id="contacts-container">
+          <div class="dynamic-item" data-contact-index="0">
+            <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Name</label>
+                <input type="text" name="contact_name_0" class="form-input" placeholder="Contact name">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Role</label>
+                <input type="text" name="contact_role_0" class="form-input" placeholder="e.g., CEO, Manager">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" name="contact_email_0" class="form-input" placeholder="email@example.com">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Telegram Handle</label>
+                <input type="text" name="contact_telegram_0" class="form-input" placeholder="@username">
+              </div>
+            </div>
+            <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer; margin-top: 16px;">
+              <input type="checkbox" name="contact_primary_0" style="width: 20px; height: 20px; accent-color: var(--core);">
+              Set as Primary Contact
+            </label>
+          </div>
+        </div>
+        <button type="button" class="add-btn" onclick="addContact()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add Another Contact
+        </button>
+      </div>
+
+      <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Phone Numbers</h2>
+        <div id="phones-container">
+          <div class="dynamic-item" data-phone-index="0">
+            <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" name="phone_number_0" class="form-input" placeholder="+251 911 123 456">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Type</label>
+                <select name="phone_type_0" class="form-input">
+                  <option value="mobile">Mobile</option>
+                  <option value="landline">Landline</option>
+                  <option value="whatsapp">WhatsApp</option>
+                  <option value="telegram">Telegram</option>
+                  <option value="office">Office</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div style="display: flex; gap: 24px; margin-top: 16px;">
+              <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+                <input type="checkbox" name="phone_primary_0" style="width: 20px; height: 20px; accent-color: var(--core);">
+                Primary
+              </label>
+              <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+                <input type="checkbox" name="phone_verified_0" style="width: 20px; height: 20px; accent-color: var(--core);">
+                Verified
+              </label>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="add-btn" onclick="addPhone()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add Another Phone
+        </button>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: 32px;">
+        <button type="button" class="btn btn-secondary prev-tab" data-prev="location">← Previous</button>
+        <button type="button" class="btn btn-primary next-tab" data-next="social">Next: Social Links →</button>
+      </div>
+    </div>
+
+    <!-- Tab 4: Social Links -->
+    <div class="tab-content" id="tab-social">
+      <div style="margin-bottom: 32px;">
+        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Social Media & Links</h2>
+        <div id="social-container">
+          <div class="dynamic-item" data-social-index="0">
+            <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Platform</label>
+                <select name="social_platform_0" class="form-input">
+                  <option value="website">Website</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="linkedin">LinkedIn</option>
+                  <option value="twitter">Twitter/X</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="telegram">Telegram</option>
+                  <option value="2merkato">2Merkato</option>
+                  <option value="youtube">YouTube</option>
+                  <option value="tiktok">TikTok</option>
+                  <option value="ethiojobs">EthioJobs</option>
+                  <option value="qefira">Qefira</option>
+                  <option value="jumia">Jumia</option>
+                  <option value="dealdeal">DealDeal</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">URL</label>
+                <input type="url" name="social_url_0" class="form-input" placeholder="https://...">
+              </div>
+            </div>
+            <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer; margin-top: 16px;">
+              <input type="checkbox" name="social_primary_0" style="width: 20px; height: 20px; accent-color: var(--core);">
+              Set as Primary Link
+            </label>
+          </div>
+        </div>
+        <button type="button" class="add-btn" onclick="addSocial()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add Another Link
+        </button>
+      </div>
+
+      <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+        <div class="form-group">
+          <label class="form-label">General Notes</label>
+          <textarea name="notes" class="form-input" rows="4" placeholder="Any additional notes about this company..."></textarea>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: 32px;">
+        <button type="button" class="btn btn-secondary prev-tab" data-prev="contacts">← Previous</button>
+        <button type="button" class="btn btn-primary next-tab" data-next="opportunity">Next: Opportunity →</button>
+      </div>
+    </div>
+
+    <!-- Tab 5: Opportunity -->
+    <div class="tab-content" id="tab-opportunity">
+      <div style="margin-bottom: 32px;">
+        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Initial Opportunity (Optional)</h2>
+        <p style="font: 500 16px var(--t); color: var(--muted); margin-bottom: 24px;">Add an initial opportunity if you already have one in mind.</p>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Opportunity Title</label>
+            <input type="text" name="opp_title" class="form-input" placeholder="e.g., Website Development Project">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Type</label>
+            <select name="opp_type" class="form-input">
+              <option value="">Select type</option>
+              <option value="website">Website Development</option>
+              <option value="erp">ERP System</option>
+              <option value="upgrade">System Upgrade</option>
+              <option value="custom_system">Custom Software</option>
+              <option value="mobile_app">Mobile App</option>
+              <option value="consulting">Consulting</option>
+              <option value="maintenance">Maintenance</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Estimated Value (ETB)</label>
+            <input type="number" name="opp_value" class="form-input" placeholder="e.g., 50000" step="0.01">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Probability (%)</label>
+            <input type="number" name="opp_probability" class="form-input" placeholder="e.g., 50" min="0" max="100">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea name="opp_description" class="form-input" rows="4" placeholder="Detailed description of the opportunity..."></textarea>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: 32px;">
+        <button type="button" class="btn btn-secondary prev-tab" data-prev="social">← Previous</button>
+        <button type="submit" class="btn btn-primary">Create Company</button>
+      </div>
     </div>
   </form>
 </div>
+
+<script>
+let contactIndex = 1;
+let phoneIndex = 1;
+let socialIndex = 1;
+
+// Tab navigation
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.dataset.tab;
+    switchTab(tab);
+  });
+});
+
+document.querySelectorAll('.next-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    switchTab(btn.dataset.next);
+  });
+});
+
+document.querySelectorAll('.prev-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    switchTab(btn.dataset.prev);
+  });
+});
+
+function switchTab(tabName) {
+  // Update buttons
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.dataset.tab === tabName) {
+      btn.classList.add('active');
+    }
+  });
+
+  // Update content
+  document.querySelectorAll('.tab-content').forEach(content => {
+    content.classList.remove('active');
+  });
+  document.getElementById('tab-' + tabName).classList.add('active');
+
+  // Update progress bar
+  const tabs = ['basic', 'location', 'contacts', 'social', 'opportunity'];
+  const currentIndex = tabs.indexOf(tabName);
+  document.querySelectorAll('.progress-step').forEach((step, index) => {
+    if (index <= currentIndex) {
+      step.classList.add('completed');
+    } else {
+      step.classList.remove('completed');
+    }
+  });
+}
+
+function addContact() {
+  const container = document.getElementById('contacts-container');
+  const html = `
+    <div class="dynamic-item" data-contact-index="${contactIndex}">
+      <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input type="text" name="contact_name_${contactIndex}" class="form-input" placeholder="Contact name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Role</label>
+          <input type="text" name="contact_role_${contactIndex}" class="form-input" placeholder="e.g., CEO, Manager">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" name="contact_email_${contactIndex}" class="form-input" placeholder="email@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telegram Handle</label>
+          <input type="text" name="contact_telegram_${contactIndex}" class="form-input" placeholder="@username">
+        </div>
+      </div>
+      <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer; margin-top: 16px;">
+        <input type="checkbox" name="contact_primary_${contactIndex}" style="width: 20px; height: 20px; accent-color: var(--core);">
+        Set as Primary Contact
+      </label>
+    </div>
+  `;
+  container.insertAdjacentHTML('beforeend', html);
+  contactIndex++;
+}
+
+function addPhone() {
+  const container = document.getElementById('phones-container');
+  const html = `
+    <div class="dynamic-item" data-phone-index="${phoneIndex}">
+      <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" name="phone_number_${phoneIndex}" class="form-input" placeholder="+251 911 123 456">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Type</label>
+          <select name="phone_type_${phoneIndex}" class="form-input">
+            <option value="mobile">Mobile</option>
+            <option value="landline">Landline</option>
+            <option value="whatsapp">WhatsApp</option>
+            <option value="telegram">Telegram</option>
+            <option value="office">Office</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div style="display: flex; gap: 24px; margin-top: 16px;">
+        <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+          <input type="checkbox" name="phone_primary_${phoneIndex}" style="width: 20px; height: 20px; accent-color: var(--core);">
+          Primary
+        </label>
+        <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+          <input type="checkbox" name="phone_verified_${phoneIndex}" style="width: 20px; height: 20px; accent-color: var(--core);">
+          Verified
+        </label>
+      </div>
+    </div>
+  `;
+  container.insertAdjacentHTML('beforeend', html);
+  phoneIndex++;
+}
+
+function addSocial() {
+  const container = document.getElementById('social-container');
+  const html = `
+    <div class="dynamic-item" data-social-index="${socialIndex}">
+      <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
+      <div class="grid-2">
+        <div class="form-group">
+          <label class="form-label">Platform</label>
+          <select name="social_platform_${socialIndex}" class="form-input">
+            <option value="website">Website</option>
+            <option value="facebook">Facebook</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="twitter">Twitter/X</option>
+            <option value="instagram">Instagram</option>
+            <option value="telegram">Telegram</option>
+            <option value="2merkato">2Merkato</option>
+            <option value="youtube">YouTube</option>
+            <option value="tiktok">TikTok</option>
+            <option value="ethiojobs">EthioJobs</option>
+            <option value="qefira">Qefira</option>
+            <option value="jumia">Jumia</option>
+            <option value="dealdeal">DealDeal</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">URL</label>
+          <input type="url" name="social_url_${socialIndex}" class="form-input" placeholder="https://...">
+        </div>
+      </div>
+      <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer; margin-top: 16px;">
+        <input type="checkbox" name="social_primary_${socialIndex}" style="width: 20px; height: 20px; accent-color: var(--core);">
+        Set as Primary Link
+      </label>
+    </div>
+  `;
+  container.insertAdjacentHTML('beforeend', html);
+  socialIndex++;
+}
+</script>
 {% endblock %}

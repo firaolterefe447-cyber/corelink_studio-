@@ -210,7 +210,7 @@ def log_activity(user, action, company, description, metadata=None):
 
 @login_required
 def company_add(request):
-    """Add a new company."""
+    """Add a new company with all related data."""
     if request.method == 'POST':
         name = request.POST.get('name')
         company = Company.objects.create(
@@ -232,12 +232,95 @@ def company_add(request):
             notes=request.POST.get('notes'),
             source=request.POST.get('source'),
         )
+
+        # Log company creation
         log_activity(
             user=request.user,
             action='company_created',
             company=company,
             description=f'Created company: {name}'
         )
+
+        # Handle contacts
+        for key in request.POST:
+            if key.startswith('contact_name_'):
+                index = key.split('_')[-1]
+                contact_name = request.POST.get(f'contact_name_{index}')
+                if contact_name:
+                    contact = ContactPerson.objects.create(
+                        company=company,
+                        name=contact_name,
+                        role=request.POST.get(f'contact_role_{index}'),
+                        email=request.POST.get(f'contact_email_{index}'),
+                        telegram_handle=request.POST.get(f'contact_telegram_{index}'),
+                        is_primary=request.POST.get(f'contact_primary_{index}') == 'on',
+                    )
+                    log_activity(
+                        user=request.user,
+                        action='contact_created',
+                        company=company,
+                        description=f'Added contact: {contact.name}'
+                    )
+
+        # Handle phone numbers
+        for key in request.POST:
+            if key.startswith('phone_number_'):
+                index = key.split('_')[-1]
+                phone_number = request.POST.get(f'phone_number_{index}')
+                if phone_number:
+                    phone = PhoneNumber.objects.create(
+                        company=company,
+                        number=phone_number,
+                        phone_type=request.POST.get(f'phone_type_{index}', 'mobile'),
+                        is_primary=request.POST.get(f'phone_primary_{index}') == 'on',
+                        is_verified=request.POST.get(f'phone_verified_{index}') == 'on',
+                    )
+                    log_activity(
+                        user=request.user,
+                        action='phone_created',
+                        company=company,
+                        description=f'Added phone number: {phone.number}'
+                    )
+
+        # Handle social links
+        for key in request.POST:
+            if key.startswith('social_platform_'):
+                index = key.split('_')[-1]
+                platform = request.POST.get(f'social_platform_{index}')
+                url = request.POST.get(f'social_url_{index}')
+                if platform and url:
+                    link = SocialLink.objects.create(
+                        company=company,
+                        platform=platform,
+                        url=url,
+                        is_primary=request.POST.get(f'social_primary_{index}') == 'on',
+                    )
+                    log_activity(
+                        user=request.user,
+                        action='social_created',
+                        company=company,
+                        description=f'Added social link: {link.get_platform_display()}'
+                    )
+
+        # Handle initial opportunity
+        opp_title = request.POST.get('opp_title')
+        if opp_title:
+            opp = Opportunity.objects.create(
+                company=company,
+                title=opp_title,
+                opportunity_type=request.POST.get('opp_type'),
+                estimated_value=request.POST.get('opp_value'),
+                probability=request.POST.get('opp_probability'),
+                description=request.POST.get('opp_description'),
+                status='lead',
+            )
+            log_activity(
+                user=request.user,
+                action='opportunity_created',
+                company=company,
+                description=f'Created opportunity: {opp.title}'
+            )
+
         return redirect('crm:company_detail', company_id=company.id)
 
     return render(request, 'crm/company_add.html', {
