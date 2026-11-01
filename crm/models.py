@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 from django.contrib.auth import get_user_model
 from core.models import TimeStampedModel
 
@@ -400,10 +401,9 @@ class CommunicationLog(TimeStampedModel):
         help_text=_("Contact person spoken with")
     )
     
-    date = models.DateTimeField(
-        blank=True,
-        null=True,
-        help_text=_("Date and time of communication (optional)")
+    date = models.DateField(
+        default=timezone.now,
+        help_text=_("Date of communication")
     )
     method = models.CharField(
         max_length=20,
