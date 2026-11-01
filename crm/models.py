@@ -211,6 +211,12 @@ class ContactPerson(TimeStampedModel):
         null=True,
         help_text=_("Telegram username (without @)")
     )
+    phone = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        help_text=_("Direct phone number for this contact")
+    )
     is_primary = models.BooleanField(
         default=False,
         help_text=_("Is this the primary contact?")
@@ -402,7 +408,8 @@ class CommunicationLog(TimeStampedModel):
     )
     
     date = models.DateField(
-        default=timezone.now,
+        blank=True,
+        null=True,
         help_text=_("Date of communication")
     )
     method = models.CharField(
