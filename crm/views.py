@@ -397,6 +397,17 @@ def contact_add(request, company_id):
 
 
 @login_required
+def contact_detail(request, contact_id):
+    """View contact person details."""
+    contact = get_object_or_404(ContactPerson, id=contact_id)
+    contact.phonenumbers = contact.phonenumbers.all()
+
+    return render(request, 'crm/contact_detail.html', {
+        'contact': contact,
+    })
+
+
+@login_required
 def phone_add(request, company_id):
     """Add a new phone number."""
     company = get_object_or_404(Company, id=company_id)

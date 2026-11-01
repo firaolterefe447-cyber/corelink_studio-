@@ -89,10 +89,10 @@
       {% for contact in company.contacts.all %}
       <div class="list-item" style="padding: 16px 0;">
         <div style="flex: 1;">
-          <p class="list-item-name">{{ contact.name|default:"Unnamed" }}</p>
+          <a href="{% url 'crm:contact_detail' contact.id %}" class="list-item-name">{{ contact.name|default:"Unnamed" }}</a>
           <p class="list-item-sub">{{ contact.role|default:"No role" }}</p>
-          {% if contact.email %}
-          <p style="font: 500 14px var(--t); color: var(--muted); margin-top: 4px;">{{ contact.email }}</p>
+          {% if contact.phone %}
+          <p style="font: 500 14px var(--t); color: var(--muted); margin-top: 4px;">{{ contact.phone }}</p>
           {% endif %}
           {% if contact.telegram_handle %}
           <p style="font: 500 14px var(--t); color: var(--muted); margin-top: 4px;">Telegram: @{{ contact.telegram_handle }}</p>

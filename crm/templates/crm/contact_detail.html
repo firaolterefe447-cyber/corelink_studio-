@@ -1,0 +1,113 @@
+{% extends "crm/base.html" %}
+
+{% block crm_content %}
+<!-- Back Button -->
+<div style="margin-bottom: 24px;">
+  <a href="{% url 'crm:company_detail' contact.company.id %}" style="font: 600 14px var(--t); color: var(--core); display: inline-flex; align-items: center; gap: 8px;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    Back to {{ contact.company.name }}
+  </a>
+</div>
+
+<!-- Section Header -->
+<div class="section-header">
+  <h1 class="section-title">{{ contact.name or "Contact" }}</h1>
+  <p class="section-subtitle">{{ contact.company.name }}</p>
+</div>
+
+<!-- Contact Details -->
+<div class="card" style="margin-bottom: 32px;">
+  <div style="padding: 24px; border-bottom: 1px solid var(--line);">
+    <h2 style="font: 700 20px var(--d); color: var(--ink);">Contact Information</h2>
+  </div>
+  <div style="padding: 24px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px;">
+      <div>
+        <p style="font: 700 13px var(--t); color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em;">Name</p>
+        <p style="font: 600 16px var(--t); color: var(--ink);">{{ contact.name|default:"—" }}</p>
+      </div>
+      <div>
+        <p style="font: 700 13px var(--t); color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em;">Role</p>
+        <p style="font: 600 16px var(--t); color: var(--ink);">{{ contact.role|default:"—" }}</p>
+      </div>
+      <div>
+        <p style="font: 700 13px var(--t); color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em;">Phone</p>
+        <p style="font: 600 16px var(--t); color: var(--ink);">{{ contact.phone|default:"—" }}</p>
+      </div>
+      <div>
+        <p style="font: 700 13px var(--t); color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em;">Telegram</p>
+        <p style="font: 600 16px var(--t); color: var(--ink);">{{ contact.telegram_handle|default:"—" }}</p>
+      </div>
+    </div>
+    {% if contact.is_primary %}
+    <div style="margin-top: 24px;">
+      <span class="badge badge-primary">Primary Contact</span>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Phone Numbers -->
+{% if contact.phonenumbers %}
+<div class="card" style="margin-bottom: 32px;">
+  <div style="padding: 24px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center;">
+    <h2 style="font: 700 20px var(--d); color: var(--ink);">Phone Numbers</h2>
+  </div>
+  <div style="padding: 24px;">
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      {% for phone in contact.phonenumbers %}
+      <div class="list-item" style="padding: 16px; background: var(--bg); border-radius: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <p style="font: 700 16px var(--d); color: var(--ink); margin-bottom: 4px;">{{ phone.number }}</p>
+            <p style="font: 500 14px var(--t); color: var(--muted);">{{ phone.get_phone_type_display }}</p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            {% if phone.is_primary %}
+            <span class="badge badge-primary">Primary</span>
+            {% endif %}
+            {% if phone.is_verified %}
+            <span class="badge badge-success">Verified</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- Notes -->
+{% if contact.notes %}
+<div class="card" style="margin-bottom: 32px;">
+  <div style="padding: 24px; border-bottom: 1px solid var(--line);">
+    <h2 style="font: 700 20px var(--d); color: var(--ink);">Notes</h2>
+  </div>
+  <div style="padding: 24px;">
+    <p style="font: 500 16px var(--t); color: var(--ink); line-height: 1.6;">{{ contact.notes }}</p>
+  </div>
+</div>
+{% endif %}
+
+<!-- Metadata -->
+<div class="card">
+  <div style="padding: 24px; border-bottom: 1px solid var(--line);">
+    <h2 style="font: 700 20px var(--d); color: var(--ink);">Details</h2>
+  </div>
+  <div style="padding: 24px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
+      <div>
+        <p style="font: 700 13px var(--t); color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em;">Created</p>
+        <p style="font: 500 14px var(--t); color: var(--ink);">{{ contact.created|date:"M d, Y" }}</p>
+      </div>
+      <div>
+        <p style="font: 700 13px var(--t); color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .05em;">Last Updated</p>
+        <p style="font: 500 14px var(--t); color: var(--ink);">{{ contact.modified|date:"M d, Y" }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
