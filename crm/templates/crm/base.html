@@ -421,7 +421,11 @@ a { color: inherit; text-decoration: none; }
         <a href="{% url 'crm:company_list' %}" class="{% if request.resolver_match.url_name == 'company_list' %}active{% endif %}">Companies</a>
         <a href="{% url 'crm:pipeline' %}" class="{% if request.resolver_match.url_name == 'pipeline' %}active{% endif %}">Pipeline</a>
         <a href="{% url 'crm:communications' %}" class="{% if request.resolver_match.url_name == 'communications' %}active{% endif %}">Communications</a>
+        {% if request.user.is_superuser or request.user.groups.all.0.name == 'CRM Manager' %}
+        <a href="{% url 'crm:user_management' %}" class="{% if request.resolver_match.url_name == 'user_management' %}active{% endif %}">Users</a>
+        {% endif %}
         <a href="/admin/crm/" target="_blank">Admin</a>
+        <a href="{% url 'crm:logout' %}" style="color: var(--core);">Logout</a>
       </nav>
     </div>
   </div>

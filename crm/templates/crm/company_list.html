@@ -103,7 +103,9 @@
           <td style="color: var(--muted);">{{ company.contacts.count }}</td>
           <td style="color: var(--muted);">{{ company.last_contacted|default:"-" }}</td>
           <td>
+            {% if request.user.is_superuser or request.user.groups.all.0.name == 'CRM Manager' %}
             <a href="{% url 'crm:company_edit' company.id %}" style="font: 600 14px var(--t); color: var(--core); margin-right: 12px;">Edit</a>
+            {% endif %}
             <a href="{% url 'crm:company_detail' company.id %}" style="font: 600 14px var(--t); color: var(--core);">View</a>
           </td>
         </tr>

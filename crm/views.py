@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User, Group
 from django.http import JsonResponse
 from django.db.models import Sum, Count, Q
 from .models import Company, Opportunity, CommunicationLog, ContactPerson, PhoneNumber, SocialLink, ActivityLog
+from .permissions import crm_login_required, marketing_or_manager_required, crm_manager_required
 
 # Ethiopian regions
 ETHIOPIAN_REGIONS = [
@@ -23,7 +26,51 @@ ETHIOPIAN_REGIONS = [
 ]
 
 
-@login_required
+def crm_login(request):
+    """Custom CRM login page."""
+    if request.user.is_authenticated:
+        return redirect('crm:dashboard')
+    
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            # Check if user is active
+            if not user.is_active:
+                return render(request, 'crm/login.html', {
+                    'error': 'This account is inactive. Please contact an administrator.'
+                })
+            
+            # Check if user has CRM access
+            user_groups = [g.name for g in user.groups.all()]
+            has_crm_access = user.groups.filter(name__in=['Marketing', 'CRM Manager']).exists() or user.is_superuser
+            
+            if has_crm_access:
+                login(request, user)
+                next_url = request.GET.get('next', 'crm:dashboard')
+                return redirect(next_url)
+            else:
+                return render(request, 'crm/login.html', {
+                    'error': f'You do not have permission to access the CRM system. Your groups: {user_groups or "None"}'
+                })
+        else:
+            return render(request, 'crm/login.html', {
+                'error': 'Invalid username or password.'
+            })
+    
+    return render(request, 'crm/login.html')
+
+
+def crm_logout(request):
+    """Custom CRM logout."""
+    logout(request)
+    return redirect('crm:login')
+
+
+@marketing_or_manager_required
 def crm_dashboard(request):
     """Main CRM dashboard view."""
     
@@ -78,7 +125,7 @@ def crm_dashboard(request):
     return render(request, 'crm/dashboard.html', context)
 
 
-@login_required
+@marketing_or_manager_required
 def company_list(request):
     """List all companies with filters."""
     
@@ -124,7 +171,7 @@ def company_list(request):
     return render(request, 'crm/company_list.html', context)
 
 
-@login_required
+@marketing_or_manager_required
 def company_detail(request, company_id):
     """Detail view for a single company."""
     
@@ -143,7 +190,7 @@ def company_detail(request, company_id):
     return render(request, 'crm/company_detail.html', context)
 
 
-@login_required
+@marketing_or_manager_required
 def opportunity_pipeline(request):
     """Pipeline view for opportunities."""
     
@@ -167,7 +214,7 @@ def opportunity_pipeline(request):
     return render(request, 'crm/pipeline.html', context)
 
 
-@login_required
+@marketing_or_manager_required
 def communication_timeline(request):
     """Timeline view of all communications."""
 
@@ -208,7 +255,7 @@ def log_activity(user, action, company, description, metadata=None):
     )
 
 
-@login_required
+@marketing_or_manager_required
 def company_add(request):
     """Add a new company with all related data."""
     if request.method == 'POST':
@@ -370,7 +417,7 @@ def company_add(request):
     })
 
 
-@login_required
+@crm_manager_required
 def company_edit(request, company_id):
     """Edit an existing company."""
     company = get_object_or_404(Company, id=company_id)
@@ -451,7 +498,7 @@ def company_edit(request, company_id):
     })
 
 
-@login_required
+@marketing_or_manager_required
 def contact_add(request, company_id):
     """Add a new contact person."""
     company = get_object_or_404(Company, id=company_id)
@@ -477,7 +524,7 @@ def contact_add(request, company_id):
     return render(request, 'crm/contact_add.html', {'company': company})
 
 
-@login_required
+@marketing_or_manager_required
 def contact_detail(request, contact_id):
     """View contact person details."""
     contact = get_object_or_404(ContactPerson, id=contact_id)
@@ -487,7 +534,7 @@ def contact_detail(request, contact_id):
     })
 
 
-@login_required
+@marketing_or_manager_required
 def phone_add(request, company_id):
     """Add a new phone number."""
     company = get_object_or_404(Company, id=company_id)
@@ -512,7 +559,7 @@ def phone_add(request, company_id):
     return render(request, 'crm/phone_add.html', {'company': company})
 
 
-@login_required
+@marketing_or_manager_required
 def social_add(request, company_id):
     """Add a new social link."""
     company = get_object_or_404(Company, id=company_id)
@@ -536,7 +583,7 @@ def social_add(request, company_id):
     return render(request, 'crm/social_add.html', {'company': company})
 
 
-@login_required
+@marketing_or_manager_required
 def communication_add(request, company_id):
     """Log a new communication."""
     company = get_object_or_404(Company, id=company_id)
@@ -568,7 +615,7 @@ def communication_add(request, company_id):
     return render(request, 'crm/communication_add.html', {'company': company})
 
 
-@login_required
+@marketing_or_manager_required
 def opportunity_add(request, company_id):
     """Add a new opportunity."""
     company = get_object_or_404(Company, id=company_id)
@@ -600,7 +647,7 @@ def opportunity_add(request, company_id):
     return render(request, 'crm/opportunity_add.html', {'company': company})
 
 
-@login_required
+@marketing_or_manager_required
 def activity_timeline(request, company_id):
     """View activity timeline for a company."""
     company = get_object_or_404(
@@ -616,3 +663,51 @@ def activity_timeline(request, company_id):
     }
 
     return render(request, 'crm/activity_timeline.html', context)
+
+
+@crm_manager_required
+def user_management(request):
+    """User management page for CRM managers."""
+    users = User.objects.all().prefetch_related('groups').order_by('username')
+    
+    marketing_group = Group.objects.get(name='Marketing')
+    crm_manager_group = Group.objects.get(name='CRM Manager')
+    
+    context = {
+        'users': users,
+        'marketing_group': marketing_group,
+        'crm_manager_group': crm_manager_group,
+    }
+    
+    return render(request, 'crm/user_management.html', context)
+
+
+@crm_manager_required
+def user_add(request):
+    """Add a new CRM user."""
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        role = request.POST.get('role')  # 'marketing' or 'manager'
+        
+        if User.objects.filter(username=username).exists():
+            return render(request, 'crm/user_add.html', {
+                'error': 'Username already exists'
+            })
+        
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+        
+        # Add to appropriate group
+        if role == 'marketing':
+            user.groups.add(Group.objects.get(name='Marketing'))
+        elif role == 'manager':
+            user.groups.add(Group.objects.get(name='CRM Manager'))
+        
+        return redirect('crm:user_management')
+    
+    return render(request, 'crm/user_add.html')

@@ -1,0 +1,77 @@
+{% extends "crm/base.html" %}
+
+{% block title %}User Management - Corelink CRM{% endblock %}
+
+{% block crm_content %}
+<div class="section-header">
+  <h1 class="section-title">User Management</h1>
+  <p class="section-subtitle">Manage CRM users and their access levels</p>
+</div>
+
+<div style="margin-bottom: 32px;">
+  <a href="{% url 'crm:user_add' %}" class="btn btn-primary">
+    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path d="M12 5v14M5 12h14"/>
+    </svg>
+    Add New User
+  </a>
+</div>
+
+<div class="table-container">
+  <table class="crm-table">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Date Added</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <td>
+          <div style="font-weight: 700;">{{ user.username }}</div>
+        </td>
+        <td>{{ user.email|default:"-" }}</td>
+        <td>
+          {% if user.is_superuser %}
+            <span class="badge badge-primary">Superuser</span>
+          {% elif crm_manager_group in user.groups.all %}
+            <span class="badge badge-primary">CRM Manager</span>
+          {% elif marketing_group in user.groups.all %}
+            <span class="badge badge-success">Marketing</span>
+          {% else %}
+            <span class="badge badge-neutral">No Access</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if user.is_active %}
+            <span class="badge badge-success">Active</span>
+          {% else %}
+            <span class="badge badge-danger">Inactive</span>
+          {% endif %}
+        </td>
+        <td style="color: var(--muted);">{{ user.date_joined|date:"Y-m-d" }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5" style="text-align: center; padding: 48px; color: var(--muted);">
+          No users found. Add your first CRM user to get started.
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div style="margin-top: 32px; padding: 24px; background: var(--bg); border-radius: 12px;">
+  <h3 style="font-size: 18px; margin-bottom: 12px;">Role Permissions</h3>
+  <ul style="list-style: none; color: var(--muted); line-height: 2;">
+    <li><strong>CRM Manager:</strong> Full access - view, add, edit, and delete all CRM data</li>
+    <li><strong>Marketing:</strong> Limited access - view and add companies, contacts, communications, and opportunities</li>
+    <li><strong>Superuser:</strong> Full system access including Django admin</li>
+  </ul>
+</div>
+{% endblock %}

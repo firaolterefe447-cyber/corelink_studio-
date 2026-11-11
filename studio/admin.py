@@ -361,6 +361,7 @@ class TeamMemberAdmin(ModelAdmin):
     search_fields = ['name', 'title']
     prepopulated_fields = {'slug': ('name',)}
     list_editable = ['order', 'is_featured']
+    readonly_fields = ['created_at', 'updated_at']
     
     # Custom actions
     actions = ['mark_featured', 'unmark_featured']

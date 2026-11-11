@@ -1,0 +1,80 @@
+{% extends "crm/base.html" %}
+
+{% block title %}Add User - Corelink CRM{% endblock %}
+
+{% block crm_content %}
+<div class="section-header">
+  <h1 class="section-title">Add New User</h1>
+  <p class="section-subtitle">Create a new CRM user account</p>
+</div>
+
+<div style="max-width: 600px;">
+  {% if error %}
+  <div class="error-message" style="background: #FEF2F2; border: 1px solid #FECACA; color: #DC2626; padding: 12px 16px; border-radius: 12px; margin-bottom: 24px;">
+    {{ error }}
+  </div>
+  {% endif %}
+
+  <form method="post" style="background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 32px;">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label class="form-label" for="username">Username</label>
+      <input 
+        type="text" 
+        name="username" 
+        id="username" 
+        class="form-input" 
+        placeholder="Enter username"
+        required
+      >
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="email">Email</label>
+      <input 
+        type="email" 
+        name="email" 
+        id="email" 
+        class="form-input" 
+        placeholder="user@example.com"
+        required
+      >
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="password">Password</label>
+      <input 
+        type="password" 
+        name="password" 
+        id="password" 
+        class="form-input" 
+        placeholder="Enter password"
+        required
+      >
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="role">Role</label>
+      <select name="role" id="role" class="form-input" required>
+        <option value="">Select role</option>
+        <option value="marketing">Marketing Team</option>
+        <option value="manager">CRM Manager</option>
+      </select>
+    </div>
+
+    <div style="display: flex; gap: 12px; margin-top: 32px;">
+      <button type="submit" class="btn btn-primary">Create User</button>
+      <a href="{% url 'crm:user_management' %}" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+
+  <div style="margin-top: 24px; padding: 20px; background: var(--bg); border-radius: 12px;">
+    <h3 style="font-size: 16px; margin-bottom: 12px;">Role Information</h3>
+    <ul style="list-style: none; color: var(--muted); line-height: 1.8; font-size: 14px;">
+      <li><strong>Marketing Team:</strong> Can view and add companies, contacts, communications, and opportunities. Cannot edit or delete existing data.</li>
+      <li><strong>CRM Manager:</strong> Full access to all CRM features including edit and delete operations.</li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

@@ -4,6 +4,8 @@ from . import views
 app_name = 'crm'
 
 urlpatterns = [
+    path('login/', views.crm_login, name='login'),
+    path('logout/', views.crm_logout, name='logout'),
     path('', views.crm_dashboard, name='dashboard'),
     path('companies/', views.company_list, name='company_list'),
     path('companies/add/', views.company_add, name='company_add'),
@@ -18,4 +20,6 @@ urlpatterns = [
     path('companies/<int:company_id>/opportunity/add/', views.opportunity_add, name='opportunity_add'),
     path('pipeline/', views.opportunity_pipeline, name='pipeline'),
     path('communications/', views.communication_timeline, name='communications'),
+    path('users/', views.user_management, name='user_management'),
+    path('users/add/', views.user_add, name='user_add'),
 ]
