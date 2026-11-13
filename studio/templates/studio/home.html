@@ -7,10 +7,10 @@
 <meta name="theme-color" content="#07080D">
 <title>{% if page.meta_title %}{{ page.meta_title }}{% else %}Corelink Studio{% endif %}</title>
 <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}?v=2">
-<meta name="description" content="{% if page.meta_description %}{{ page.meta_description }}{% else %}At Corelink Studio, we design, build and operate websites, mobile applications, ERP systems and custom software solutions for companies, organizations and founders. Based in Addis Ababa, we serve clients worldwide.{% endif %}">
+<meta name="description" content="{% if page.meta_description %}{{ page.meta_description }}{% else %}Backed by Corelink Technology Solutions PLC, Corelink Studio serves Ethiopian businesses and global clients. With access to thousands of talented professionals on our platform Corelink Ethiopia, we directly connect you with the right team and right people to build your project.{% endif %}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}Corelink Studio{% endif %}">
-<meta property="og:description" content="At Corelink Studio, we design, build and operate websites, mobile applications, ERP systems and custom software solutions for companies, organizations and founders. Based in Addis Ababa, we serve clients worldwide.">
+<meta property="og:description" content="Backed by Corelink Technology Solutions PLC, Corelink Studio serves Ethiopian businesses and global clients. With access to thousands of talented professionals on our platform Corelink Ethiopia, we directly connect you with the right team and right people to build your project.">
 <meta property="og:image" content="https://studio.corelink.et/static/img/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -18,7 +18,7 @@
 <meta property="og:site_name" content="Corelink Studio">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{% if page.meta_title %}{{ page.meta_title }}{% else %}Corelink Studio{% endif %}">
-<meta name="twitter:description" content="At Corelink Studio, we design, build and operate websites, mobile applications, ERP systems and custom software solutions for companies, organizations and founders. Based in Addis Ababa, we serve clients worldwide.">
+<meta name="twitter:description" content="Backed by Corelink Technology Solutions PLC, Corelink Studio serves Ethiopian businesses and global clients. With access to thousands of talented professionals on our platform Corelink Ethiopia, we directly connect you with the right team and right people to build your project.">
 <meta name="twitter:image" content="https://studio.corelink.et/static/img/preview.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Corelink Studio","email":"support@corelink.et","description":"Software studio building web platforms, mobile apps, ERP and custom software."}</script>
 <script>document.documentElement.classList.add('js')</script>
@@ -115,6 +115,24 @@ h1 em:after { content: ""; position: absolute; left: 0; right: 0; bottom: -.05em
 .stage.nogl { background: radial-gradient(circle at 74% 66%, #8FA8FF 0, #1F4DFF 14%, #0B1F8F 30%, rgba(7,8,13,0) 52%), var(--night); }
 
 #pg { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 100; background: linear-gradient(90deg, var(--core), var(--accent)); box-shadow: 0 0 12px rgba(143,168,255,.55); transition: width .12s linear; }
+
+/* TRUST BAR */
+.trust-bar { background: var(--night); padding: 24px 0; border-bottom: 1px solid rgba(255,255,255,.08); position: relative; z-index: 4; }
+.trust-content { display: flex; align-items: center; gap: 24px; justify-content: space-between; }
+.trust-icon { width: 48px; height: 48px; background: linear-gradient(135deg, var(--core), var(--abyss)); border-radius: 12px; display: grid; place-items: center; color: #fff; flex-shrink: 0; }
+.trust-icon svg { width: 24px; height: 24px; }
+.trust-text { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.trust-text strong { font: 700 16px var(--t); color: #fff; }
+.trust-text span { font: 500 14px var(--t); color: #B8BCC8; line-height: 1.5; }
+.trust-stats { display: flex; align-items: center; gap: 20px; }
+.trust-stat { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.trust-stat strong { font: 800 20px var(--d); color: var(--accent); line-height: 1; }
+.trust-stat span { font: 600 11px var(--t); color: #8E93A3; text-transform: uppercase; letter-spacing: .05em; margin-top: 4px; }
+@media(max-width:900px){
+  .trust-content { flex-direction: column; text-align: center; }
+  .trust-text { align-items: center; }
+  .trust-stats { margin-top: 16px; }
+}
 
 /* FLOATING SERVICES WIDGET */
 .h-svcs-wrap { position: relative; z-index: 10; margin-top: -65px; margin-bottom: 80px; }
@@ -326,7 +344,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
   <a href="/studio/about">About</a>
   <a href="#contact">Contact</a>
 </div>
-<a href="#contact" class="btn btn-p btn-s nav-cta">Start a project <i data-lucide="arrow-right"></i></a><button class="burger" id="bg" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+<a href="tel:+251952687749" class="btn btn-p btn-s nav-cta"><i data-lucide="phone"></i> +251 952 687 749</a><button class="burger" id="bg" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </div>
 </nav>
 <div class="mm" id="mm">
@@ -345,15 +363,31 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <div class="gl" id="gl"></div>
 <div class="wrap">
 <div class="hero-text">
-<h1 id="h-title"><span class="ln"><span>We build the</span></span><span class="ln"><span>software your</span></span><span class="ln"><span>ambition <em>runs on.</em></span></span></h1>
-<p class="lead" id="h-lead">At Corelink Studio, we design, build and operate websites, mobile applications, ERP systems and custom software solutions for companies, organizations and founders. Based in Addis Ababa, we serve clients worldwide.</p>
+<h1 id="h-title"><span class="ln"><span>We build the</span></span><span class="ln"><span>software your</span></span><span class="ln"><span>business <em>deserves.</em></span></span></h1>
+<p class="lead" id="h-lead">We deliver high-quality websites, mobile applications, ERP systems and custom software solutions for companies, organizations and founders looking for digital excellence.</p>
 <div class="cta"><a href="#contact" class="btn btn-p" id="h-cta"><span>Start a project</span> <i data-lucide="arrow-right"></i></a></div>
 </div>
 </div>
 </header>
 
+<section class="trust-bar"><div class="wrap">
+  <div class="trust-content">
+    <div class="trust-icon"><i data-lucide="shield-check"></i></div>
+    <div class="trust-text">
+      <strong>Backed by Corelink Technology Solutions PLC</strong>
+      <span>With access to thousands of talented professionals on our talent platform Corelink Ethiopia, we directly connect you with the right team and right people to build your project.</span>
+    </div>
+    <div class="trust-stats">
+      <div class="trust-stat">
+        <strong>1000+</strong>
+        <span>Professionals</span>
+      </div>
+    </div>
+  </div>
+</div></section>
+
 <section id="services"><div class="wrap">
-<div class="head rv"><div class="eyebrow">Services</div><h2>Building Digital Excellence</h2><p class="sub">From a first MVP to systems that run a whole company. One team designs, engineers and operates all of it.</p></div>
+<div class="head rv"><div class="eyebrow">Services</div><h2> Building Digital Excellence</h2><p class="sub">We deliver complete software solutions tailored to your business needs. From websites and mobile applications to enterprise systems and custom software development.</p></div>
 <ul class="svc" id="svc"></ul>
 </div></section>
 
@@ -370,7 +404,7 @@ footer:hover .big { -webkit-text-stroke-color: rgba(143,168,255,.4); }
 <div class="head rv">
   <div class="eyebrow">Our Talent</div>
   <h2>World-Class Engineers & Visionaries</h2>
-  <p class="sub">Our core leadership is backed by the Corelink Talent Hub, a verified ecosystem of elite developers, designers, and domain experts ready to scale your project.</p>
+  <p class="sub">Our development team is backed by the Corelink Talent Hub, a verified ecosystem of elite developers, designers, and domain experts ready to scale your project.</p>
 </div>
 <div class="grid g4" id="tm-grid"></div>
 <div style="text-align: center; margin-top: 48px;">
@@ -452,14 +486,14 @@ if(!D||typeof D!=="object"){console.warn("[studio] No data from Django. Showing 
 
 
 var defServices=[
-{i:"globe",t:"Web platforms",d:"Fast, secure web applications, portals and marketplaces built to scale with your business.",f:["React","Django","SaaS"]},
-{i:"smartphone",t:"Mobile apps",d:"Native iOS and Android applications with exceptional performance and user experience.",f:["Flutter","iOS","Android"]},
-{i:"code-2",t:"Custom software",d:"Tailored software solutions designed around your unique business workflows.",f:["Tailored","Scalable"]},
-{i:"layers",t:"ERP and business systems",d:"Integrated platforms for finance, HR, inventory and sales management.",f:["ERP","CRM","HRM"]},
-{i:"pen-tool",t:"UI/UX design",d:"User-centered interfaces and design systems that drive engagement.",f:["Figma","Branding"]},
-{i:"plug",t:"Integrations and APIs",d:"Seamless connections for payments, SMS, banking and third-party services.",f:["REST","Payments"]}];
+{i:"globe",t:"Websites",d:"We build websites and web applications for your business.",f:["React","Django","Web"]},
+{i:"smartphone",t:"Mobile Applications",d:"We develop mobile apps for iOS and Android.",f:["Flutter","iOS","Android"]},
+{i:"code-2",t:"Custom Software",d:"We create software solutions for your business operations.",f:["Custom","Business"]},
+{i:"layers",t:"ERP Systems",d:"We build business management systems for finance, HR, and operations.",f:["ERP","CRM","Business"]},
+{i:"pen-tool",t:"UI/UX Design",d:"We design user interfaces for your software.",f:["Figma","Design"]},
+{i:"plug",t:"System Integration",d:"We connect your systems with payment gateways and other platforms.",f:["Integration","API"]}];
 
-var P=[["Discover","Workshops to understand your goals, users and constraints. We define scope and success metrics."],["Design","Wireframes, prototypes and a visual system you can click through before we build."],["Build","Agile sprints with weekly demos, clean code and automated testing throughout."],["Launch & Scale","Secure deployment, training and ongoing support as your product grows."]];
+var P=[["Discover","We understand your business goals and requirements to create a clear project plan."],["Design","We create the visual design and structure of your software before development begins."],["Build","We develop your software with regular updates and quality testing throughout the process."],["Launch & Support","We deploy your software and provide ongoing support as your business grows."]];
 
 var defTeam=[
 {n:"Elias T.", r:"Lead Engineer"},
@@ -469,29 +503,7 @@ var defTeam=[
 
 var tagHtml=function(a){return list(a).map(function(t){return '<span>'+esc(t)+'</span>'}).join("")};
 
-/* HERO */
-safe(function(){
-  var h=D.hero;if(!h||!h.custom)return;
-  var title=String(h.title||"").trim();
-  if(title){
-    var w=title.split(/\s+/),n=w.length,lines;
-    if(n<=2){lines=[[w.join(" "),""]]}
-    else{
-      var k=Math.ceil(n/3),ch=[];
-      for(var x=0;x<n;x+=k)ch.push(w.slice(x,x+k));
-      var last=ch.pop(),cut=last.length>2?last.length-2:0;
-      lines=ch.map(function(c){return [c.join(" "),""]});
-      lines.push([last.slice(0,cut).join(" "),last.slice(cut).join(" ")]);
-    }
-    $("h-title").innerHTML=lines.map(function(l){
-      return '<span class="ln"><span>'+esc(l[0])+(l[1]?(l[0]?" ":"")+'<em>'+esc(l[1])+'</em>':"")+'</span></span>';
-    }).join("");
-  }
-  if(h.subtitle)$("h-lead").textContent=h.subtitle;
-  var cta=$("h-cta");
-  if(h.cta_text)cta.querySelector("span").textContent=h.cta_text;
-  var u=url(h.cta_link);if(u)cta.setAttribute("href",u);
-});
+/* HERO - hardcoded, not from database */
 
 /* SERVICES */
 safe(function(){
