@@ -130,8 +130,7 @@ h1 { font-size: clamp(2.9rem,6vw,5.8rem); font-weight: 800; line-height: .98; ma
 .proj-card { position: relative; height: 480px; border-radius: 24px; overflow: hidden; background: var(--night); display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 12px 32px rgba(7,8,13,.07); transition: transform .4s var(--ease), box-shadow .4s var(--ease); text-decoration: none; }
 .proj-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(7,8,13,.16); z-index: 2; }
 .proj-bg-wrap { position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; background: linear-gradient(135deg, #0B1F8F, #1F4DFF); }
-.proj-img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
-@media (hover:hover) { .proj-card:hover .proj-img { transform: scale(1.05); } }
+.proj-img { width: 100%; height: 100%; object-fit: contain; object-position: center; background: var(--night); }
 .proj-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,8,13,.98) 0%, rgba(7,8,13,.4) 50%, rgba(7,8,13,.05) 100%); z-index: 2; pointer-events: none; transition: background .4s; }
 .proj-card:hover::after { background: linear-gradient(to top, rgba(7,8,13,.95) 0%, rgba(7,8,13,.3) 55%, transparent 100%); }
 
