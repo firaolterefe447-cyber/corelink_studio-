@@ -173,6 +173,14 @@ CSRF_COOKIE_SECURE = True if not DEBUG else False
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # ==============================================
+# DATA UPLOAD SETTINGS
+# ==============================================
+# Increase limits for large HTML content in simulation pages
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50MB
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None  # No limit on number of fields
+
+# ==============================================
 # CORELINK UNFOLD ADMIN CONFIGURATION
 # ==============================================
 from django.utils.translation import gettext_lazy as _
