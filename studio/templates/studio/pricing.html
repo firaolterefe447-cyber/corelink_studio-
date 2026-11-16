@@ -1,0 +1,518 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07080D">
+<title>Pricing - Corelink Studio</title>
+<link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}?v=2">
+<meta name="description" content="Clear ETB pricing for websites, mobile apps and custom software in Ethiopia. Pick a package, see your total.">
+<meta property="og:title" content="Pricing - Corelink Studio">
+<meta property="og:description" content="Clear ETB pricing for websites, mobile apps and custom software in Ethiopia.">
+<meta property="og:image" content="https://studio.corelink.et/static/img/preview.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--core:#1F4DFF;--abyss:#0B1F8F;--accent:#8FA8FF;--night:#07080D;--ink:#0B0D14;--muted:#5F6470;--line:#E4E4DE;--soft:#F3F3EF;--d:'Bricolage Grotesque',system-ui,sans-serif;--t:'Hanken Grotesk',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{font:400 16px/1.6 var(--t);color:var(--ink);background:#FBFBF9;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,.logo-t{font-family:var(--d);letter-spacing:-.03em}
+a{color:inherit;text-decoration:none}ul{list-style:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(251,251,249,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:16px}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-t{font-weight:800;font-size:21px;text-transform:lowercase}.logo-t b{color:var(--core)}
+.links{display:flex;gap:4px;font-size:14.5px;font-weight:600;color:var(--muted)}
+.links a{padding:8px 14px;border-radius:99px}.links a:hover,.links a.on{color:var(--ink);background:rgba(15,23,42,.06)}
+.btn{display:inline-flex;align-items:center;justify-content:center;font:700 15px var(--t);padding:13px 24px;border-radius:12px;background:var(--core);color:#fff;border:0;cursor:pointer;transition:background .2s,transform .2s}
+.btn:hover{background:#1539E0;transform:translateY(-1px)}
+.btn.sm{padding:9px 18px;font-size:14px}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+
+/* hero */
+.hero{background:var(--night);color:#fff;padding:140px 0 70px;text-align:center;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 30%,rgba(24,52,200,.4),transparent 50%),radial-gradient(circle at 85% 70%,rgba(31,77,255,.25),transparent 45%)}
+.hero .wrap{position:relative}
+h1{font-size:clamp(2.4rem,6vw,4.4rem);line-height:1;font-weight:800;margin-bottom:18px}
+.lead{color:#B8BCC8;font-size:19px;max-width:620px;margin:0 auto 28px}
+.facts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.facts span{font:600 13.5px var(--t);padding:7px 14px;border:1px solid rgba(255,255,255,.2);border-radius:99px;color:#D8DBE6}
+
+section{padding:72px 0}
+.eyebrow{font:800 12px var(--t);letter-spacing:.16em;text-transform:uppercase;color:var(--core);margin-bottom:10px}
+h2{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.05;font-weight:800;margin-bottom:10px}
+.sub{color:var(--muted);max-width:620px}
+
+/* configurator */
+.cfg{display:grid;grid-template-columns:1fr 360px;gap:32px;margin-top:36px;align-items:start}
+.step{margin-bottom:40px}
+.step h3{font-size:20px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.step h3 i{font:800 14px var(--t);font-style:normal;width:28px;height:28px;border-radius:50%;background:var(--core);color:#fff;display:grid;place-items:center}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{font:700 15px var(--t);padding:11px 20px;border-radius:99px;border:1.5px solid var(--line);background:#fff;color:var(--muted);cursor:pointer}
+.tab:hover{border-color:var(--core);color:var(--ink)}
+.tab.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.hint{color:var(--muted);font-size:14.5px;margin-top:10px}
+.tiers{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.tier{text-align:left;font:inherit;background:#fff;border:2px solid var(--line);border-radius:20px;padding:24px;cursor:pointer;transition:border-color .2s,box-shadow .2s;color:var(--ink)}
+.tier:hover{border-color:rgba(31,77,255,.4)}
+.tier.on{border-color:var(--core);box-shadow:0 10px 30px rgba(31,77,255,.15);background:linear-gradient(180deg,rgba(31,77,255,.04),#fff)}
+.tier h4{font:800 18px var(--d)}
+.tier .d{color:var(--muted);font-size:14.5px;margin:6px 0 14px;min-height:44px}
+.tier .p{font:800 28px var(--d);color:var(--core);letter-spacing:-.02em}
+.tier .p small{font:600 13px var(--t);color:var(--muted)}
+.tier .tm{font-size:13.5px;color:var(--muted);margin:2px 0 14px}
+.tier li{font-size:14px;padding-left:22px;position:relative;margin-bottom:7px}
+.tier li:before{content:"✓";position:absolute;left:0;color:var(--core);font-weight:800}
+.opt-title{font:700 13px var(--t);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px}
+.opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.opt{display:flex;justify-content:space-between;gap:12px;align-items:center;text-align:left;font:600 14.5px var(--t);padding:13px 16px;border-radius:14px;border:2px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
+.opt:hover{border-color:rgba(31,77,255,.4)}
+.opt.on{border-color:var(--core);background:rgba(31,77,255,.06)}
+.opt em{font-style:normal;font-weight:700;color:var(--core);white-space:nowrap;font-size:13.5px}
+.opt small{display:block;font-weight:500;color:var(--muted);font-size:12.5px}
+
+/* summary */
+.sum{position:sticky;top:86px;background:var(--night);color:#fff;border-radius:24px;padding:28px}
+.sum h3{font:800 12px var(--t);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+.row{display:flex;justify-content:space-between;gap:12px;font-size:14.5px;padding:7px 0;color:#C9CDDA}
+.row b{color:#fff;font-weight:600;white-space:nowrap}
+.sum hr{border:0;border-top:1px solid rgba(255,255,255,.14);margin:12px 0}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin:4px 0}
+.total span{font-weight:700}.total strong{font:800 30px var(--d);letter-spacing:-.02em}
+.yr{font-size:13.5px;color:#B8BCC8;margin:6px 0 18px}
+.sum .btn{width:100%;background:#fff;color:var(--night)}
+.sum .btn:hover{background:#EDEFF8}
+.fine{font-size:12.5px;color:#8E93A3;margin-top:12px;line-height:1.5}
+
+/* ethiopia */
+.band{background:var(--soft)}
+.cards{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:32px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px}
+.card h3{font-size:18px;font-weight:800;margin-bottom:6px}.card p{color:var(--muted);font-size:15px}
+
+/* faq */
+.faq{max-width:780px;margin:32px auto 0}
+details{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:12px}
+summary{cursor:pointer;font-weight:700;padding:18px 22px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";color:var(--core);font-size:22px;line-height:1}
+details[open] summary:after{content:"–"}
+details p{padding:0 22px 18px;color:var(--muted);font-size:15px}
+
+.cta{background:linear-gradient(135deg,var(--night),var(--abyss));color:#fff;text-align:center}
+.cta h2{margin-bottom:14px}.cta p{color:#B8BCC8;max-width:520px;margin:0 auto 26px}
+.cta .btn{background:#fff;color:var(--night)}
+
+footer{background:var(--night);color:#8E93A3;padding:56px 0 calc(28px + env(safe-area-inset-bottom));font-size:14.5px}
+.fg{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:32px}
+footer a{color:#fff}footer a:hover{color:var(--accent)}
+footer p{margin-top:8px}
+.bot{border-top:1px solid rgba(255,255,255,.1);padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px}
+
+.total strong{font-size:22px}.up{font-size:12.5px;color:var(--muted);background:var(--soft);border-radius:10px;padding:8px 10px;margin-bottom:14px}
+.tbl{overflow-x:auto;margin-top:28px;background:#fff;border:1px solid var(--line);border-radius:18px}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:14.5px}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:800 14px var(--d);background:var(--soft)}tr:last-child td{border-bottom:0}td:first-child{font-weight:700;width:22%}
+.two{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:28px}
+.card ul li{padding-left:22px;position:relative;margin-bottom:8px;font-size:14.5px;color:var(--ink)}
+.card.yes li:before{content:"✓";position:absolute;left:0;color:var(--core);font-weight:800}
+.card.no li:before{content:"×";position:absolute;left:3px;color:#C0392B;font-weight:800}
+.card b{color:var(--ink)}.note{margin-top:18px;font-size:14px;color:var(--muted);max-width:760px}
+.lbl{font:800 11.5px var(--t);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
+.sup{font-size:13.5px;background:rgba(31,77,255,.06);border-radius:10px;padding:9px 11px;margin-top:12px}.by{font-size:12.5px;color:var(--muted);margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+.bigs{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.big{text-align:left;font:inherit;background:#fff;border:2px solid var(--line);border-radius:18px;padding:20px;cursor:pointer;color:var(--ink)}
+.big:hover{border-color:rgba(31,77,255,.4)}.big.on{border-color:var(--core);background:rgba(31,77,255,.05);box-shadow:0 8px 24px rgba(31,77,255,.12)}
+.big h5{font:800 17px var(--d)}.bp{font:800 17px var(--d);color:var(--core);margin:4px 0 8px}
+.kv{font-size:13.5px;margin:10px 0;border-top:1px solid var(--line)}.kv div{padding:8px 0;border-bottom:1px solid var(--line);color:var(--ink)}
+.kv b{display:block;font:800 11px var(--t);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.big ul li{font-size:13.5px;padding-left:20px;position:relative;margin-bottom:6px}.big ul li:before{content:"✓";position:absolute;left:0;color:var(--core);font-weight:800}
+.best{font-size:13px;font-weight:700;color:var(--core);margin-top:10px}
+.mbar{display:none}
+@media(max-width:960px){
+  .cfg{grid-template-columns:1fr}.sum{position:static}.links{display:none}
+  .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--night);color:#fff;padding:12px 20px calc(12px + env(safe-area-inset-bottom));align-items:center;justify-content:space-between;gap:12px}
+  .mbar strong{font:800 20px var(--d)}.mbar small{display:block;color:#B8BCC8;font-size:12px}
+  .mbar a{padding:10px 18px;font-size:14px;background:#fff;color:var(--night);border-radius:10px;font-weight:700}
+  body{padding-bottom:70px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a href="{% url 'studio_home' %}" class="logo"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="4" y="4" width="22" height="9" rx="4.5" fill="#8FA8FF"/><rect x="4" y="17" width="22" height="9" rx="4.5" fill="#1F4DFF"/></svg><span class="logo-t">core<b>link</b> studio</span></a>
+  <div class="links">
+    <a href="/studio/services">Services</a><a href="/studio/team">Team</a><a href="/studio/projects">Projects</a><a href="/studio/about">About</a><a href="/studio/pricing" class="on">Pricing</a><a href="{% url 'studio_contact' %}">Contact</a>
+  </div>
+  <a href="{% url 'studio_contact' %}" class="btn sm">Start a project</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <h1>Clear prices. No surprises.</h1>
+  <p class="lead">Every project is different, so we show honest ranges in Ethiopian Birr, tell you what moves the price, and explain support, tax and payment before you ask.</p>
+  <div class="facts"><span>Prices in ETB</span><span>VAT shown separately</span><span>Support terms in writing</span><span>Bank transfer &amp; Telebirr</span></div>
+</div></header>
+
+<section>
+<div class="wrap">
+  <div class="eyebrow">Price calculator</div>
+  <h2>Build your estimate in 3 steps</h2>
+  <p class="sub">Ranges reflect the Addis Ababa market. The low end is a simple project; the high end has more pages, features or integrations. After a free 30-minute call you get one fixed price in writing.</p>
+
+  <div class="cfg">
+    <div>
+      <div class="step"><h3><i>1</i>What do you need?</h3>
+        <div class="tabs" id="tabs" role="tablist"></div>
+        <p class="hint" id="svc-hint"></p>
+      </div>
+      <div class="step"><h3><i>2</i>Choose a package</h3>
+        <div class="tiers" id="tiers"></div>
+      </div>
+      <div class="step" id="step3"><h3><i>3</i>Hosting, domain &amp; support</h3>
+        <p class="hint" style="margin:-6px 0 16px">Your site needs a server (hosting) and an address (domain). Each card below says who pays, who owns the account and who looks after it. Nothing is hidden.</p>
+        <div class="opt-title">A. Hosting: the server your site runs on</div><div class="bigs" id="o-hm"></div>
+        <div id="o-hp-wrap"><div class="opt-title" id="o-hp-title"></div><div class="bigs" id="o-hp"></div></div>
+        <div class="opt-title">B. Domain name: your address, like yourbusiness.com</div><div class="bigs" id="o-dm"></div>
+        <div id="o-dt-wrap"><div class="opt-title">Domain type (paid yearly, at cost)</div><div class="opts" id="o-dt"></div></div>
+        <div class="opt-title">C. Support after launch: who fixes and updates things</div><div class="bigs" id="o-care"></div>
+        <div class="opt-title">D. Add-ons · one-time</div><div class="opts" id="o-add"></div>
+      </div>
+    </div>
+
+    <aside class="sum" aria-live="polite">
+      <h3>Your estimate</h3>
+      <div id="rows"></div><hr>
+      <div class="row"><span>Subtotal</span><b id="s-sub"></b></div>
+      <div class="row" id="r-vat"><span>VAT 15%</span><b id="s-vat"></b></div>
+      <div class="total"><span>Pay for the project</span><strong id="s-tot"></strong></div>
+      <div class="yr" id="s-yr"></div><div class="yr" id="s-prov" style="color:#8FA8FF"></div>
+      <a class="btn" id="s-btn" href="{% url 'studio_contact' %}">Request this quote</a>
+      <p class="fine">This is an estimate, not a contract. We confirm one fixed price in writing before any work starts. Yearly and monthly items start after launch.</p>
+    </aside>
+  </div>
+</div>
+</section>
+
+<section id="ownership">
+<div class="wrap">
+  <div class="eyebrow">Ownership</div>
+  <h2>Who owns what</h2>
+  <p class="sub">The short rule: your business, your domain, your content, your code. We never lock you in.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Item</th><th>We host it for you</th><th>You buy your own hosting</th></tr></thead>
+    <tbody>
+      <tr><td>Domain name</td><td>You. Registered in your name or company name</td><td>You. Registered in your name or company name</td></tr>
+      <tr><td>Hosting account</td><td>Held by CoreLink. You can ask us to move it to your own account at any time</td><td>You. The account and password are yours</td></tr>
+      <tr><td>Website files and database</td><td>You own them. A full copy on request</td><td>You own them and they sit on your server</td></tr>
+      <tr><td>Source code and designs</td><td>You, after final payment</td><td>You, after final payment</td></tr>
+      <tr><td>Admin logins (website, CMS)</td><td>You, from the day of delivery</td><td>You, from the day of delivery</td></tr>
+      <tr><td>Payment, app store and social accounts</td><td>Always opened in your name or company name</td><td>Always opened in your name or company name</td></tr>
+      <tr><td>Backups</td><td>Daily, kept by us</td><td>You, or us if you take a care plan</td></tr>
+      <tr><td>Renewals</td><td>Hosting renewal is in the yearly fee. We remind you about the domain 60 days before</td><td>You pay and renew. If the plan expires, the site goes offline</td></tr>
+      <tr><td>If you stop a care plan</td><td colspan="2">You keep everything. We only stop monitoring and changes.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">For .et domains, the registry needs your business license or ID. Registering in your name means no one else can take the domain away from you.</p>
+</div>
+</section>
+
+<section class="band" id="support">
+<div class="wrap">
+  <div class="eyebrow">Support &amp; maintenance</div>
+  <h2>What happens after launch</h2>
+  <p class="sub">A website or app needs updates, backups and fixes. Here is exactly what is free, what is a monthly care plan, and what is extra.</p>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>Included support<br><small style="font:500 12px var(--t);color:var(--muted)">free, 3–12 months by package</small></th><th>Essential</th><th>Business</th><th>Priority</th></tr></thead>
+    <tbody>
+      <tr><td>Price</td><td>Free</td><td>ETB 3,000–5,000 / month</td><td>ETB 6,000–10,000 / month</td><td>ETB 15,000–25,000 / month</td></tr>
+      <tr><td>Bug fixes</td><td>Yes, for what we built</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>Security updates</td><td>No</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>Backups &amp; uptime monitoring</td><td>No</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>Small changes (text, photos, pages)</td><td>No</td><td>2 hours / month</td><td>8 hours / month</td><td>20 hours / month</td></tr>
+      <tr><td>First reply</td><td>2 working days</td><td>1 working day</td><td>Within 4 working hours</td><td>Within 2 working hours</td></tr>
+      <tr><td>Channel</td><td>Email, Telegram</td><td>Email, Telegram</td><td>+ phone</td><td>+ phone, priority queue</td></tr>
+      <tr><td>Monthly report</td><td>No</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note"><b>Bug fix</b> means something we built stops working as agreed. <b>Change</b> means anything new: text, photos, pages or features. Changes use your care-plan hours, or are billed at ETB 1,000–1,800 per hour. Working hours are Monday–Friday, 8:30–17:30, Addis Ababa time. Unused hours do not roll over.</p>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+  <div class="eyebrow">Scope</div>
+  <h2>What is included, and what is not</h2>
+  <div class="two">
+    <div class="card yes"><h3>Included in every project price</h3><ul>
+      <li>Discovery call and a written scope before work starts</li>
+      <li>Design mockups that you approve before coding</li>
+      <li>Responsive design tested on Android, iPhone and computer</li>
+      <li>Fast loading on slow connections</li>
+      <li>SSL (https) and basic security setup</li>
+      <li>SEO basics: titles, descriptions, sitemap, Google Search Console</li>
+      <li>Analytics installed, forms and notifications working</li>
+      <li>Testing and a launch checklist before going live</li>
+      <li>Training session and a short guide for your team</li>
+      <li>Free support period (bug fixes), 3–12 months by package</li>
+      <li>Design revisions: 2 rounds (3 for UI/UX, unlimited for Full branding)</li>
+      <li>Source code, designs and all logins handed to you after final payment</li>
+    </ul></div>
+    <div class="card no"><h3>Not included (paid by you or priced separately)</h3><ul>
+      <li>Hosting and domain, unless you select them above</li>
+      <li>Content writing, photos and video (you provide them, or we quote)</li>
+      <li>Ad spend on Facebook, Instagram, TikTok or Google</li>
+      <li>Payment gateway, SMS and email service fees charged per transaction</li>
+      <li>App store fees: Google Play (one-time) and Apple Developer (yearly)</li>
+      <li>Work outside the agreed scope, quoted before we start</li>
+    </ul></div>
+  </div>
+</div>
+</section>
+
+<section class="band">
+<div class="wrap">
+  <div class="eyebrow">Payment, tax &amp; timing</div>
+  <h2>How paying us works</h2>
+  <div class="cards">
+    <div class="card"><h3>Payment schedule</h3><p>Projects under ETB 300,000: 50% to start, 50% on delivery. Larger projects: 40% start, 30% at the midpoint demo, 30% on delivery. Monthly services are paid in advance.</p></div>
+    <div class="card"><h3 id="c-vat-h">Tax and invoices</h3><p id="c-vat-p"></p></div>
+    <div class="card"><h3>Withholding tax</h3><p>Companies in Ethiopia may withhold tax on service payments above the legal threshold, currently around 3%, and give us a withholding receipt. Rates changed in 2025, so confirm with your accountant. Tell us your TIN so we invoice correctly.</p></div>
+    <div class="card"><h3>How to pay</h3><p>Bank transfer or Telebirr. Send us the receipt and we confirm within one working day.</p></div>
+    <div class="card"><h3>Timeline</h3><p>The clock starts when we receive the deposit and your content. Late content or late approvals move the delivery date by the same number of days.</p></div>
+    <div class="card"><h3>If you stop</h3><p>You pay for the work completed so far, and you receive everything finished to that point.</p></div>
+  </div>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+  <div class="eyebrow" style="text-align:center">FAQ</div>
+  <h2 style="text-align:center">Questions we get often</h2>
+  <div class="faq">
+    <details><summary>What is included in a package?</summary><p>Design, development, testing, launch, and the support period listed on the package. Hosting, domain and add-ons are separate so you only pay for what you use.</p></details>
+    <details><summary>How do I pay?</summary><p>50% to start and 50% when we deliver. Larger projects can be split into milestones. We accept bank transfer and Telebirr.</p></details>
+    <details><summary>Why is the price a range?</summary><p>Because projects differ. Number of pages, languages, integrations and design depth change the work. After our call you get one fixed price, and it does not change unless you change the scope.</p></details>
+    <details><summary>Can I change a package?</summary><p>Yes. Packages are starting points. Tell us what to add or remove and we will adjust the quote.</p></details>
+    <details><summary>Who owns the website or app?</summary><p>You do. When the final payment is made, you receive the source code and access to all accounts.</p></details>
+  </div>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+  <div class="eyebrow" style="text-align:center">Who builds it</div>
+  <h2 style="text-align:center">Built and delivered by selected experts from CoreLink Ethiopia talent</h2>
+  <p class="sub" style="margin:10px auto 0;text-align:center">Your project is not given to whoever is free. We select the right people for your type of project.</p>
+  <div class="cards">
+    <div class="card"><h3>Matched to your project</h3><p>Web, mobile, software, design or marketing: each project gets experts who do that work every day.</p></div>
+    <div class="card"><h3>One accountable lead</h3><p>You speak to one project lead, who gives you regular progress updates and answers for the result.</p></div>
+    <div class="card"><h3>Checked before delivery</h3><p>A second expert tests the work against the written scope before you see the final version.</p></div>
+    <div class="card"><h3>Ethiopian talent, local hours</h3><p>Our team is in Addis Ababa. You can talk to us in your language, in your working hours.</p></div>
+  </div>
+</div>
+</section>
+
+<section class="cta"><div class="wrap">
+  <h2>Not sure what you need?</h2>
+  <p>Tell us about your business. We will recommend the right package and give you a fixed quote.</p>
+  <a href="{% url 'studio_contact' %}" class="btn">Book a free call</a>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="fg">
+    <div><span class="logo-t" style="color:#fff;font-size:20px">core<b style="color:var(--accent)">link</b> studio</span><p>Software engineering for ambitious teams.</p></div>
+    <div><a href="tel:+251952687749">+251 952 687 749</a><br><a href="tel:+251963062789">+251 963 062 789</a><p>Arat Kilo, Addis Ababa</p><p><a href="https://t.me/corelinksupport_team">@corelinksupport_team</a></p></div>
+  </div>
+  <div class="bot"><span>© 2026 Corelink Studio</span><span>Built in Ethiopia, shipped worldwide</span></div>
+</div></footer>
+
+<div class="mbar"><div><small id="m-lbl">Estimate</small><strong id="m-tot"></strong></div><a href="{% url 'studio_contact' %}" id="m-btn">Request quote</a></div>
+
+<script>
+(function () {
+  "use strict";
+  var VAT_REGISTERED = true; /* VAT shown: CoreLink is registering for VAT */
+  var VAT = VAT_REGISTERED ? 0.15 : 0;
+  var CONTACT = "{% url 'studio_contact' %}";
+  var $ = function (id) { return document.getElementById(id); };
+  var n = function (x) { return Math.round(x).toLocaleString("en-US"); };
+  var rg = function (lo, hi, u) { return (lo === hi ? n(lo) : n(lo) + "–" + n(hi)) + (u || ""); };
+  var kf = function (x) { return x >= 1e6 ? (x / 1e6).toFixed(2).replace(/\.?0+$/, "") + "M" : Math.round(x / 1000) + "k"; };
+
+  /* p = [low, high] in ETB. rec:'month' = billed monthly. up = what pushes the price up. */
+  var SERVICES = {
+    web: { name: "Website", opts: true, hint: "From a simple business site to an online shop or customer portal.", tiers: [
+      { n: "Starter site", d: "Portfolio, small business or blog.", p: [30000, 50000], t: "3–5 weeks", up: "More pages, content writing, extra animation.", f: ["Up to 5 pages", "Custom design", "Mobile responsive", "Contact form + Telegram/WhatsApp button", "Basic SEO", "3 months free support"] },
+      { n: "Business site", d: "Multi-page site that brings in leads.", p: [55000, 90000], t: "4–7 weeks", up: "More pages, languages, booking or gallery features.", f: ["Up to 10 pages", "Custom design", "Advanced SEO", "Analytics", "Several forms", "6 months free support"] },
+      { n: "Online shop", d: "Catalogue, cart and online payment.", p: [100000, 180000], t: "6–10 weeks", up: "Number of products, delivery rules, payment methods.", f: ["Up to 50 products", "Cart and checkout", "Order management", "Email/SMS notifications", "6 months free support"] },
+      { n: "Web portal / PWA", d: "Accounts, dashboards, works offline.", p: [200000, 350000], t: "8–14 weeks", up: "User roles, integrations, reports.", f: ["User login", "Role-based access", "Admin dashboard", "Offline mode", "API integration", "12 months free support"] }
+    ] },
+    app: { name: "Mobile / Web app", opts: true, hint: "Custom apps for Android, iOS and the web.", tiers: [
+      { n: "Simple app", d: "One purpose, done well.", p: [100000, 180000], t: "6–10 weeks", up: "Number of screens, one or two platforms.", f: ["Android or iOS", "Core features", "Clean UI", "Store submission help", "6 months free support"] },
+      { n: "Business app", d: "Multi-screen app with a backend.", p: [200000, 400000], t: "8–16 weeks", up: "Features, admin panel, payments, notifications.", f: ["Android and iOS", "Backend API", "User accounts", "Push notifications", "Admin panel", "12 months free support"] },
+      { n: "Full-featured app", d: "Complex features and integrations.", p: [400000, 800000], t: "14–24 weeks", up: "Real-time features, maps, many integrations.", f: ["Android, iOS and web", "Custom backend", "Third-party integrations", "Real-time sync", "12 months free support"] }
+    ] },
+    soft: { name: "Software & ERP", opts: true, hint: "Systems that run operations: inventory, HR, accounting, reporting.", tiers: [
+      { n: "Custom dashboard", d: "Reports and data in one place.", p: [150000, 280000], t: "8–12 weeks", up: "Data sources, number of reports.", f: ["Custom dashboard", "Charts and exports", "User management", "12 months free support"] },
+      { n: "ERP system", d: "Run your whole business.", p: [350000, 700000], t: "12–24 weeks", up: "Number of modules, branches, users.", f: ["Inventory", "Accounting", "HR", "Reports", "User roles", "12 months free support"] },
+      { n: "Industry solution", d: "Built for your sector.", p: [600000, 1200000], t: "16–32 weeks", up: "Size, integrations, compliance needs.", f: ["Custom industry features", "Integrations", "Scalable design", "Staff training", "12 months free support"] }
+    ] },
+    design: { name: "Branding & Design", opts: false, hint: "Look and feel for your brand or product.", tiers: [
+      { n: "Logo & identity", d: "Logo, colours, fonts, guidelines.", p: [12000, 30000], t: "2–4 weeks", up: "Number of concepts, brand guide size.", f: ["Logo design", "Colour palette", "Typography", "Brand guide", "2 revisions"] },
+      { n: "UI/UX design", d: "Screens and prototype for your product.", p: [40000, 90000], t: "4–8 weeks", up: "Number of screens, research depth.", f: ["User research", "Wireframes", "UI design", "Clickable prototype", "3 revisions"] },
+      { n: "Full branding", d: "Everything for a complete brand.", p: [80000, 150000], t: "6–10 weeks", up: "Marketing materials and social templates.", f: ["Logo & identity", "Marketing materials", "Social media templates", "Brand guide", "Unlimited revisions"] }
+    ] },
+    mkt: { name: "Social media", opts: false, hint: "Content and management on Facebook, Instagram, Telegram and TikTok. Ad spend is paid by you, separately.", tiers: [
+      { n: "Setup", d: "Profiles and content plan.", p: [8000, 15000], t: "1–2 weeks", up: "Number of platforms.", f: ["Profile setup (up to 3 platforms)", "Content strategy", "Brand voice", "Posting schedule"] },
+      { n: "Basic management", d: "Regular posts, no ads.", p: [8000, 8000], rec: 1, t: "Monthly", up: "Fixed price.", f: ["12 designed posts / month", "Scheduled posting", "Monthly report"] },
+      { n: "Standard management", d: "Posts, replies and boosting.", p: [12000, 12000], rec: 1, t: "Monthly", up: "Fixed price.", f: ["16 designed posts / month", "Community replies", "Post boosting setup", "Monthly report"] },
+      { n: "Premium management", d: "Full content and campaign care.", p: [18000, 18000], rec: 1, t: "Monthly", up: "Fixed price.", f: ["24 posts + short videos", "Daily community replies", "Ad management", "Strategy call each month"] },
+      { n: "Campaign", d: "One focused campaign.", p: [15000, 40000], t: "2–6 weeks", up: "Platforms and creative count.", f: ["Campaign strategy", "Ad design", "Copywriting", "Ad management", "Final report"] }
+    ] }
+  };
+  var MP = [
+    { n: "Shared", p: [3000, 6000], l: ["For websites and small shops", "SSL, daily backups, business email", "Shared server with other sites"] },
+    { n: "VPS", p: [12000, 36000], l: ["For web apps, portals and busy shops", "Your own CPU and memory", "Easy to upgrade as you grow"] },
+    { n: "Dedicated server", p: [120000, 120000], l: ["A whole server only for you", "For ERP and large systems", "Highest speed and control"] }
+  ];
+  var SB = [
+    { n: "Shared hosting", prov: [600, 5400], setup: [3000, 5000], l: ["For websites and small shops", "Cheapest option", "Paid to the hosting company"] },
+    { n: "VPS", prov: [5500, 15000], setup: [5000, 8000], l: ["For web apps, portals and busy shops", "More power, needs more care", "Paid to the hosting company"] }
+  ];
+  var HM = [
+    { n: "We host it for you", price: "Yearly fee, paid to us", kv: [["Who pays", "You pay us once a year"], ["Account owner", "CoreLink holds the server account. You own your content and data and can ask us to move it to your own hosting any time"], ["Who looks after it", "We do"]], l: ["Server setup, SSL and business email", "Daily backups and uptime monitoring", "We handle renewals and server problems"], best: "Best if you have no IT person." },
+    { n: "You buy your own hosting", price: "Setup fee to us + provider fees to them", kv: [["Who pays", "You pay the hosting company directly, yearly or monthly depending on the provider. We charge only a one-time setup fee"], ["Account owner", "You. The account is in your name and you hold the password"], ["Who looks after it", "You or your IT person. You can add a care plan"]], l: ["We advise which plan to buy", "We install and launch your site", "You must renew on time or the site goes offline"], best: "Best if you want full control and your own invoices." },
+    { n: "I already have hosting", price: "One-time deploy fee: ETB 2,000–5,000", kv: [["Who pays", "Nothing extra to us beyond the deploy fee"], ["Account owner", "You"], ["Who looks after it", "You"]], l: ["You give us access to your server", "We move and launch the site", "We check first that your server can run it"], best: "Best if your company already has a server." }
+  ];
+  var DM = [
+    { n: "I already have a domain", price: "No cost to us", kv: [["Who pays", "You, at your domain company"], ["Owner", "You"], ["Our access", "You give us DNS access to connect the site. We never move or lock your domain"]], l: [] },
+    { n: "Register it for me", price: "Yearly cost, at cost", kv: [["Who pays", "You pay the registration cost through us, once a year, with no mark-up"], ["Owner", "You are the registered owner. We use your name and documents"], ["Renewal", "We remind you 60 days before it expires and you approve the payment"]], l: [] },
+    { n: "I'll register it myself", price: "No cost to us", kv: [["Who pays", "You, at the registrar. We give you the steps"], ["Owner", "You"], ["Our access", "You send us DNS access when ready"]], l: [] }
+  ];
+  var DT = [[".et domain", 550, 1375, "Local, through ethio telecom"], [".com / .net / .org", 1500, 2500, "International"]];
+  var CARE = [
+    { n: "No care plan", p: [0, 0], l: ["Free bug fixes during your included support period only", "After that, fixes and changes cost ETB 1,000–1,800 per hour", "No monitoring"] },
+    { n: "Essential", p: [3000, 5000], l: ["Security and software updates", "Backups and uptime monitoring", "2 hours of small changes / month", "Reply within 1 working day"] },
+    { n: "Business", p: [6000, 10000], l: ["Everything in Essential", "8 hours of changes / month", "Reply within 4 working hours", "Phone support and monthly report"] },
+    { n: "Priority", p: [15000, 25000], l: ["Everything in Business", "20 hours of changes / month", "Reply within 2 working hours", "Priority queue"] }
+  ];
+  var ADD = [
+    { n: "SEO optimization", p: [10000, 25000] },
+    { n: "Self-editing CMS", p: [12000, 25000] },
+    { n: "Extra language (each)", p: [10000, 20000] },
+    { n: "Local payments (Telebirr, CBE, Chapa)", p: [20000, 45000] },
+    { n: "AI chatbot", p: [30000, 80000] }
+  ];
+  var st = { s: "web", t: 1, hm: 0, h: 0, dm: 1, dt: 0, c: 0, a: {} };
+
+  function tag(lo, hi, u) { return (lo || hi) ? "ETB " + rg(lo, hi, u) : "Free"; }
+  function opt(l, sub, tg, on, attr) {
+    return '<button type="button" class="opt' + (on ? " on" : "") + '" ' + attr + ' aria-pressed="' + on + '"><span>' + l + (sub ? "<small>" + sub + "</small>" : "") + "</span><em>" + tg + "</em></button>";
+  }
+  function big(title, price, kv, lines, best, on, attr) {
+    return '<button type="button" class="big' + (on ? " on" : "") + '" ' + attr + ' aria-pressed="' + on + '"><h5>' + title + "</h5>" + (price ? '<div class="bp">' + price + "</div>" : "") +
+      (kv ? '<div class="kv">' + kv.map(function (r) { return "<div><b>" + r[0] + "</b>" + r[1] + "</div>"; }).join("") + "</div>" : "") +
+      (lines.length ? "<ul>" + lines.map(function (l) { return "<li>" + l + "</li>"; }).join("") + "</ul>" : "") + (best ? '<div class="best">' + best + "</div>" : "") + "</button>";
+  }
+
+  function render() {
+    $("r-vat").style.display = VAT_REGISTERED ? "" : "none";
+    $("m-lbl").textContent = VAT_REGISTERED ? "Estimate incl. VAT" : "Estimate";
+    $("c-vat-h").textContent = VAT_REGISTERED ? "VAT 15%" : "Tax and invoices";
+    $("c-vat-p").textContent = VAT_REGISTERED ? "Prices exclude VAT. The calculator shows VAT separately. You receive a VAT invoice with our TIN and VAT number." : "The prices shown have no VAT added. You receive a proper invoice and receipt with our TIN.";
+    var svc = SERVICES[st.s];
+    if (st.t >= svc.tiers.length) st.t = 0;
+    $("tabs").innerHTML = Object.keys(SERVICES).map(function (k) {
+      return '<button type="button" class="tab' + (k === st.s ? " on" : "") + '" data-s="' + k + '" role="tab" aria-selected="' + (k === st.s) + '">' + SERVICES[k].name + "</button>";
+    }).join("");
+    $("svc-hint").textContent = svc.hint;
+    $("tiers").innerHTML = svc.tiers.map(function (t, i) {
+      var feat = t.f.filter(function (f) { return !/support/i.test(f); }), sup = t.f.filter(function (f) { return /support/i.test(f); });
+      return '<button type="button" class="tier' + (i === st.t ? " on" : "") + '" data-t="' + i + '" aria-pressed="' + (i === st.t) + '"><h4>' + t.n + '</h4><div class="d">' + t.d + '</div><div class="p">ETB ' + rg(t.p[0], t.p[1]) + " <small>" + (t.rec ? "/ month" : "one-time") + '</small></div><div class="tm">Delivery: ' + t.t + '</div><div class="lbl">What you get</div><ul>' +
+        feat.map(function (f) { return "<li>" + f + "</li>"; }).join("") + "</ul>" +
+        (sup.length ? '<div class="sup"><b>After launch:</b> ' + sup[0] + " (bug fixes for what we built)</div>" : "") +
+        '<div class="up">' + (t.rec ? "" : "Price goes up with: ") + t.up + '</div><div class="by">Built by selected CoreLink Ethiopia experts</div></button>';
+    }).join("");
+
+    $("step3").style.display = svc.opts ? "" : "none";
+    $("o-hm").innerHTML = HM.map(function (m, i) { return big(m.n, m.price, m.kv, m.l, m.best, i === st.hm, 'data-hm="' + i + '"'); }).join("");
+    var w = $("o-hp-wrap");
+    if (st.hm === 0) {
+      w.style.display = ""; $("o-hp-title").textContent = "Choose your managed plan (paid to us, yearly)";
+      $("o-hp").innerHTML = MP.map(function (p, i) { return big(p.n, "ETB " + rg(p.p[0], p.p[1]) + " / year", null, p.l, "", i === st.h, 'data-h="' + i + '"'); }).join("");
+    } else if (st.hm === 1) {
+      w.style.display = ""; $("o-hp-title").textContent = "Which hosting will you buy? (we set it up)";
+      $("o-hp").innerHTML = SB.map(function (p, i) { return big(p.n, "Provider: about ETB " + rg(p.prov[0], p.prov[1]) + " / year", [["Our one-time setup fee", "ETB " + rg(p.setup[0], p.setup[1])]], p.l, "", i === st.h, 'data-h="' + i + '"'); }).join("");
+    } else w.style.display = "none";
+    $("o-dm").innerHTML = DM.map(function (m, i) { return big(m.n, m.price, m.kv, m.l, "", i === st.dm, 'data-dm="' + i + '"'); }).join("");
+    $("o-dt-wrap").style.display = st.dm === 1 ? "" : "none";
+    $("o-dt").innerHTML = DT.map(function (d, i) { return opt(d[0], d[3], tag(d[1], d[2], "/yr"), i === st.dt, 'data-dt="' + i + '"'); }).join("");
+    $("o-care").innerHTML = CARE.map(function (c, i) { return big(c.n, c.p[1] ? "ETB " + rg(c.p[0], c.p[1]) + " / month" : "Free", null, c.l, "", i === st.c, 'data-c="' + i + '"'); }).join("");
+    $("o-add").innerHTML = ADD.map(function (a, i) { return opt(a.n, "", "+" + rg(a.p[0], a.p[1]), !!st.a[i], 'data-a="' + i + '"'); }).join("");
+    summary(svc);
+  }
+
+  function summary(svc) {
+    var t = svc.tiers[st.t], rows = [], oL = 0, oH = 0, yL = 0, yH = 0, mL = 0, mH = 0, prov = "", parts = [svc.name + " - " + t.n];
+    if (t.rec) { mL += t.p[0]; mH += t.p[1]; rows.push([t.n, "ETB " + rg(t.p[0], t.p[1], "/mo")]); }
+    else { oL += t.p[0]; oH += t.p[1]; rows.push([t.n, "ETB " + rg(t.p[0], t.p[1])]); }
+    if (svc.opts) {
+      Object.keys(st.a).forEach(function (i) {
+        if (!st.a[i]) return;
+        var a = ADD[i]; oL += a.p[0]; oH += a.p[1]; parts.push(a.n);
+        rows.push([a.n, "ETB " + rg(a.p[0], a.p[1])]);
+      });
+      if (st.hm === 0) { var m = MP[st.h]; yL += m.p[0]; yH += m.p[1]; parts.push("Managed " + m.n + " hosting"); rows.push(["Managed " + m.n + " hosting", "ETB " + rg(m.p[0], m.p[1], "/yr")]); }
+      else if (st.hm === 1) {
+        var b = SB[st.h]; oL += b.setup[0]; oH += b.setup[1]; parts.push("Own " + b.n + " (setup)");
+        rows.push([b.n + " setup", "ETB " + rg(b.setup[0], b.setup[1])]);
+        prov = "You pay your hosting company about ETB " + rg(b.prov[0], b.prov[1]) + " per year directly. Not in our total.";
+      } else { oL += 2000; oH += 5000; parts.push("Deploy to my hosting"); rows.push(["Deploy to your hosting", "ETB 2,000–5,000"]); }
+      if (st.dm === 1) { var d = DT[st.dt]; yL += d[1]; yH += d[2]; parts.push("Domain " + d[0]); rows.push([d[0] + " (in your name)", "ETB " + rg(d[1], d[2], "/yr")]); }
+      var c = CARE[st.c];
+      if (c.p[1]) { mL += c.p[0]; mH += c.p[1]; parts.push(c.n + " care plan"); rows.push([c.n + " care plan", "ETB " + rg(c.p[0], c.p[1], "/mo")]); }
+    }
+    $("rows").innerHTML = rows.map(function (r) { return '<div class="row"><span>' + r[0] + "</span><b>" + r[1] + "</b></div>"; }).join("");
+    $("s-sub").textContent = oH ? "ETB " + rg(oL, oH) : "ETB 0";
+    $("s-vat").textContent = oH ? "ETB " + rg(oL * VAT, oH * VAT) : "ETB 0";
+    $("s-tot").textContent = oH ? "ETB " + rg(oL * (1 + VAT), oH * (1 + VAT)) : "ETB 0";
+    var ex = [];
+    if (yH) ex.push("+ ETB " + rg(yL, yH) + " per year (hosting, domain)");
+    if (mH) ex.push("+ ETB " + rg(mL, mH) + " per month");
+    $("s-yr").textContent = ex.length ? ex.join(" · ") + (VAT_REGISTERED ? ", plus VAT." : ".") : "No yearly or monthly costs selected.";
+    $("s-prov").textContent = prov;
+    $("m-tot").textContent = oH ? "ETB " + kf(oL * (1 + VAT)) + (oL === oH ? "" : "–" + kf(oH * (1 + VAT))) : "ETB " + kf(mL * (1 + VAT)) + "/mo";
+    var href = CONTACT + "?plan=" + encodeURIComponent(parts.join(", "));
+    $("s-btn").href = href; $("m-btn").href = href;
+  }
+
+  document.addEventListener("click", function (e) {
+    var el = e.target.closest("[data-s],[data-t],[data-hm],[data-h],[data-dm],[data-dt],[data-c],[data-a]");
+    if (!el) return;
+    var ds = el.dataset;
+    if (ds.s) { st = { s: ds.s, t: 0, hm: 0, h: 0, dm: 1, dt: 0, c: 0, a: {} }; }
+    else if (ds.t) st.t = +ds.t;
+    else if (ds.hm) { st.hm = +ds.hm; st.h = 0; }
+    else if (ds.h) st.h = +ds.h;
+    else if (ds.dm) st.dm = +ds.dm;
+    else if (ds.dt) st.dt = +ds.dt;
+    else if (ds.c) st.c = +ds.c;
+    else if (ds.a) st.a[ds.a] = !st.a[ds.a];
+    render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>

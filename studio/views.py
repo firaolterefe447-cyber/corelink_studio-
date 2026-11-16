@@ -271,3 +271,21 @@ def join_submit(request):
         return JsonResponse({'success': True, 'message': 'Thank you for your application! We will review it and get back to you soon.'})
     except Exception as e:
         return JsonResponse({'success': False, 'error': 'An error occurred. Please try again.'}, status=500)
+
+
+def pricing(request):
+    """Pricing page with engagement models and estimator"""
+    page_content, _ = StudioPage.objects.get_or_create(
+        page_type='PRICING',
+        defaults={
+            'hero_title': 'Transparent Pricing',
+            'hero_subtitle': 'Every project is unique. Choose the engagement model that fits your needs or get an instant estimate.',
+            'hero_cta_text': 'Get a Quote',
+            'hero_cta_link': '/studio/contact'
+        }
+    )
+
+    context = {
+        'page': page_content,
+    }
+    return render(request, 'studio/pricing.html', context)

@@ -13,4 +13,5 @@ urlpatterns = [
     path('join/submit/', views.join_submit, name='join_submit'),
     path('contact/', views.contact, name='studio_contact'),
     path('contact/submit/', views.contact_submit, name='contact_submit'),
+    path('pricing/', views.pricing, name='studio_pricing'),
 ]
