@@ -324,6 +324,16 @@ class SocialLink(TimeStampedModel):
         ('qefira', _('Qefira')),
         ('jumia', _('Jumia')),
         ('dealdeal', _('DealDeal')),
+        ('hulunem', _('Hulunem')),
+        ('aksion', _('Aksion')),
+        ('addisbiz', _('AddisBiz')),
+        ('shegergebeta', _('ShegerGeBeta')),
+        ('mindtrip', _('MindTrip')),
+        ('amrogn', _('Amrogn')),
+        ('ethioclinics', _('EthioClinics')),
+        ('bina', _('Bina')),
+        ('businesses', _('Businesses.et')),
+        ('ethiobusinesses', _('EthioBusinesses')),
         ('other', _('Other')),
     ]
     
