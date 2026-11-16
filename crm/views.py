@@ -265,6 +265,7 @@ def company_add(request):
         company_data = {
             'name': name,
             'status': request.POST.get('status', 'prospect'),
+            # Hidden checkboxes - default to False since they're not shown in simplified form
             'needs_website': request.POST.get('needs_website') == 'on',
             'needs_erp': request.POST.get('needs_erp') == 'on',
             'needs_upgrade': request.POST.get('needs_upgrade') == 'on',
@@ -337,6 +338,7 @@ def company_add(request):
                         number=phone_number,
                         phone_type=request.POST.get(f'phone_type_{index}', 'mobile'),
                         is_primary=request.POST.get(f'phone_primary_{index}') == 'on',
+                        # Hidden field - default to False since verification checkbox is not shown
                         is_verified=request.POST.get(f'phone_verified_{index}') == 'on',
                     )
                     log_activity(
@@ -366,13 +368,14 @@ def company_add(request):
                         description=f'Added social link: {link.get_platform_display()}'
                     )
 
-        # Handle initial communication
+        # Handle initial communication (optional)
         comm_method = request.POST.get('comm_method')
         if comm_method:
             comm_data = {
                 'company': company,
                 'method': comm_method,
                 'outcome': request.POST.get('comm_outcome'),
+                # Hidden field - duration not shown in simplified form
                 'duration_minutes': request.POST.get('comm_duration'),
                 'notes': request.POST.get('comm_notes'),
                 'next_action': request.POST.get('comm_next_action'),
@@ -391,7 +394,7 @@ def company_add(request):
                 description=f'Logged {comm.get_method_display()} communication'
             )
 
-        # Handle initial opportunity
+        # Handle initial opportunity (optional - tab removed from form)
         opp_title = request.POST.get('opp_title')
         if opp_title:
             opp = Opportunity.objects.create(

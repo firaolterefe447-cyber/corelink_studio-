@@ -139,9 +139,6 @@
   <div class="progress-step completed" id="step-1"></div>
   <div class="progress-step" id="step-2"></div>
   <div class="progress-step" id="step-3"></div>
-  <div class="progress-step" id="step-4"></div>
-  <div class="progress-step" id="step-5"></div>
-  <div class="progress-step" id="step-6"></div>
 </div>
 
 <!-- Form Card -->
@@ -152,11 +149,8 @@
     <!-- Tab Navigation -->
     <div class="tab-nav">
       <button type="button" class="tab-btn active" data-tab="basic">Basic Info</button>
-      <button type="button" class="tab-btn" data-tab="location">Location</button>
-      <button type="button" class="tab-btn" data-tab="contacts">Contacts & Phones</button>
-      <button type="button" class="tab-btn" data-tab="social">Social Links</button>
+      <button type="button" class="tab-btn" data-tab="contacts">Contacts & Social</button>
       <button type="button" class="tab-btn" data-tab="communication">Communication</button>
-      <button type="button" class="tab-btn" data-tab="opportunity">Opportunity</button>
     </div>
 
     <!-- Tab 1: Basic Information -->
@@ -195,57 +189,82 @@
               <option value="other">Other</option>
             </select>
           </div>
-          <div class="form-group">
+          <!-- Hidden for simplicity - can be restored if needed -->
+          <!-- <div class="form-group">
             <label class="form-label">Business Type</label>
             <input type="text" name="business_type" class="form-input" placeholder="e.g., LLC, PLC, Sole Proprietorship">
-          </div>
-          <div class="form-group">
+          </div> -->
+          <!-- <div class="form-group">
             <label class="form-label">Source</label>
             <input type="text" name="source" class="form-input" placeholder="Where did you find this company?">
-          </div>
+          </div> -->
         </div>
         <div class="form-group">
           <label class="form-label">Description</label>
           <textarea name="description" class="form-input" rows="4" placeholder="What does the company do? Current tech stack, etc."></textarea>
         </div>
-      </div>
-
-      <!-- Status & Tracking -->
-      <div style="padding-top: 32px; border-top: 1px solid var(--line);">
-        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Status & Tracking</h2>
         <div class="grid-2">
           <div class="form-group">
-            <label class="form-label">Status</label>
-            <select name="status" class="form-input">
-              <option value="prospect">Prospect</option>
-              <option value="contacted">Contacted</option>
-              <option value="in_discussion">In Discussion</option>
-              <option value="client">Client</option>
-              <option value="closed">Closed</option>
-            </select>
+            <label class="form-label">City</label>
+            <input type="text" name="city" class="form-input" placeholder="City">
           </div>
           <div class="form-group">
-            <label class="form-label">Tech Readiness (1-5)</label>
-            <select name="tech_readiness" class="form-input">
-              <option value="">Not assessed</option>
-              <option value="1">1 - Very Low (No tech presence)</option>
-              <option value="2">2 - Low (Basic website only)</option>
-              <option value="3">3 - Medium (Some digital presence)</option>
-              <option value="4">4 - High (Good tech stack)</option>
-              <option value="5">5 - Very High (Advanced tech infrastructure)</option>
+            <label class="form-label">Region</label>
+            <select name="region" class="form-input">
+              <option value="">Select region</option>
+              {% for value, label in ethiopian_regions %}
+              <option value="{{ value }}">{{ label }}</option>
+              {% endfor %}
             </select>
           </div>
-          <div class="form-group">
-            <label class="form-label">Last Contacted</label>
-            <input type="date" name="last_contacted" class="form-input">
-          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Address</label>
+          <textarea name="address" class="form-input" rows="2" placeholder="Full physical address"></textarea>
         </div>
       </div>
 
-      <!-- Needs Assessment -->
+      <!-- Status -->
       <div style="padding-top: 32px; border-top: 1px solid var(--line);">
-        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Needs Assessment</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Status</h2>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select name="status" class="form-input">
+            <option value="prospect">Prospect</option>
+            <option value="contacted">Contacted</option>
+            <option value="in_discussion">In Discussion</option>
+            <option value="client">Client</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+        <!-- Hidden for simplicity - auto-calculated from communications -->
+        <!-- <div class="form-group">
+          <label class="form-label">Last Contacted</label>
+          <input type="date" name="last_contacted" class="form-input">
+        </div> -->
+        <!-- Hidden for simplicity - subjective metric -->
+        <!-- <div class="form-group">
+          <label class="form-label">Tech Readiness (1-5)</label>
+          <select name="tech_readiness" class="form-input">
+            <option value="">Not assessed</option>
+            <option value="1">1 - Very Low (No tech presence)</option>
+            <option value="2">2 - Low (Basic website only)</option>
+            <option value="3">3 - Medium (Some digital presence)</option>
+            <option value="4">4 - High (Good tech stack)</option>
+            <option value="5">5 - Very High (Advanced tech infrastructure)</option>
+          </select>
+        </div> -->
+      </div>
+
+      <!-- Needs Assessment - Simplified -->
+      <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">What do they need?</h2>
+        <div class="form-group">
+          <label class="form-label">Needs</label>
+          <textarea name="other_needs" class="form-input" rows="3" placeholder="e.g., Website, ERP system, Mobile app, etc."></textarea>
+        </div>
+        <!-- Hidden checkboxes - using simple text field instead -->
+        <!-- <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
           <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
             <input type="checkbox" name="needs_website" style="width: 20px; height: 20px; accent-color: var(--core);">
             Needs Website
@@ -262,56 +281,16 @@
             <input type="checkbox" name="needs_custom_system" style="width: 20px; height: 20px; accent-color: var(--core);">
             Needs Custom System
           </label>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Other Needs</label>
-          <textarea name="other_needs" class="form-input" rows="3" placeholder="Any other specific needs..."></textarea>
-        </div>
+        </div> -->
       </div>
 
       <div style="display: flex; justify-content: space-between; margin-top: 32px;">
         <button type="submit" class="btn btn-primary">Create Company</button>
-        <button type="button" class="btn btn-secondary next-tab" data-next="location">Next: Location →</button>
+        <button type="button" class="btn btn-secondary next-tab" data-next="contacts">Next: Contacts & Social →</button>
       </div>
     </div>
 
-    <!-- Tab 2: Location -->
-    <div class="tab-content" id="tab-location">
-      <div style="margin-bottom: 32px;">
-        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Location Information</h2>
-        <div class="grid-2">
-          <div class="form-group">
-            <label class="form-label">Address</label>
-            <textarea name="address" class="form-input" rows="3" placeholder="Full physical address"></textarea>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-            <div class="form-group">
-              <label class="form-label">City</label>
-              <input type="text" name="city" class="form-input" placeholder="City">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Region</label>
-              <select name="region" class="form-input">
-                <option value="">Select region</option>
-                {% for value, label in ethiopian_regions %}
-                <option value="{{ value }}">{{ label }}</option>
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div style="display: flex; justify-content: space-between; margin-top: 32px;">
-        <button type="button" class="btn btn-secondary prev-tab" data-prev="basic">← Previous</button>
-        <div style="display: flex; gap: 12px;">
-          <button type="submit" class="btn btn-primary">Create Company</button>
-          <button type="button" class="btn btn-secondary next-tab" data-next="contacts">Next: Contacts →</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tab 3: Contacts & Phones -->
+    <!-- Tab 2: Contacts & Social -->
     <div class="tab-content" id="tab-contacts">
       <div style="margin-bottom: 32px;">
         <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Contact People</h2>
@@ -378,10 +357,11 @@
                 <input type="checkbox" name="phone_primary_0" style="width: 20px; height: 20px; accent-color: var(--core);">
                 Primary
               </label>
-              <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+              <!-- Hidden for simplicity - verification not practical -->
+              <!-- <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
                 <input type="checkbox" name="phone_verified_0" style="width: 20px; height: 20px; accent-color: var(--core);">
                 Verified
-              </label>
+              </label> -->
             </div>
           </div>
         </div>
@@ -394,19 +374,8 @@
         </button>
       </div>
 
-      <div style="display: flex; justify-content: space-between; margin-top: 32px;">
-        <button type="button" class="btn btn-secondary prev-tab" data-prev="location">← Previous</button>
-        <div style="display: flex; gap: 12px;">
-          <button type="submit" class="btn btn-primary">Create Company</button>
-          <button type="button" class="btn btn-secondary next-tab" data-next="social">Next: Social Links →</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tab 4: Social Links -->
-    <div class="tab-content" id="tab-social">
-      <div style="margin-bottom: 32px;">
-        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Social Media & Links</h2>
+      <div style="padding-top: 32px; border-top: 1px solid var(--line);">
+        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Social Links</h2>
         <div id="social-container">
           <div class="dynamic-item" data-social-index="0">
             <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
@@ -460,15 +429,8 @@
         </button>
       </div>
 
-      <div style="padding-top: 32px; border-top: 1px solid var(--line);">
-        <div class="form-group">
-          <label class="form-label">General Notes</label>
-          <textarea name="notes" class="form-input" rows="4" placeholder="Any additional notes about this company..."></textarea>
-        </div>
-      </div>
-
       <div style="display: flex; justify-content: space-between; margin-top: 32px;">
-        <button type="button" class="btn btn-secondary prev-tab" data-prev="contacts">← Previous</button>
+        <button type="button" class="btn btn-secondary prev-tab" data-prev="basic">← Previous</button>
         <div style="display: flex; gap: 12px;">
           <button type="submit" class="btn btn-primary">Create Company</button>
           <button type="button" class="btn btn-secondary next-tab" data-next="communication">Next: Communication →</button>
@@ -476,7 +438,7 @@
       </div>
     </div>
 
-    <!-- Tab 5: Communication -->
+    <!-- Tab 3: Communication -->
     <div class="tab-content" id="tab-communication">
       <div style="margin-bottom: 32px;">
         <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Initial Communication (Optional)</h2>
@@ -516,10 +478,11 @@
               <option value="closed_lost">Closed Lost</option>
             </select>
           </div>
-          <div class="form-group">
+          <!-- Hidden for simplicity - sales team won't track this precisely -->
+          <!-- <div class="form-group">
             <label class="form-label">Duration (minutes)</label>
             <input type="number" name="comm_duration" class="form-input" placeholder="e.g., 15">
-          </div>
+          </div> -->
         </div>
         <div class="form-group">
           <label class="form-label">Conversation Notes</label>
@@ -542,56 +505,7 @@
       </div>
 
       <div style="display: flex; justify-content: space-between; margin-top: 32px;">
-        <button type="button" class="btn btn-secondary prev-tab" data-prev="social">← Previous</button>
-        <div style="display: flex; gap: 12px;">
-          <button type="submit" class="btn btn-primary">Create Company</button>
-          <button type="button" class="btn btn-secondary next-tab" data-next="opportunity">Next: Opportunity →</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tab 5: Opportunity -->
-    <div class="tab-content" id="tab-opportunity">
-      <div style="margin-bottom: 32px;">
-        <h2 style="font: 700 20px var(--d); color: var(--ink); margin-bottom: 20px;">Initial Opportunity (Optional)</h2>
-        <p style="font: 500 16px var(--t); color: var(--muted); margin-bottom: 24px;">Add an initial opportunity if you already have one in mind.</p>
-
-        <div class="grid-2">
-          <div class="form-group">
-            <label class="form-label">Opportunity Title</label>
-            <input type="text" name="opp_title" class="form-input" placeholder="e.g., Website Development Project">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Type</label>
-            <select name="opp_type" class="form-input">
-              <option value="">Select type</option>
-              <option value="website">Website Development</option>
-              <option value="erp">ERP System</option>
-              <option value="upgrade">System Upgrade</option>
-              <option value="custom_system">Custom Software</option>
-              <option value="mobile_app">Mobile App</option>
-              <option value="consulting">Consulting</option>
-              <option value="maintenance">Maintenance</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Estimated Value (ETB)</label>
-            <input type="number" name="opp_value" class="form-input" placeholder="e.g., 50000" step="0.01">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Probability (%)</label>
-            <input type="number" name="opp_probability" class="form-input" placeholder="e.g., 50" min="0" max="100">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Description</label>
-          <textarea name="opp_description" class="form-input" rows="4" placeholder="Detailed description of the opportunity..."></textarea>
-        </div>
-      </div>
-
-      <div style="display: flex; justify-content: space-between; margin-top: 32px;">
-        <button type="button" class="btn btn-secondary prev-tab" data-prev="communication">← Previous</button>
+        <button type="button" class="btn btn-secondary prev-tab" data-prev="contacts">← Previous</button>
         <button type="submit" class="btn btn-primary">Create Company</button>
       </div>
     </div>
@@ -639,7 +553,7 @@ function switchTab(tabName) {
   document.getElementById('tab-' + tabName).classList.add('active');
 
   // Update progress bar
-  const tabs = ['basic', 'location', 'contacts', 'social', 'communication', 'opportunity'];
+  const tabs = ['basic', 'contacts', 'communication'];
   const currentIndex = tabs.indexOf(tabName);
   document.querySelectorAll('.progress-step').forEach((step, index) => {
     if (index <= currentIndex) {
@@ -710,10 +624,11 @@ function addPhone() {
           <input type="checkbox" name="phone_primary_${phoneIndex}" style="width: 20px; height: 20px; accent-color: var(--core);">
           Primary
         </label>
-        <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
+        <!-- Hidden for simplicity - verification not practical -->
+        <!-- <label style="display: flex; align-items: center; gap: 12px; font: 500 16px var(--t); color: var(--ink); cursor: pointer;">
           <input type="checkbox" name="phone_verified_${phoneIndex}" style="width: 20px; height: 20px; accent-color: var(--core);">
           Verified
-        </label>
+        </label> -->
       </div>
     </div>
   `;
