@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from unfold.admin import ModelAdmin, TabularInline, StackedInline
 from unfold.decorators import display, action
 from unfold.contrib.filters.admin import RangeNumericFilter
-from .models import Service, Project, ProjectImage, Testimonial, TeamMember, StudioPage, HeroSlide, ContactSubmission, JobApplication
+from .models import Service, Project, ProjectImage, Testimonial, TeamMember, StudioPage, HeroSlide, ContactSubmission, JobApplication, CompanySimulationPage
 
 
 # Custom Rich Text Widget
@@ -640,6 +640,81 @@ class JobApplicationAdmin(ModelAdmin):
         }),
         (_('📅 Timestamps'), {
             'fields': ('created_at',),
+            "classes": ("collapse",),
+        }),
+    )
+
+
+@admin.register(CompanySimulationPage)
+class CompanySimulationPageAdmin(ModelAdmin):
+    list_display = ['company_name', 'slug_link', 'is_active', 'is_active_badge', 'created_at']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['company_name', 'slug']
+    prepopulated_fields = {'slug': ('company_name',)}
+    list_editable = ['is_active']
+    readonly_fields = ['created_at', 'updated_at', 'preview_link']
+    
+    # Custom actions
+    actions = ['activate_pages', 'deactivate_pages']
+    
+    @action(description="🟢 Activate Selected")
+    def activate_pages(self, request, queryset):
+        updated = queryset.update(is_active=True)
+        self.message_user(request, f"{updated} simulation pages activated.", messages.SUCCESS)
+    
+    @action(description="🔴 Deactivate Selected")
+    def deactivate_pages(self, request, queryset):
+        updated = queryset.update(is_active=False)
+        self.message_user(request, f"{updated} simulation pages deactivated.", messages.SUCCESS)
+    
+    @display(description="Slug")
+    def slug_link(self, obj):
+        return format_html(
+            '<code class="px-2 py-1 bg-gray-100 rounded text-sm">{}</code>',
+            obj.slug
+        )
+    
+    @display(description="Status")
+    def is_active_badge(self, obj):
+        if obj.is_active:
+            return format_html(
+                '<span class="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">🟢 Active</span>'
+            )
+        return format_html(
+            '<span class="px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-500">🔴 Inactive</span>'
+        )
+    
+    def preview_link(self, obj):
+        if obj.is_active:
+            url = f"/s/{obj.slug}/"
+            return format_html(
+                '<a href="{}" target="_blank" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">🔗 View Live Page</a>',
+                url
+            )
+        return format_html(
+            '<span class="px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-500">Page is inactive</span>'
+        )
+    preview_link.short_description = "Preview"
+    
+    fieldsets = (
+        (_('🏢 Company Info'), {
+            'fields': ('company_name', 'slug'),
+            "classes": ("tab-content",),
+        }),
+        (_('📄 HTML Content'), {
+            'fields': ('html_content',),
+            "classes": ("tab-content",),
+        }),
+        (_('⚙️ Settings'), {
+            'fields': ('is_active', 'notes'),
+            "classes": ("tab-content",),
+        }),
+        (_('🔗 Preview'), {
+            'fields': ('preview_link',),
+            "classes": ("tab-content",),
+        }),
+        (_('📅 Timestamps'), {
+            'fields': ('created_at', 'updated_at'),
             "classes": ("collapse",),
         }),
     )

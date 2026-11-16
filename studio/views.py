@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from .models import Service, Project, Testimonial, TeamMember, StudioPage, HeroSlide, ContactSubmission, JobApplication
+from .models import Service, Project, Testimonial, TeamMember, StudioPage, HeroSlide, ContactSubmission, JobApplication, CompanySimulationPage
 
 
 HOME_DEFAULT_TITLE = 'Building Digital Excellence'  # value seeded by get_or_create below
@@ -289,3 +289,9 @@ def pricing(request):
         'page': page_content,
     }
     return render(request, 'studio/pricing.html', context)
+
+
+def company_simulation(request, slug):
+    """Render company simulation page with custom HTML content"""
+    simulation = get_object_or_404(CompanySimulationPage, slug=slug, is_active=True)
+    return HttpResponse(simulation.html_content, content_type='text/html')

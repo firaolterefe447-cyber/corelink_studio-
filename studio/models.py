@@ -268,3 +268,45 @@ class JobApplication(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.get_role_display()}"
+
+
+class CompanySimulationPage(models.Model):
+    """Simulation pages for companies - renders custom HTML at clean slug URLs"""
+    company_name = models.CharField(
+        max_length=255,
+        help_text="Company name (e.g., Royal Decor)"
+    )
+    slug = models.SlugField(
+        unique=True,
+        help_text="Auto-generated from company name (e.g., royal-decor)"
+    )
+    html_content = models.TextField(
+        help_text="Full HTML content to render for this company's simulation page"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Whether this simulation page is publicly accessible"
+    )
+    notes = models.TextField(
+        blank=True,
+        help_text="Internal notes about this simulation page"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "Company Simulation Page"
+        verbose_name_plural = "Company Simulation Pages"
+        indexes = [
+            models.Index(fields=['slug']),
+            models.Index(fields=['is_active']),
+        ]
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.company_name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.company_name} ({self.slug})"
