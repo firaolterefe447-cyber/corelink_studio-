@@ -34,26 +34,117 @@
           <label class="form-label">Industry</label>
           <select name="industry" class="form-input">
             <option value="">Select Industry</option>
-            <option value="technology" {% if company.industry == 'technology' %}selected{% endif %}>Technology & Software</option>
-            <option value="banking_finance" {% if company.industry == 'banking_finance' %}selected{% endif %}>Banking & Finance</option>
-            <option value="telecommunications" {% if company.industry == 'telecommunications' %}selected{% endif %}>Telecommunications</option>
-            <option value="manufacturing" {% if company.industry == 'manufacturing' %}selected{% endif %}>Manufacturing</option>
-            <option value="agriculture" {% if company.industry == 'agriculture' %}selected{% endif %}>Agriculture & Agribusiness</option>
-            <option value="retail" {% if company.industry == 'retail' %}selected{% endif %}>Retail & E-commerce</option>
-            <option value="healthcare" {% if company.industry == 'healthcare' %}selected{% endif %}>Healthcare & Pharmaceuticals</option>
-            <option value="education" {% if company.industry == 'education' %}selected{% endif %}>Education & Training</option>
-            <option value="construction" {% if company.industry == 'construction' %}selected{% endif %}>Construction & Real Estate</option>
-            <option value="transportation" {% if company.industry == 'transportation' %}selected{% endif %}>Transportation & Logistics</option>
-            <option value="hospitality" {% if company.industry == 'hospitality' %}selected{% endif %}>Hospitality & Tourism</option>
-            <option value="media_entertainment" {% if company.industry == 'media_entertainment' %}selected{% endif %}>Media & Entertainment</option>
-            <option value="energy" {% if company.industry == 'energy' %}selected{% endif %}>Energy & Utilities</option>
-            <option value="mining" {% if company.industry == 'mining' %}selected{% endif %}>Mining & Natural Resources</option>
-            <option value="government" {% if company.industry == 'government' %}selected{% endif %}>Government & Public Sector</option>
-            <option value="ngo" {% if company.industry == 'ngo' %}selected{% endif %}>NGO & Non-Profit</option>
-            <option value="legal" {% if company.industry == 'legal' %}selected{% endif %}>Legal Services</option>
-            <option value="consulting" {% if company.industry == 'consulting' %}selected{% endif %}>Consulting & Professional Services</option>
-            <option value="food_beverage" {% if company.industry == 'food_beverage' %}selected{% endif %}>Food & Beverage</option>
-            <option value="textile" {% if company.industry == 'textile' %}selected{% endif %}>Textile & Apparel</option>
+            <optgroup label="Technology">
+              <option value="technology" {% if company.industry == 'technology' %}selected{% endif %}>Technology & Software</option>
+              <option value="software_dev" {% if company.industry == 'software_dev' %}selected{% endif %}>Software Development</option>
+              <option value="it_services" {% if company.industry == 'it_services' %}selected{% endif %}>IT Services & Support</option>
+              <option value="hardware" {% if company.industry == 'hardware' %}selected{% endif %}>Hardware & Electronics</option>
+              <option value="fintech" {% if company.industry == 'fintech' %}selected{% endif %}>Fintech & Digital Payments</option>
+              <option value="telecommunications" {% if company.industry == 'telecommunications' %}selected{% endif %}>Telecommunications</option>
+              <option value="digital_marketing" {% if company.industry == 'digital_marketing' %}selected{% endif %}>Digital Marketing & SEO</option>
+            </optgroup>
+            <optgroup label="Banking & Finance">
+              <option value="banking_finance" {% if company.industry == 'banking_finance' %}selected{% endif %}>Banking & Finance</option>
+              <option value="banking" {% if company.industry == 'banking' %}selected{% endif %}>Banking</option>
+              <option value="microfinance" {% if company.industry == 'microfinance' %}selected{% endif %}>Microfinance</option>
+              <option value="insurance" {% if company.industry == 'insurance' %}selected{% endif %}>Insurance</option>
+              <option value="investment" {% if company.industry == 'investment' %}selected{% endif %}>Investment & Asset Management</option>
+              <option value="accounting" {% if company.industry == 'accounting' %}selected{% endif %}>Accounting & Bookkeeping</option>
+            </optgroup>
+            <optgroup label="Agriculture & Agribusiness">
+              <option value="agriculture" {% if company.industry == 'agriculture' %}selected{% endif %}>Agriculture & Agribusiness</option>
+              <option value="coffee_tea" {% if company.industry == 'coffee_tea' %}selected{% endif %}>Coffee & Tea Production</option>
+              <option value="flower_farming" {% if company.industry == 'flower_farming' %}selected{% endif %}>Flower Farming</option>
+              <option value="livestock" {% if company.industry == 'livestock' %}selected{% endif %}>Livestock & Poultry</option>
+              <option value="crop_farming" {% if company.industry == 'crop_farming' %}selected{% endif %}>Crop Farming</option>
+              <option value="agro_processing" {% if company.industry == 'agro_processing' %}selected{% endif %}>Agro-Processing</option>
+            </optgroup>
+            <optgroup label="Manufacturing">
+              <option value="manufacturing" {% if company.industry == 'manufacturing' %}selected{% endif %}>Manufacturing</option>
+              <option value="textile_garment" {% if company.industry == 'textile_garment' %}selected{% endif %}>Textile & Garment</option>
+              <option value="textile" {% if company.industry == 'textile' %}selected{% endif %}>Textile & Apparel</option>
+              <option value="leather" {% if company.industry == 'leather' %}selected{% endif %}>Leather & Footwear</option>
+              <option value="food_processing" {% if company.industry == 'food_processing' %}selected{% endif %}>Food Processing</option>
+              <option value="food_beverage" {% if company.industry == 'food_beverage' %}selected{% endif %}>Food & Beverage</option>
+              <option value="beverage" {% if company.industry == 'beverage' %}selected{% endif %}>Beverage Production</option>
+              <option value="metal_fabrication" {% if company.industry == 'metal_fabrication' %}selected{% endif %}>Metal Fabrication</option>
+              <option value="plastic" {% if company.industry == 'plastic' %}selected{% endif %}>Plastic Manufacturing</option>
+              <option value="construction_materials" {% if company.industry == 'construction_materials' %}selected{% endif %}>Construction Materials</option>
+              <option value="pharma_manufacturing" {% if company.industry == 'pharma_manufacturing' %}selected{% endif %}>Pharmaceutical Manufacturing</option>
+            </optgroup>
+            <optgroup label="Retail & E-commerce">
+              <option value="retail" {% if company.industry == 'retail' %}selected{% endif %}>Retail & E-commerce</option>
+              <option value="supermarket" {% if company.industry == 'supermarket' %}selected{% endif %}>Supermarket & Grocery</option>
+              <option value="fashion_retail" {% if company.industry == 'fashion_retail' %}selected{% endif %}>Fashion Retail</option>
+              <option value="electronics_retail" {% if company.industry == 'electronics_retail' %}selected{% endif %}>Electronics Retail</option>
+              <option value="ecommerce" {% if company.industry == 'ecommerce' %}selected{% endif %}>E-commerce</option>
+              <option value="wholesale" {% if company.industry == 'wholesale' %}selected{% endif %}>Wholesale & Distribution</option>
+            </optgroup>
+            <optgroup label="Healthcare">
+              <option value="healthcare" {% if company.industry == 'healthcare' %}selected{% endif %}>Healthcare & Pharmaceuticals</option>
+              <option value="hospital" {% if company.industry == 'hospital' %}selected{% endif %}>Hospital & Medical Center</option>
+              <option value="pharmacy" {% if company.industry == 'pharmacy' %}selected{% endif %}>Pharmacy</option>
+              <option value="clinic" {% if company.industry == 'clinic' %}selected{% endif %}>Clinic</option>
+              <option value="medical_equipment" {% if company.industry == 'medical_equipment' %}selected{% endif %}>Medical Equipment</option>
+              <option value="laboratory" {% if company.industry == 'laboratory' %}selected{% endif %}>Laboratory & Diagnostics</option>
+            </optgroup>
+            <optgroup label="Education">
+              <option value="education" {% if company.industry == 'education' %}selected{% endif %}>Education & Training</option>
+              <option value="university" {% if company.industry == 'university' %}selected{% endif %}>University & College</option>
+              <option value="private_school" {% if company.industry == 'private_school' %}selected{% endif %}>Private School</option>
+              <option value="vocational" {% if company.industry == 'vocational' %}selected{% endif %}>Vocational Training</option>
+              <option value="edtech" {% if company.industry == 'edtech' %}selected{% endif %}>EdTech & E-learning</option>
+            </optgroup>
+            <optgroup label="Construction & Real Estate">
+              <option value="construction" {% if company.industry == 'construction' %}selected{% endif %}>Construction & Real Estate</option>
+              <option value="real_estate" {% if company.industry == 'real_estate' %}selected{% endif %}>Real Estate</option>
+              <option value="architecture" {% if company.industry == 'architecture' %}selected{% endif %}>Architecture & Design</option>
+              <option value="interior_design" {% if company.industry == 'interior_design' %}selected{% endif %}>Interior Design</option>
+            </optgroup>
+            <optgroup label="Transportation & Logistics">
+              <option value="transportation" {% if company.industry == 'transportation' %}selected{% endif %}>Transportation & Logistics</option>
+              <option value="logistics" {% if company.industry == 'logistics' %}selected{% endif %}>Logistics & Freight</option>
+              <option value="courier" {% if company.industry == 'courier' %}selected{% endif %}>Courier & Delivery</option>
+              <option value="import_export" {% if company.industry == 'import_export' %}selected{% endif %}>Import/Export</option>
+              <option value="customs_brokerage" {% if company.industry == 'customs_brokerage' %}selected{% endif %}>Customs Brokerage</option>
+            </optgroup>
+            <optgroup label="Hospitality & Tourism">
+              <option value="hospitality" {% if company.industry == 'hospitality' %}selected{% endif %}>Hospitality & Tourism</option>
+              <option value="hotel" {% if company.industry == 'hotel' %}selected{% endif %}>Hotel & Lodge</option>
+              <option value="restaurant" {% if company.industry == 'restaurant' %}selected{% endif %}>Restaurant & Cafe</option>
+              <option value="tour_operator" {% if company.industry == 'tour_operator' %}selected{% endif %}>Tour Operator</option>
+              <option value="event_management" {% if company.industry == 'event_management' %}selected{% endif %}>Event Management</option>
+            </optgroup>
+            <optgroup label="Energy & Utilities">
+              <option value="energy" {% if company.industry == 'energy' %}selected{% endif %}>Energy & Utilities</option>
+              <option value="renewable_energy" {% if company.industry == 'renewable_energy' %}selected{% endif %}>Renewable Energy</option>
+              <option value="electricity" {% if company.industry == 'electricity' %}selected{% endif %}>Electricity & Power</option>
+              <option value="water" {% if company.industry == 'water' %}selected{% endif %}>Water & Sanitation</option>
+            </optgroup>
+            <optgroup label="Mining & Natural Resources">
+              <option value="mining" {% if company.industry == 'mining' %}selected{% endif %}>Mining & Natural Resources</option>
+              <option value="oil_gas" {% if company.industry == 'oil_gas' %}selected{% endif %}>Oil & Gas</option>
+              <option value="quarry" {% if company.industry == 'quarry' %}selected{% endif %}>Quarry & Construction Materials</option>
+            </optgroup>
+            <optgroup label="Media & Entertainment">
+              <option value="media_entertainment" {% if company.industry == 'media_entertainment' %}selected{% endif %}>Media & Entertainment</option>
+              <option value="media" {% if company.industry == 'media' %}selected{% endif %}>Media & Broadcasting</option>
+              <option value="advertising" {% if company.industry == 'advertising' %}selected{% endif %}>Advertising Agency</option>
+              <option value="printing" {% if company.industry == 'printing' %}selected{% endif %}>Printing & Publishing</option>
+              <option value="photography" {% if company.industry == 'photography' %}selected{% endif %}>Photography & Studio</option>
+            </optgroup>
+            <optgroup label="Professional Services">
+              <option value="legal" {% if company.industry == 'legal' %}selected{% endif %}>Legal Services</option>
+              <option value="consulting" {% if company.industry == 'consulting' %}selected{% endif %}>Consulting & Professional Services</option>
+              <option value="hr_recruitment" {% if company.industry == 'hr_recruitment' %}selected{% endif %}>HR & Recruitment</option>
+              <option value="security" {% if company.industry == 'security' %}selected{% endif %}>Security Services</option>
+              <option value="cleaning" {% if company.industry == 'cleaning' %}selected{% endif %}>Cleaning Services</option>
+            </optgroup>
+            <optgroup label="Government & NGO">
+              <option value="government" {% if company.industry == 'government' %}selected{% endif %}>Government & Public Sector</option>
+              <option value="ngo" {% if company.industry == 'ngo' %}selected{% endif %}>NGO & Non-Profit</option>
+              <option value="international_org" {% if company.industry == 'international_org' %}selected{% endif %}>International Organization</option>
+            </optgroup>
             <option value="other" {% if company.industry == 'other' %}selected{% endif %}>Other</option>
           </select>
         </div>

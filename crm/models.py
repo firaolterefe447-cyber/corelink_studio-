@@ -11,26 +11,118 @@ class Company(TimeStampedModel):
     """Core business/company entity - only name is required."""
     
     INDUSTRY_CHOICES = [
+        # Technology (keeping old values for backward compatibility)
         ('technology', _('Technology & Software')),
-        ('banking_finance', _('Banking & Finance')),
+        ('software_dev', _('Software Development')),
+        ('it_services', _('IT Services & Support')),
+        ('hardware', _('Hardware & Electronics')),
+        ('fintech', _('Fintech & Digital Payments')),
         ('telecommunications', _('Telecommunications')),
-        ('manufacturing', _('Manufacturing')),
+        ('digital_marketing', _('Digital Marketing & SEO')),
+        
+        # Banking & Finance (keeping old values for backward compatibility)
+        ('banking_finance', _('Banking & Finance')),
+        ('banking', _('Banking')),
+        ('microfinance', _('Microfinance')),
+        ('insurance', _('Insurance')),
+        ('investment', _('Investment & Asset Management')),
+        ('accounting', _('Accounting & Bookkeeping')),
+        
+        # Agriculture & Agribusiness (keeping old values for backward compatibility)
         ('agriculture', _('Agriculture & Agribusiness')),
+        ('coffee_tea', _('Coffee & Tea Production')),
+        ('flower_farming', _('Flower Farming')),
+        ('livestock', _('Livestock & Poultry')),
+        ('crop_farming', _('Crop Farming')),
+        ('agro_processing', _('Agro-Processing')),
+        
+        # Manufacturing (keeping old values for backward compatibility)
+        ('manufacturing', _('Manufacturing')),
+        ('textile_garment', _('Textile & Garment')),
+        ('textile', _('Textile & Apparel')),
+        ('leather', _('Leather & Footwear')),
+        ('food_processing', _('Food Processing')),
+        ('food_beverage', _('Food & Beverage')),
+        ('beverage', _('Beverage Production')),
+        ('metal_fabrication', _('Metal Fabrication')),
+        ('plastic', _('Plastic Manufacturing')),
+        ('construction_materials', _('Construction Materials')),
+        ('pharma_manufacturing', _('Pharmaceutical Manufacturing')),
+        
+        # Retail & E-commerce (keeping old values for backward compatibility)
         ('retail', _('Retail & E-commerce')),
+        ('supermarket', _('Supermarket & Grocery')),
+        ('fashion_retail', _('Fashion Retail')),
+        ('electronics_retail', _('Electronics Retail')),
+        ('ecommerce', _('E-commerce')),
+        ('wholesale', _('Wholesale & Distribution')),
+        
+        # Healthcare (keeping old values for backward compatibility)
         ('healthcare', _('Healthcare & Pharmaceuticals')),
+        ('hospital', _('Hospital & Medical Center')),
+        ('pharmacy', _('Pharmacy')),
+        ('clinic', _('Clinic')),
+        ('medical_equipment', _('Medical Equipment')),
+        ('laboratory', _('Laboratory & Diagnostics')),
+        
+        # Education (keeping old values for backward compatibility)
         ('education', _('Education & Training')),
+        ('university', _('University & College')),
+        ('private_school', _('Private School')),
+        ('vocational', _('Vocational Training')),
+        ('edtech', _('EdTech & E-learning')),
+        
+        # Construction & Real Estate (keeping old values for backward compatibility)
         ('construction', _('Construction & Real Estate')),
+        ('real_estate', _('Real Estate')),
+        ('architecture', _('Architecture & Design')),
+        ('interior_design', _('Interior Design')),
+        
+        # Transportation & Logistics (keeping old values for backward compatibility)
         ('transportation', _('Transportation & Logistics')),
+        ('logistics', _('Logistics & Freight')),
+        ('courier', _('Courier & Delivery')),
+        ('import_export', _('Import/Export')),
+        ('customs_brokerage', _('Customs Brokerage')),
+        
+        # Hospitality & Tourism (keeping old values for backward compatibility)
         ('hospitality', _('Hospitality & Tourism')),
-        ('media_entertainment', _('Media & Entertainment')),
+        ('hotel', _('Hotel & Lodge')),
+        ('restaurant', _('Restaurant & Cafe')),
+        ('tour_operator', _('Tour Operator')),
+        ('event_management', _('Event Management')),
+        
+        # Energy & Utilities (keeping old values for backward compatibility)
         ('energy', _('Energy & Utilities')),
+        ('renewable_energy', _('Renewable Energy')),
+        ('electricity', _('Electricity & Power')),
+        ('water', _('Water & Sanitation')),
+        
+        # Mining & Natural Resources (keeping old values for backward compatibility)
         ('mining', _('Mining & Natural Resources')),
-        ('government', _('Government & Public Sector')),
-        ('ngo', _('NGO & Non-Profit')),
+        ('oil_gas', _('Oil & Gas')),
+        ('quarry', _('Quarry & Construction Materials')),
+        
+        # Media & Entertainment (keeping old values for backward compatibility)
+        ('media_entertainment', _('Media & Entertainment')),
+        ('media', _('Media & Broadcasting')),
+        ('advertising', _('Advertising Agency')),
+        ('printing', _('Printing & Publishing')),
+        ('photography', _('Photography & Studio')),
+        
+        # Professional Services (keeping old values for backward compatibility)
         ('legal', _('Legal Services')),
         ('consulting', _('Consulting & Professional Services')),
-        ('food_beverage', _('Food & Beverage')),
-        ('textile', _('Textile & Apparel')),
+        ('hr_recruitment', _('HR & Recruitment')),
+        ('security', _('Security Services')),
+        ('cleaning', _('Cleaning Services')),
+        
+        # Government & NGO (keeping old values for backward compatibility)
+        ('government', _('Government & Public Sector')),
+        ('ngo', _('NGO & Non-Profit')),
+        ('international_org', _('International Organization')),
+        
+        # Other
         ('other', _('Other')),
     ]
     

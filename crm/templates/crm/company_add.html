@@ -166,26 +166,117 @@
             <label class="form-label">Industry</label>
             <select name="industry" class="form-input" id="industry-select">
               <option value="">Select industry</option>
-              <option value="technology">Technology & Software</option>
-              <option value="banking_finance">Banking & Finance</option>
-              <option value="telecommunications">Telecommunications</option>
-              <option value="manufacturing">Manufacturing</option>
-              <option value="agriculture">Agriculture & Agribusiness</option>
-              <option value="retail">Retail & E-commerce</option>
-              <option value="healthcare">Healthcare & Pharmaceuticals</option>
-              <option value="education">Education & Training</option>
-              <option value="construction">Construction & Real Estate</option>
-              <option value="transportation">Transportation & Logistics</option>
-              <option value="hospitality">Hospitality & Tourism</option>
-              <option value="media_entertainment">Media & Entertainment</option>
-              <option value="energy">Energy & Utilities</option>
-              <option value="mining">Mining & Natural Resources</option>
-              <option value="government">Government & Public Sector</option>
-              <option value="ngo">NGO & Non-Profit</option>
-              <option value="legal">Legal Services</option>
-              <option value="consulting">Consulting & Professional Services</option>
-              <option value="food_beverage">Food & Beverage</option>
-              <option value="textile">Textile & Apparel</option>
+              <optgroup label="Technology">
+                <option value="technology">Technology & Software</option>
+                <option value="software_dev">Software Development</option>
+                <option value="it_services">IT Services & Support</option>
+                <option value="hardware">Hardware & Electronics</option>
+                <option value="fintech">Fintech & Digital Payments</option>
+                <option value="telecommunications">Telecommunications</option>
+                <option value="digital_marketing">Digital Marketing & SEO</option>
+              </optgroup>
+              <optgroup label="Banking & Finance">
+                <option value="banking_finance">Banking & Finance</option>
+                <option value="banking">Banking</option>
+                <option value="microfinance">Microfinance</option>
+                <option value="insurance">Insurance</option>
+                <option value="investment">Investment & Asset Management</option>
+                <option value="accounting">Accounting & Bookkeeping</option>
+              </optgroup>
+              <optgroup label="Agriculture & Agribusiness">
+                <option value="agriculture">Agriculture & Agribusiness</option>
+                <option value="coffee_tea">Coffee & Tea Production</option>
+                <option value="flower_farming">Flower Farming</option>
+                <option value="livestock">Livestock & Poultry</option>
+                <option value="crop_farming">Crop Farming</option>
+                <option value="agro_processing">Agro-Processing</option>
+              </optgroup>
+              <optgroup label="Manufacturing">
+                <option value="manufacturing">Manufacturing</option>
+                <option value="textile_garment">Textile & Garment</option>
+                <option value="textile">Textile & Apparel</option>
+                <option value="leather">Leather & Footwear</option>
+                <option value="food_processing">Food Processing</option>
+                <option value="food_beverage">Food & Beverage</option>
+                <option value="beverage">Beverage Production</option>
+                <option value="metal_fabrication">Metal Fabrication</option>
+                <option value="plastic">Plastic Manufacturing</option>
+                <option value="construction_materials">Construction Materials</option>
+                <option value="pharma_manufacturing">Pharmaceutical Manufacturing</option>
+              </optgroup>
+              <optgroup label="Retail & E-commerce">
+                <option value="retail">Retail & E-commerce</option>
+                <option value="supermarket">Supermarket & Grocery</option>
+                <option value="fashion_retail">Fashion Retail</option>
+                <option value="electronics_retail">Electronics Retail</option>
+                <option value="ecommerce">E-commerce</option>
+                <option value="wholesale">Wholesale & Distribution</option>
+              </optgroup>
+              <optgroup label="Healthcare">
+                <option value="healthcare">Healthcare & Pharmaceuticals</option>
+                <option value="hospital">Hospital & Medical Center</option>
+                <option value="pharmacy">Pharmacy</option>
+                <option value="clinic">Clinic</option>
+                <option value="medical_equipment">Medical Equipment</option>
+                <option value="laboratory">Laboratory & Diagnostics</option>
+              </optgroup>
+              <optgroup label="Education">
+                <option value="education">Education & Training</option>
+                <option value="university">University & College</option>
+                <option value="private_school">Private School</option>
+                <option value="vocational">Vocational Training</option>
+                <option value="edtech">EdTech & E-learning</option>
+              </optgroup>
+              <optgroup label="Construction & Real Estate">
+                <option value="construction">Construction & Real Estate</option>
+                <option value="real_estate">Real Estate</option>
+                <option value="architecture">Architecture & Design</option>
+                <option value="interior_design">Interior Design</option>
+              </optgroup>
+              <optgroup label="Transportation & Logistics">
+                <option value="transportation">Transportation & Logistics</option>
+                <option value="logistics">Logistics & Freight</option>
+                <option value="courier">Courier & Delivery</option>
+                <option value="import_export">Import/Export</option>
+                <option value="customs_brokerage">Customs Brokerage</option>
+              </optgroup>
+              <optgroup label="Hospitality & Tourism">
+                <option value="hospitality">Hospitality & Tourism</option>
+                <option value="hotel">Hotel & Lodge</option>
+                <option value="restaurant">Restaurant & Cafe</option>
+                <option value="tour_operator">Tour Operator</option>
+                <option value="event_management">Event Management</option>
+              </optgroup>
+              <optgroup label="Energy & Utilities">
+                <option value="energy">Energy & Utilities</option>
+                <option value="renewable_energy">Renewable Energy</option>
+                <option value="electricity">Electricity & Power</option>
+                <option value="water">Water & Sanitation</option>
+              </optgroup>
+              <optgroup label="Mining & Natural Resources">
+                <option value="mining">Mining & Natural Resources</option>
+                <option value="oil_gas">Oil & Gas</option>
+                <option value="quarry">Quarry & Construction Materials</option>
+              </optgroup>
+              <optgroup label="Media & Entertainment">
+                <option value="media_entertainment">Media & Entertainment</option>
+                <option value="media">Media & Broadcasting</option>
+                <option value="advertising">Advertising Agency</option>
+                <option value="printing">Printing & Publishing</option>
+                <option value="photography">Photography & Studio</option>
+              </optgroup>
+              <optgroup label="Professional Services">
+                <option value="legal">Legal Services</option>
+                <option value="consulting">Consulting & Professional Services</option>
+                <option value="hr_recruitment">HR & Recruitment</option>
+                <option value="security">Security Services</option>
+                <option value="cleaning">Cleaning Services</option>
+              </optgroup>
+              <optgroup label="Government & NGO">
+                <option value="government">Government & Public Sector</option>
+                <option value="ngo">NGO & Non-Profit</option>
+                <option value="international_org">International Organization</option>
+              </optgroup>
               <option value="other">Other</option>
             </select>
           </div>
