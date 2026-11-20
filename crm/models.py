@@ -426,6 +426,7 @@ class SocialLink(TimeStampedModel):
         ('bina', _('Bina (bina.et)')),
         ('businesses', _('Businesses.et (businesses.et)')),
         ('ethiobusinesses', _('EthioBusinesses (ethiobusinesses.com)')),
+        ('moderntenders', _('ModernTenders (moderntenders.com)')),
         ('other', _('Other')),
     ]
     
