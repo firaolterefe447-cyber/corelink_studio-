@@ -55,6 +55,18 @@
       {% endif %}
     </div>
     <div>
+      <p style="font: 700 13px var(--t); color: var(--muted); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 8px;">Company Level</p>
+      {% if company.company_level is not None %}
+        <span class="badge
+          {% if company.company_level == 0 %}badge-neutral
+          {% else %}badge-primary{% endif %}">
+          Level {{ company.company_level }}
+        </span>
+      {% else %}
+        <p style="font: 500 16px var(--t); color: var(--muted);">Not set</p>
+      {% endif %}
+    </div>
+    <div>
       <p style="font: 700 13px var(--t); color: var(--muted); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 8px;">Last Contacted</p>
       <p style="font: 600 16px var(--t); color: var(--ink);">{{ company.last_contacted|default:"Never" }}</p>
     </div>

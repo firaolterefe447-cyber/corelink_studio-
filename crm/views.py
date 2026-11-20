@@ -287,6 +287,8 @@ def company_add(request):
             company_data['region'] = request.POST.get('region')
         if request.POST.get('tech_readiness'):
             company_data['tech_readiness'] = request.POST.get('tech_readiness')
+        if request.POST.get('company_level'):
+            company_data['company_level'] = request.POST.get('company_level')
         if request.POST.get('last_contacted'):
             company_data['last_contacted'] = request.POST.get('last_contacted')
         if request.POST.get('other_needs'):
@@ -465,6 +467,10 @@ def company_edit(request, company_id):
             company_data['tech_readiness'] = request.POST.get('tech_readiness')
         else:
             company_data['tech_readiness'] = None
+        if request.POST.get('company_level'):
+            company_data['company_level'] = request.POST.get('company_level')
+        else:
+            company_data['company_level'] = None
         if request.POST.get('last_contacted'):
             company_data['last_contacted'] = request.POST.get('last_contacted')
         else:
