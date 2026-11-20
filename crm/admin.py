@@ -88,6 +88,7 @@ class CompanyAdmin(ModelAdmin):
     list_filter = [
         'status',
         'tech_readiness',
+        'company_level',
         'industry',
         'region',
         'needs_website',
@@ -115,7 +116,7 @@ class CompanyAdmin(ModelAdmin):
             'classes': ('tab-location',)
         }),
         (_("Status"), {
-            'fields': ('status', 'tech_readiness', 'last_contacted', 'source'),
+            'fields': ('status', 'tech_readiness', 'company_level', 'last_contacted', 'source'),
             'classes': ('tab-status',)
         }),
         (_("Needs"), {
