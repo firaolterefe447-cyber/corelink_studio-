@@ -200,6 +200,17 @@ class Company(TimeStampedModel):
         help_text=_("Assessment of current technology level (1-5)")
     )
     
+    COMPANY_LEVEL_CHOICES = [
+        (0, _('Level 0')),
+        (1, _('Level 1')),
+    ]
+    company_level = models.IntegerField(
+        choices=COMPANY_LEVEL_CHOICES,
+        blank=True,
+        null=True,
+        help_text=_("Company level - Use your own classification criteria")
+    )
+    
     # Needs Assessment
     needs_website = models.BooleanField(
         default=False,
